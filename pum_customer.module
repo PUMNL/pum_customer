@@ -18,16 +18,13 @@ function pum_customer_get_role_ids($roles) {
 }
 
 function pum_customer_views_default_views() {
-  //civicrm_initialize();
   $files = file_scan_directory(drupal_get_path('module', 'pum_customer'). '/views', '/.inc/');
+  $views = array();
+  civicrm_initialize();
   foreach ($files as $filepath => $file) {
-    try {
-      require $filepath;
-      if (isset($view)) {
-        $views[$view->name] = $view;
-      }
-    } catch (Exception $e) {
-      //do nothing
+    require $filepath;
+    if (isset($view)) {
+      $views[$view->name] = $view;
     }
   }
   return $views;
