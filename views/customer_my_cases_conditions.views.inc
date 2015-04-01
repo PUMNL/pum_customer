@@ -1,6 +1,6 @@
 <?php
 
-$config = pum_expert_mycases_config::singleton();
+$config = pum_customer_mycases_config::singleton();
 $conditions = $config->getConditions();
 
 $view = new view();
@@ -61,21 +61,6 @@ $handler->display->display_options['style_options']['info'] = array(
         'empty_column' => 0,
     ),
 );
-/* Footer: Global: Text area */
-$handler->display->display_options['footer']['area_1']['id'] = 'area_1';
-$handler->display->display_options['footer']['area_1']['table'] = 'views';
-$handler->display->display_options['footer']['area_1']['field'] = 'area';
-$handler->display->display_options['footer']['area_1']['empty'] = TRUE;
-$handler->display->display_options['footer']['area_1']['content'] = '<h3>Roles</h3>';
-$handler->display->display_options['footer']['area_1']['format'] = 'filtered_html';
-/* Footer: Global: View area */
-$handler->display->display_options['footer']['view']['id'] = 'view';
-$handler->display->display_options['footer']['view']['table'] = 'views';
-$handler->display->display_options['footer']['view']['field'] = 'view';
-$handler->display->display_options['footer']['view']['label'] = 'Roles';
-$handler->display->display_options['footer']['view']['empty'] = TRUE;
-$handler->display->display_options['footer']['view']['view_to_insert'] = 'case_roles_for_customer_:default';
-$handler->display->display_options['footer']['view']['inherit_arguments'] = TRUE;
 /* No results behavior: Global: Text area */
 $handler->display->display_options['empty']['area']['id'] = 'area';
 $handler->display->display_options['empty']['area']['table'] = 'views';
