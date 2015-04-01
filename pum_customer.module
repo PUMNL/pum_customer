@@ -18,6 +18,7 @@ function pum_customer_get_role_ids($roles) {
 }
 
 function pum_customer_views_default_views() {
+  //civicrm_initialize();
   $files = file_scan_directory(drupal_get_path('module', 'pum_customer'). '/views', '/.inc/');
   foreach ($files as $filepath => $file) {
     try {
