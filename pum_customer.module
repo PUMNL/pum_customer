@@ -29,3 +29,11 @@ function pum_customer_views_default_views() {
   }
   return $views;
 }
+
+function _pum_customer_is_condition_completable_by_customer($activity_type_id) {
+  $config = pum_customer_mycases_config::singleton();
+  if (in_array($activity_type_id, $config->getCompletableConditions())) {
+    return true;
+  }
+  return false;
+}

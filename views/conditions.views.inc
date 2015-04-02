@@ -186,11 +186,6 @@ $handler->display->display_options['fields']['activity_date_time']['element_labe
 $handler->display->display_options['fields']['activity_date_time']['date_format'] = 'custom';
 $handler->display->display_options['fields']['activity_date_time']['custom_date_format'] = 'Y-m-d';
 $handler->display->display_options['fields']['activity_date_time']['second_date_format'] = 'long';
-/* Field: CiviCRM Activities: Activity Type */
-$handler->display->display_options['fields']['activity_type']['id'] = 'activity_type';
-$handler->display->display_options['fields']['activity_type']['table'] = 'civicrm_activity';
-$handler->display->display_options['fields']['activity_type']['field'] = 'activity_type';
-$handler->display->display_options['fields']['activity_type']['relationship'] = 'activity_id';
 /* Field: CiviCRM Contacts: Display Name */
 $handler->display->display_options['fields']['display_name']['id'] = 'display_name';
 $handler->display->display_options['fields']['display_name']['table'] = 'civicrm_contact';
@@ -209,29 +204,24 @@ $handler->display->display_options['fields']['case_type']['relationship'] = 'cas
 $handler->display->display_options['fields']['case_type']['alter']['make_link'] = TRUE;
 $handler->display->display_options['fields']['case_type']['alter']['path'] = '/customer/case-details/[id_1]';
 $handler->display->display_options['fields']['case_type']['alter']['absolute'] = TRUE;
+/* Field: CiviCRM Activities: Activity Type */
+$handler->display->display_options['fields']['activity_type']['id'] = 'activity_type';
+$handler->display->display_options['fields']['activity_type']['table'] = 'civicrm_activity';
+$handler->display->display_options['fields']['activity_type']['field'] = 'activity_type';
+$handler->display->display_options['fields']['activity_type']['relationship'] = 'activity_id';
 /* Field: CiviCRM Activities: Subject */
 $handler->display->display_options['fields']['subject']['id'] = 'subject';
 $handler->display->display_options['fields']['subject']['table'] = 'civicrm_activity';
 $handler->display->display_options['fields']['subject']['field'] = 'subject';
-/* Field: CiviCRM Activities: Details */
-$handler->display->display_options['fields']['details']['id'] = 'details';
-$handler->display->display_options['fields']['details']['table'] = 'civicrm_activity';
-$handler->display->display_options['fields']['details']['field'] = 'details';
-$handler->display->display_options['fields']['details']['label'] = 'Conditions';
-$handler->display->display_options['fields']['details']['alter']['trim_whitespace'] = TRUE;
-$handler->display->display_options['fields']['details']['alter']['nl2br'] = TRUE;
-$handler->display->display_options['fields']['details']['alter']['strip_tags'] = TRUE;
-$handler->display->display_options['fields']['details']['text_format'] = 'full_html';
-/* Field: Global: Custom text */
-$handler->display->display_options['fields']['nothing']['id'] = 'nothing';
-$handler->display->display_options['fields']['nothing']['table'] = 'views';
-$handler->display->display_options['fields']['nothing']['field'] = 'nothing';
-$handler->display->display_options['fields']['nothing']['label'] = '';
-$handler->display->display_options['fields']['nothing']['alter']['text'] = 'Mark as completed';
-$handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
-$handler->display->display_options['fields']['nothing']['alter']['path'] = 'customer/condition/update/[id]?destination=customer/conditions/!1';
-$handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
-$handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['subject']['alter']['make_link'] = TRUE;
+$handler->display->display_options['fields']['subject']['alter']['path'] = 'customer/condition-details/[id]';
+$handler->display->display_options['fields']['subject']['alter']['absolute'] = TRUE;
+$handler->display->display_options['fields']['subject']['empty'] = '<a href="/customer/condition-details/[id]">View condition</a>';
+/* Field: CiviCRM Activities: Subject */
+$handler->display->display_options['fields']['status']['id'] = 'status';
+$handler->display->display_options['fields']['status']['table'] = 'civicrm_activity';
+$handler->display->display_options['fields']['status']['field'] = 'status';
+$handler->display->display_options['fields']['status']['label'] = 'Status';
 /* Contextual filter: CiviCRM Cases: Case ID */
 $handler->display->display_options['arguments']['id']['id'] = 'id';
 $handler->display->display_options['arguments']['id']['table'] = 'civicrm_case';
@@ -241,28 +231,6 @@ $handler->display->display_options['arguments']['id']['default_argument_type'] =
 $handler->display->display_options['arguments']['id']['summary']['number_of_records'] = '0';
 $handler->display->display_options['arguments']['id']['summary']['format'] = 'default_summary';
 $handler->display->display_options['arguments']['id']['summary_options']['items_per_page'] = '25';
-/* Sort criterion: CiviCRM Custom: (Main) Activity information: Activity Start Date */
-$handler->display->display_options['sorts']['start_date']['id'] = 'start_date';
-$handler->display->display_options['sorts']['start_date']['table'] = $main_activity_info['table_name'];
-$handler->display->display_options['sorts']['start_date']['field'] = $start_date['column_name'];
-$handler->display->display_options['sorts']['start_date']['relationship'] = 'case_id';
-$handler->display->display_options['sorts']['start_date']['granularity'] = 'day';
-/* Sort criterion: CiviCRM Cases: Case ID */
-$handler->display->display_options['sorts']['id']['id'] = 'id';
-$handler->display->display_options['sorts']['id']['table'] = 'civicrm_case';
-$handler->display->display_options['sorts']['id']['field'] = 'id';
-$handler->display->display_options['sorts']['id']['relationship'] = 'case_id';
-/* Sort criterion: CiviCRM Activities: Activity ID */
-$handler->display->display_options['sorts']['id_1']['id'] = 'id_1';
-$handler->display->display_options['sorts']['id_1']['table'] = 'civicrm_activity';
-$handler->display->display_options['sorts']['id_1']['field'] = 'id';
-/* Filter criterion: CiviCRM Activities: Activity Status */
-$handler->display->display_options['filters']['status']['id'] = 'status';
-$handler->display->display_options['filters']['status']['table'] = 'civicrm_activity';
-$handler->display->display_options['filters']['status']['field'] = 'status';
-$handler->display->display_options['filters']['status']['value'] = array(
-  1 => '1', //scheduled
-);
 /* Filter criterion: CiviCRM Activities: Current Revision */
 $handler->display->display_options['filters']['is_current_revision']['id'] = 'is_current_revision';
 $handler->display->display_options['filters']['is_current_revision']['table'] = 'civicrm_activity';
