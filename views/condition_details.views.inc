@@ -70,6 +70,23 @@ $handler->display->display_options['fields']['status']['table'] = 'civicrm_activ
 $handler->display->display_options['fields']['status']['field'] = 'status';
 $handler->display->display_options['fields']['status']['label'] = 'Status';
 $handler->display->display_options['fields']['status']['element_label_type'] = 'strong';
+/* Field: CiviCRM Activities: Details */
+$handler->display->display_options['fields']['remark']['id'] = 'remark';
+$handler->display->display_options['fields']['remark']['table'] = $config->cgConditions['table_name'];
+$handler->display->display_options['fields']['remark']['field'] = $config->cfConditionsCustomerRemark['column_name'];
+$handler->display->display_options['fields']['remark']['label'] = 'Remark customer';
+$handler->display->display_options['fields']['remark']['element_label_type'] = 'strong';
+$handler->display->display_options['fields']['remark']['text_format'] = 'full_html';
+/* Field: Global: PHP */
+$handler->display->display_options['fields']['attachment']['id'] = 'attachment';
+$handler->display->display_options['fields']['attachment']['table'] = 'views';
+$handler->display->display_options['fields']['attachment']['field'] = 'php';
+$handler->display->display_options['fields']['attachment']['label'] = 'Attachments';
+$handler->display->display_options['fields']['attachment']['element_label_type'] = 'strong';
+$handler->display->display_options['fields']['attachment']['use_php_setup'] = 0;
+$handler->display->display_options['fields']['attachment']['php_output'] = '<?php echo _pum_customer_condition_attachment($row->id); ?>';
+$handler->display->display_options['fields']['attachment']['use_php_click_sortable'] = '0';
+$handler->display->display_options['fields']['attachment']['php_click_sortable'] = '';
 /* Field: Global: PHP */
 $handler->display->display_options['fields']['php']['id'] = 'php';
 $handler->display->display_options['fields']['php']['table'] = 'views';

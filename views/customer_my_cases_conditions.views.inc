@@ -74,6 +74,15 @@ $handler->display->display_options['relationships']['activity_id']['table'] = 'c
 $handler->display->display_options['relationships']['activity_id']['field'] = 'activity_id';
 $handler->display->display_options['relationships']['activity_id']['label'] = 'Activity';
 $handler->display->display_options['relationships']['activity_id']['required'] = TRUE;
+/* Field: CiviCRM Activities: Activity ID */
+$handler->display->display_options['fields']['id']['id'] = 'id';
+$handler->display->display_options['fields']['id']['table'] = 'civicrm_activity';
+$handler->display->display_options['fields']['id']['field'] = 'id';
+$handler->display->display_options['fields']['id']['label'] = '';
+$handler->display->display_options['fields']['id']['relationship'] = 'activity_id';
+$handler->display->display_options['fields']['id']['exclude'] = TRUE;
+$handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['id']['separator'] = '';
 /* Field: CiviCRM Activities: Scheduled Activity Date */
 $handler->display->display_options['fields']['activity_date_time']['id'] = 'activity_date_time';
 $handler->display->display_options['fields']['activity_date_time']['table'] = 'civicrm_activity';
@@ -90,24 +99,15 @@ $handler->display->display_options['fields']['activity_type']['id'] = 'activity_
 $handler->display->display_options['fields']['activity_type']['table'] = 'civicrm_activity';
 $handler->display->display_options['fields']['activity_type']['field'] = 'activity_type';
 $handler->display->display_options['fields']['activity_type']['relationship'] = 'activity_id';
-/* Field: CiviCRM Activities: Details */
-$handler->display->display_options['fields']['details']['id'] = 'details';
-$handler->display->display_options['fields']['details']['table'] = 'civicrm_activity';
-$handler->display->display_options['fields']['details']['field'] = 'details';
-$handler->display->display_options['fields']['details']['relationship'] = 'activity_id';
-$handler->display->display_options['fields']['details']['label'] = '';
-$handler->display->display_options['fields']['details']['exclude'] = TRUE;
-$handler->display->display_options['fields']['details']['alter']['strip_tags'] = TRUE;
-$handler->display->display_options['fields']['details']['element_label_colon'] = FALSE;
-$handler->display->display_options['fields']['details']['text_format'] = 'full_html';
 /* Field: CiviCRM Activities: Subject */
 $handler->display->display_options['fields']['subject']['id'] = 'subject';
 $handler->display->display_options['fields']['subject']['table'] = 'civicrm_activity';
 $handler->display->display_options['fields']['subject']['field'] = 'subject';
+$handler->display->display_options['fields']['subject']['alter']['make_link'] = TRUE;
+$handler->display->display_options['fields']['subject']['alter']['path'] = 'customer/condition-details/[id]';
+$handler->display->display_options['fields']['subject']['alter']['absolute'] = TRUE;
 $handler->display->display_options['fields']['subject']['relationship'] = 'activity_id';
-$handler->display->display_options['fields']['subject']['alter']['alter_text'] = TRUE;
-$handler->display->display_options['fields']['subject']['alter']['text'] = '<strong>[subject]</strong><br/ >
-[details]';
+$handler->display->display_options['fields']['subject']['empty'] = '<a href="/customer/condition-details/[id]">View condition</a>';
 $handler->display->display_options['fields']['subject']['element_label_colon'] = FALSE;
 /* Field: CiviCRM Activities: Activity Status */
 $handler->display->display_options['fields']['status']['id'] = 'status';

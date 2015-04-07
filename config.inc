@@ -8,6 +8,10 @@ class pum_customer_mycases_config {
 
     protected $completableActivities = array();
 
+    public $cgConditions = array();
+
+    public $cfConditionsCustomerRemark = array();
+
     protected function __construct() {
         civicrm_initialize();
 
@@ -17,6 +21,9 @@ class pum_customer_mycases_config {
 
         $this->conditions[] = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Conditions', 'option_group_id' => $activity_type_option_group));
         $this->conditions[] = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Condition: Customer Contribution.', 'option_group_id' => $activity_type_option_group));
+
+        $this->cgConditions = civicrm_api3('CustomGroup', 'getsingle', array('name' => 'Condition'));
+        $this->cfConditionsCustomerRemark = civicrm_api3('CustomField', 'getsingle', array('name' => 'Remark_Customer', 'custom_group_id' => $this->cgConditions['id']));
     }
 
     public function getConditions() {
