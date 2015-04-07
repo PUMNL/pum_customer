@@ -29,6 +29,14 @@ $handler->display->display_options['relationships']['relationship_id_b']['label'
 $handler->display->display_options['relationships']['relationship_id_b']['required'] = TRUE;
 $handler->display->display_options['relationships']['relationship_id_b']['relationship_type'] = '0';
 $handler->display->display_options['relationships']['relationship_id_b']['relationship_state'] = 0;
+/* Field: CiviCRM Contacts: Contact ID */
+$handler->display->display_options['fields']['id']['id'] = 'id';
+$handler->display->display_options['fields']['id']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['id']['field'] = 'id';
+$handler->display->display_options['fields']['id']['label'] = '';
+$handler->display->display_options['fields']['id']['exclude'] = TRUE;
+$handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['id']['separator'] = '';
 /* Field: CiviCRM Relationships: Relationship Type A-to-B */
 $handler->display->display_options['fields']['relationship_type']['id'] = 'relationship_type';
 $handler->display->display_options['fields']['relationship_type']['table'] = 'civicrm_relationship';
@@ -58,6 +66,20 @@ $handler->display->display_options['fields']['phone']['location_type'] = '0';
 $handler->display->display_options['fields']['phone']['location_op'] = '0';
 $handler->display->display_options['fields']['phone']['is_primary'] = 1;
 $handler->display->display_options['fields']['phone']['phone_type'] = '0';
+/* Field: Global: PHP */
+$handler->display->display_options['fields']['php']['id'] = 'php';
+$handler->display->display_options['fields']['php']['table'] = 'views';
+$handler->display->display_options['fields']['php']['field'] = 'php';
+$handler->display->display_options['fields']['php']['label'] = '';
+$handler->display->display_options['fields']['php']['alter']['make_link'] = TRUE;
+$handler->display->display_options['fields']['php']['alter']['path'] = 'customer/expert/[id]/!1';
+$handler->display->display_options['fields']['php']['alter']['absolute'] = TRUE;
+$handler->display->display_options['fields']['php']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['php']['use_php_setup'] = 1;
+$handler->display->display_options['fields']['php']['php_setup'] = '$static[\'expert_rel_type_id\'] = civicrm_api3(\'RelationshipType\', \'getvalue\', array(\'name_a_b\' => \'Expert\', \'return\' => \'id\'));';
+$handler->display->display_options['fields']['php']['php_value'] = 'if ($data->civicrm_relationship_civicrm_contact_relationship_type_id == $static[\'expert_rel_type_id\']) {
+  return \'View CV\';
+}';
 /* Contextual filter: CiviCRM Relationships: Case ID */
 $handler->display->display_options['arguments']['case_id']['id'] = 'case_id';
 $handler->display->display_options['arguments']['case_id']['table'] = 'civicrm_relationship';

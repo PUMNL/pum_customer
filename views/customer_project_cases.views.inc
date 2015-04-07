@@ -174,6 +174,9 @@ $handler->display->display_options['fields']['display_name_1']['table'] = 'civic
 $handler->display->display_options['fields']['display_name_1']['field'] = 'display_name';
 $handler->display->display_options['fields']['display_name_1']['relationship'] = 'contact_id_b_';
 $handler->display->display_options['fields']['display_name_1']['label'] = 'Expert';
+$handler->display->display_options['fields']['display_name_1']['alter']['make_link'] = TRUE;
+$handler->display->display_options['fields']['display_name_1']['alter']['path'] = 'customer/expert/[id_2]/[id]';
+$handler->display->display_options['fields']['display_name_1']['alter']['absolute'] = TRUE;
 $handler->display->display_options['fields']['display_name_1']['link_to_civicrm_contact'] = 0;
 /* Field: Global: Custom text */
 $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
