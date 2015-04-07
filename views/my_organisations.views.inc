@@ -17,7 +17,7 @@ $handler = $view->new_display('default', 'Master', 'default');
 $handler->display->display_options['title'] = 'My organisation(s)';
 $handler->display->display_options['use_more_always'] = FALSE;
 $handler->display->display_options['access']['type'] = 'role';
-$handler->display->display_options['access']['role'] = newcustomer_get_role_ids(array('Customer', 'Customer (contact)', 'Representative'));
+$handler->display->display_options['access']['role'] = pum_customer_get_role_ids(array('Customer', 'Customer (contact)', 'Representative'));
 $handler->display->display_options['cache']['type'] = 'none';
 $handler->display->display_options['query']['type'] = 'views_query';
 $handler->display->display_options['query']['options']['distinct'] = TRUE;
@@ -31,7 +31,6 @@ $handler->display->display_options['relationships']['relationship_id_a']['table'
 $handler->display->display_options['relationships']['relationship_id_a']['field'] = 'relationship_id_a';
 $handler->display->display_options['relationships']['relationship_id_a']['label'] = 'Has authorised relationship';
 $handler->display->display_options['relationships']['relationship_id_a']['required'] = TRUE;
-$handler->display->display_options['relationships']['relationship_id_a']['relationship_type'] = $authorised_contact_rel_type_id;
 /* Relationship: CiviCRM Relationships: Contact ID B */
 $handler->display->display_options['relationships']['contact_id_b_']['id'] = 'contact_id_b_';
 $handler->display->display_options['relationships']['contact_id_b_']['table'] = 'civicrm_relationship';
@@ -76,6 +75,13 @@ $handler->display->display_options['filters']['uid_current']['table'] = 'users';
 $handler->display->display_options['filters']['uid_current']['field'] = 'uid_current';
 $handler->display->display_options['filters']['uid_current']['relationship'] = 'drupal_id';
 $handler->display->display_options['filters']['uid_current']['value'] = '1';
+/* Filter criterion: CiviCRM Contacts: Contact Sub Type */
+$handler->display->display_options['filters']['contact_sub_type']['id'] = 'contact_sub_type';
+$handler->display->display_options['filters']['contact_sub_type']['table'] = 'civicrm_contact';
+$handler->display->display_options['filters']['contact_sub_type']['field'] = 'contact_sub_type';
+$handler->display->display_options['filters']['contact_sub_type']['value'] = array(
+  'Customer' => 'Customer',
+);
 
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');

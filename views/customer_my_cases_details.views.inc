@@ -48,6 +48,14 @@ $handler->display->display_options['fields']['view_1']['label'] = 'Roles';
 $handler->display->display_options['fields']['view_1']['element_label_type'] = 'h2';
 $handler->display->display_options['fields']['view_1']['view'] = 'case_roles_for_customer_';
 $handler->display->display_options['fields']['view_1']['arguments'] = '[!id]';
+/* Field: Global: View */
+$handler->display->display_options['fields']['view_2']['id'] = 'view_2';
+$handler->display->display_options['fields']['view_2']['table'] = 'views';
+$handler->display->display_options['fields']['view_2']['field'] = 'view';
+$handler->display->display_options['fields']['view_2']['label'] = 'Airport pickup';
+$handler->display->display_options['fields']['view_2']['element_label_type'] = 'h2';
+$handler->display->display_options['fields']['view_2']['view'] = 'pickups_for_customer_and_rep_';
+$handler->display->display_options['fields']['view_2']['arguments'] = '[!id]';
 /* Contextual filter: CiviCRM Cases: Case ID */
 $handler->display->display_options['arguments']['id']['id'] = 'id';
 $handler->display->display_options['arguments']['id']['table'] = 'civicrm_case';
