@@ -1,7 +1,6 @@
 <?php
 
 $expert_rel_type_id = civicrm_api3('RelationshipType', 'getvalue', array('name_a_b' => 'Expert', 'return' => 'id'));
-$authorised_contact_rel_type_id = civicrm_api3('RelationshipType', 'getvalue', array('name_a_b' => 'Has authorised', 'return' => 'id'));
 $main_activity_info = civicrm_api3('CustomGroup', 'getsingle', array('name' => 'main_activity_info'));
 $start_date = civicrm_api3('CustomField', 'getsingle', array('name' => 'main_activity_start_date', 'custom_group_id' => $main_activity_info['id']));
 $end_date = civicrm_api3('CustomField', 'getsingle', array('name' => 'main_activity_end_date', 'custom_group_id' => $main_activity_info['id']));
@@ -69,18 +68,18 @@ $handler->display->display_options['relationships']['contact_id']['field'] = 'co
 $handler->display->display_options['relationships']['contact_id']['relationship'] = 'case_id';
 $handler->display->display_options['relationships']['contact_id']['label'] = 'Customer';
 $handler->display->display_options['relationships']['contact_id']['required'] = TRUE;
-/* Relationship: CiviCRM Contacts: CiviCRM Relationship (starting from contact A) */
-$handler->display->display_options['relationships']['relationship_id_a']['id'] = 'relationship_id_a';
-$handler->display->display_options['relationships']['relationship_id_a']['table'] = 'civicrm_contact';
-$handler->display->display_options['relationships']['relationship_id_a']['field'] = 'relationship_id_a';
-$handler->display->display_options['relationships']['relationship_id_a']['relationship'] = 'contact_id';
-$handler->display->display_options['relationships']['relationship_id_a']['label'] = 'Has authorsied relationship';
-$handler->display->display_options['relationships']['relationship_id_a']['required'] = TRUE;
+/* Relationship: CiviCRM Cases: CiviCRM Relationship (starting from contact case ID) */
+$handler->display->display_options['relationships']['relationship_id']['id'] = 'relationship_id';
+$handler->display->display_options['relationships']['relationship_id']['table'] = 'civicrm_case';
+$handler->display->display_options['relationships']['relationship_id']['field'] = 'relationship_id';
+$handler->display->display_options['relationships']['relationship_id']['relationship'] = 'case_id';
+$handler->display->display_options['relationships']['relationship_id']['required'] = TRUE;
+$handler->display->display_options['relationships']['relationship_id']['relationship_type'] = '0';
 /* Relationship: CiviCRM Relationships: Contact ID B */
 $handler->display->display_options['relationships']['contact_id_b_']['id'] = 'contact_id_b_';
 $handler->display->display_options['relationships']['contact_id_b_']['table'] = 'civicrm_relationship';
 $handler->display->display_options['relationships']['contact_id_b_']['field'] = 'contact_id_b_';
-$handler->display->display_options['relationships']['contact_id_b_']['relationship'] = 'relationship_id_a';
+$handler->display->display_options['relationships']['contact_id_b_']['relationship'] = 'relationship_id';
 $handler->display->display_options['relationships']['contact_id_b_']['label'] = 'Customer contact';
 $handler->display->display_options['relationships']['contact_id_b_']['required'] = TRUE;
 /* Relationship: CiviCRM Contacts: Drupal ID */
