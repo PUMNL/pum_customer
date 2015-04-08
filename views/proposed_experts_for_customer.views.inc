@@ -76,7 +76,6 @@ $handler->display->display_options['relationships']['relationship_id_a']['field'
 $handler->display->display_options['relationships']['relationship_id_a']['relationship'] = 'contact_id';
 $handler->display->display_options['relationships']['relationship_id_a']['label'] = 'Has authorsied relationship';
 $handler->display->display_options['relationships']['relationship_id_a']['required'] = TRUE;
-$handler->display->display_options['relationships']['relationship_id_a']['relationship_type'] = $authorised_contact_rel_type_id;
 /* Relationship: CiviCRM Relationships: Contact ID B */
 $handler->display->display_options['relationships']['contact_id_b_']['id'] = 'contact_id_b_';
 $handler->display->display_options['relationships']['contact_id_b_']['table'] = 'civicrm_relationship';
