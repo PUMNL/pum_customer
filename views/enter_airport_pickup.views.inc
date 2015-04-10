@@ -201,6 +201,105 @@ $handler->display->display_options['menu']['title'] = 'Enter airport pickup info
 $handler->display->display_options['menu']['weight'] = '0';
 $handler->display->display_options['menu']['context'] = 0;
 $handler->display->display_options['menu']['context_only_inline'] = 0;
+/* Display: My Work Count Item - Block */
+$handler = $view->new_display('block', 'My Work Count Item - Block', 'block_1');
+$handler->display->display_options['defaults']['pager'] = FALSE;
+$handler->display->display_options['pager']['type'] = 'none';
+$handler->display->display_options['pager']['options']['offset'] = '0';
+$handler->display->display_options['defaults']['style_plugin'] = FALSE;
+$handler->display->display_options['style_plugin'] = 'default';
+$handler->display->display_options['defaults']['style_options'] = FALSE;
+$handler->display->display_options['defaults']['row_plugin'] = FALSE;
+$handler->display->display_options['row_plugin'] = 'fields';
+$handler->display->display_options['defaults']['row_options'] = FALSE;
+$handler->display->display_options['defaults']['header'] = FALSE;
+/* Header: Global: Result summary */
+$handler->display->display_options['header']['result']['id'] = 'result';
+$handler->display->display_options['header']['result']['table'] = 'views';
+$handler->display->display_options['header']['result']['field'] = 'result';
+$handler->display->display_options['header']['result']['content'] = 'Airport Pickup info (@total)';
+$handler->display->display_options['defaults']['empty'] = FALSE;
+$handler->display->display_options['defaults']['fields'] = FALSE;
+/* Field: CiviCRM Cases: Case ID */
+$handler->display->display_options['fields']['id_1']['id'] = 'id_1';
+$handler->display->display_options['fields']['id_1']['table'] = 'civicrm_case';
+$handler->display->display_options['fields']['id_1']['field'] = 'id';
+$handler->display->display_options['fields']['id_1']['exclude'] = TRUE;
+$handler->display->display_options['fields']['id_1']['separator'] = '';
+/* Field: CiviCRM Activities: Activity ID */
+$handler->display->display_options['fields']['id_2']['id'] = 'id_2';
+$handler->display->display_options['fields']['id_2']['table'] = 'civicrm_activity';
+$handler->display->display_options['fields']['id_2']['field'] = 'id';
+$handler->display->display_options['fields']['id_2']['relationship'] = 'activity_id';
+$handler->display->display_options['fields']['id_2']['label'] = '';
+$handler->display->display_options['fields']['id_2']['exclude'] = TRUE;
+$handler->display->display_options['fields']['id_2']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['id_2']['separator'] = '';
+/* Field: CiviCRM Contacts: Contact ID */
+$handler->display->display_options['fields']['id']['id'] = 'id';
+$handler->display->display_options['fields']['id']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['id']['field'] = 'id';
+$handler->display->display_options['fields']['id']['relationship'] = 'contact_id_1';
+$handler->display->display_options['fields']['id']['label'] = '';
+$handler->display->display_options['fields']['id']['exclude'] = TRUE;
+$handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['id']['separator'] = '';
+/* Field: CiviCRM Contacts: Display Name */
+$handler->display->display_options['fields']['display_name']['id'] = 'display_name';
+$handler->display->display_options['fields']['display_name']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['display_name']['field'] = 'display_name';
+$handler->display->display_options['fields']['display_name']['relationship'] = 'contact_id_1';
+$handler->display->display_options['fields']['display_name']['exclude'] = TRUE;
+$handler->display->display_options['fields']['display_name']['link_to_civicrm_contact'] = 0;
+/* Field: CiviCRM Custom: Travel Data: Arrival date/time */
+$handler->display->display_options['fields']['arrival_time']['id'] = 'arrival_time';
+$handler->display->display_options['fields']['arrival_time']['table'] = $travel_data['table_name'];
+$handler->display->display_options['fields']['arrival_time']['field'] = $arrival_time;
+$handler->display->display_options['fields']['arrival_time']['relationship'] = 'case_id';
+$handler->display->display_options['fields']['arrival_time']['exclude'] = TRUE;
+$handler->display->display_options['fields']['arrival_time']['date_format'] = 'short';
+$handler->display->display_options['fields']['arrival_time']['second_date_format'] = 'long';
+/* Field: CiviCRM Custom: Travel Data: Destination */
+$handler->display->display_options['fields']['destination']['id'] = 'destination';
+$handler->display->display_options['fields']['destination']['table'] = $travel_data['table_name'];
+$handler->display->display_options['fields']['destination']['field'] = $destination;
+$handler->display->display_options['fields']['destination']['relationship'] = 'case_id';
+$handler->display->display_options['fields']['destination']['exclude'] = TRUE;
+$handler->display->display_options['fields']['destination']['alter']['strip_tags'] = TRUE;
+/* Field: CiviCRM Custom: Travel Data: Flight number */
+$handler->display->display_options['fields']['flight_number']['id'] = 'flight_number';
+$handler->display->display_options['fields']['flight_number']['table'] = $travel_data['table_name'];
+$handler->display->display_options['fields']['flight_number']['field'] = $flight_nr;
+$handler->display->display_options['fields']['flight_number']['relationship'] = 'case_id';
+$handler->display->display_options['fields']['flight_number']['exclude'] = TRUE;
+$handler->display->display_options['fields']['flight_number']['alter']['strip_tags'] = TRUE;
+/* Field: CiviCRM Custom: Travel Data: (Return) Departure date/time */
+$handler->display->display_options['fields']['departure_time']['id'] = 'departure_time';
+$handler->display->display_options['fields']['departure_time']['table'] = $travel_data['table_name'];
+$handler->display->display_options['fields']['departure_time']['field'] = $departure_time;
+$handler->display->display_options['fields']['departure_time']['relationship'] = 'case_id';
+$handler->display->display_options['fields']['departure_time']['label'] = '(Return) Departure time';
+$handler->display->display_options['fields']['departure_time']['exclude'] = TRUE;
+$handler->display->display_options['fields']['departure_time']['date_format'] = 'short';
+$handler->display->display_options['fields']['departure_time']['second_date_format'] = 'long';
+/* Field: Global: Custom text */
+$handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+$handler->display->display_options['fields']['nothing']['table'] = 'views';
+$handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+$handler->display->display_options['fields']['nothing']['label'] = '';
+$handler->display->display_options['fields']['nothing']['exclude'] = TRUE;
+$handler->display->display_options['fields']['nothing']['alter']['text'] = 'Provide pickup info';
+$handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
+$handler->display->display_options['fields']['nothing']['alter']['path'] = 'enter-pickup-info/form?cid2=[id]&caseid=[id_1]&aid=[id_2]';
+$handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
+$handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+/* Field: Global: Custom text */
+$handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
+$handler->display->display_options['fields']['nothing_1']['table'] = 'views';
+$handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
+$handler->display->display_options['fields']['nothing_1']['label'] = '';
+$handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['nothing_1']['hide_empty'] = TRUE;
 $translatables['enter_airport_pickup_info'] = array(
   t('Master'),
   t('Enter airport pickup info'),
@@ -233,4 +332,6 @@ $translatables['enter_airport_pickup_info'] = array(
   t('Flight number'),
   t('Provide pickup info'),
   t('Page'),
+  t('My Work Count Item - Block'),
+  t('Airport Pickup info (@total)'),
 );
