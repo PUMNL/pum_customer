@@ -192,7 +192,7 @@ $handler->display->display_options['filters']['status']['relationship'] = 'activ
 $handler->display->display_options['filters']['status']['value'] = array(1=>1); //scheduled
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');
-$handler->display->display_options['path'] = 'customer/my-cases/conditions';
+$handler->display->display_options['path'] = 'customer/all-my-conditions';
 $handler->display->display_options['menu']['type'] = 'normal';
 $handler->display->display_options['menu']['title'] = 'Conditions';
 $handler->display->display_options['menu']['weight'] = '0';
