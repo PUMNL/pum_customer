@@ -194,7 +194,7 @@ $handler->display->display_options['filters']['status']['value'] = array(1=>1); 
 $handler = $view->new_display('page', 'Page', 'page');
 $handler->display->display_options['path'] = 'customer/all-my-conditions';
 $handler->display->display_options['menu']['type'] = 'normal';
-$handler->display->display_options['menu']['title'] = 'Conditions';
+$handler->display->display_options['menu']['title'] = 'All My Conditions';
 $handler->display->display_options['menu']['weight'] = '0';
 $handler->display->display_options['menu']['context'] = 0;
 $handler->display->display_options['menu']['context_only_inline'] = 0;
