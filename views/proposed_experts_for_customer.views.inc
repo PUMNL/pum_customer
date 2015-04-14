@@ -267,8 +267,8 @@ $handler->display->display_options['fields']['display_name']['alter']['absolute'
 $handler->display->display_options['fields']['display_name']['link_to_civicrm_contact'] = 0;
 /* Field: CiviCRM Custom: (Main) Activity information: Activity Start Date */
 $handler->display->display_options['fields']['start_date']['id'] = 'start_date';
-$handler->display->display_options['fields']['start_date']['table'] = 'civicrm_value_main_activity_info';
-$handler->display->display_options['fields']['start_date']['field'] = 'start_date';
+$handler->display->display_options['fields']['start_date']['table'] = $main_activity_info['table_name'];
+$handler->display->display_options['fields']['start_date']['field'] = $start_date['column_name'];
 $handler->display->display_options['fields']['start_date']['relationship'] = 'case_id';
 $handler->display->display_options['fields']['start_date']['label'] = 'Start Date';
 $handler->display->display_options['fields']['start_date']['exclude'] = TRUE;
@@ -276,8 +276,8 @@ $handler->display->display_options['fields']['start_date']['date_format'] = 'lon
 $handler->display->display_options['fields']['start_date']['second_date_format'] = 'long';
 /* Field: CiviCRM Custom: (Main) Activity information: Activity End Date */
 $handler->display->display_options['fields']['end_date']['id'] = 'end_date';
-$handler->display->display_options['fields']['end_date']['table'] = 'civicrm_value_main_activity_info';
-$handler->display->display_options['fields']['end_date']['field'] = 'end_date';
+$handler->display->display_options['fields']['end_date']['table'] = $main_activity_info['table_name'];
+$handler->display->display_options['fields']['end_date']['field'] = $end_date['column_name'];
 $handler->display->display_options['fields']['end_date']['relationship'] = 'case_id';
 $handler->display->display_options['fields']['end_date']['label'] = 'End Date';
 $handler->display->display_options['fields']['end_date']['exclude'] = TRUE;
