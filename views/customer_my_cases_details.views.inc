@@ -33,6 +33,14 @@ $handler->display->display_options['fields']['id']['exclude'] = TRUE;
 $handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['id']['separator'] = '';
 /* Field: Global: View */
+$handler->display->display_options['fields']['view_ma']['id'] = 'view_ma';
+$handler->display->display_options['fields']['view_ma']['table'] = 'views';
+$handler->display->display_options['fields']['view_ma']['field'] = 'view';
+$handler->display->display_options['fields']['view_ma']['label'] = 'Main activity information';
+$handler->display->display_options['fields']['view_ma']['element_label_type'] = 'h2';
+$handler->display->display_options['fields']['view_ma']['view'] = 'main_activity_information_for_customer_';
+$handler->display->display_options['fields']['view_ma']['arguments'] = '[!id]';
+/* Field: Global: View */
 $handler->display->display_options['fields']['view']['id'] = 'view';
 $handler->display->display_options['fields']['view']['table'] = 'views';
 $handler->display->display_options['fields']['view']['field'] = 'view';
