@@ -87,6 +87,27 @@ $handler->display->display_options['relationships']['contact_id']['field'] = 'co
 $handler->display->display_options['relationships']['contact_id']['relationship'] = 'case_id';
 $handler->display->display_options['relationships']['contact_id']['label'] = 'Client';
 $handler->display->display_options['relationships']['contact_id']['required'] = TRUE;
+/* Relationship: CiviCRM Cases: CiviCRM Relationship (starting from contact case ID) */
+$handler->display->display_options['relationships']['relationship_id']['id'] = 'relationship_id';
+$handler->display->display_options['relationships']['relationship_id']['table'] = 'civicrm_case';
+$handler->display->display_options['relationships']['relationship_id']['field'] = 'relationship_id';
+$handler->display->display_options['relationships']['relationship_id']['relationship'] = 'case_id';
+$handler->display->display_options['relationships']['relationship_id']['label'] = 'Case role';
+$handler->display->display_options['relationships']['relationship_id']['required'] = TRUE;
+$handler->display->display_options['relationships']['relationship_id']['relationship_type'] = '0';
+/* Relationship: CiviCRM Relationships: Contact ID B */
+$handler->display->display_options['relationships']['contact_id_b_']['id'] = 'contact_id_b_';
+$handler->display->display_options['relationships']['contact_id_b_']['table'] = 'civicrm_relationship';
+$handler->display->display_options['relationships']['contact_id_b_']['field'] = 'contact_id_b_';
+$handler->display->display_options['relationships']['contact_id_b_']['relationship'] = 'relationship_id';
+$handler->display->display_options['relationships']['contact_id_b_']['label'] = 'Case role (contact)';
+$handler->display->display_options['relationships']['contact_id_b_']['required'] = TRUE;
+/* Relationship: CiviCRM Contacts: Drupal ID */
+$handler->display->display_options['relationships']['drupal_id']['id'] = 'drupal_id';
+$handler->display->display_options['relationships']['drupal_id']['table'] = 'civicrm_contact';
+$handler->display->display_options['relationships']['drupal_id']['field'] = 'drupal_id';
+$handler->display->display_options['relationships']['drupal_id']['relationship'] = 'contact_id_b_';
+$handler->display->display_options['relationships']['drupal_id']['required'] = TRUE;
 /* Field: CiviCRM Activities: Activity ID */
 $handler->display->display_options['fields']['id']['id'] = 'id';
 $handler->display->display_options['fields']['id']['table'] = 'civicrm_activity';
@@ -190,6 +211,13 @@ $handler->display->display_options['filters']['status']['table'] = 'civicrm_acti
 $handler->display->display_options['filters']['status']['field'] = 'status';
 $handler->display->display_options['filters']['status']['relationship'] = 'activity_id';
 $handler->display->display_options['filters']['status']['value'] = array(1=>1); //scheduled
+/* Filter criterion: User: Current */
+$handler->display->display_options['filters']['uid_current']['id'] = 'uid_current';
+$handler->display->display_options['filters']['uid_current']['table'] = 'users';
+$handler->display->display_options['filters']['uid_current']['field'] = 'uid_current';
+$handler->display->display_options['filters']['uid_current']['relationship'] = 'drupal_id';
+$handler->display->display_options['filters']['uid_current']['value'] = '1';
+
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');
 $handler->display->display_options['path'] = 'customer/all-my-conditions';
