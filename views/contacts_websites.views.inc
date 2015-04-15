@@ -35,7 +35,7 @@ $handler->display->display_options['fields']['website_type']['element_label_colo
 $handler->display->display_options['fields']['url']['id'] = 'url';
 $handler->display->display_options['fields']['url']['table'] = 'civicrm_website';
 $handler->display->display_options['fields']['url']['field'] = 'url';
-$handler->display->display_options['fields']['url']['label'] = '';
+$handler->display->display_options['fields']['url']['label'] = 'Website';
 $handler->display->display_options['fields']['url']['alter']['alter_text'] = TRUE;
 $handler->display->display_options['fields']['url']['alter']['text'] = '<a href="[url]">[url]</a>';
 $handler->display->display_options['fields']['url']['element_label_colon'] = FALSE;
