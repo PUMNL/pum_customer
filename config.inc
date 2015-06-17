@@ -12,8 +12,22 @@ class pum_customer_mycases_config {
 
     public $cfConditionsCustomerRemark = array();
 
+    public $advice_case_type;
+
+    public $remote_coaching_case_type;
+
+    public $seminar_case_type;
+
+    public $business_case_type;
+
     protected function __construct() {
         civicrm_initialize();
+
+        $case_type_id = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_type'));
+        $this->advice_case_type = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Advice', 'option_group_id' => $case_type_id, 'return' => 'value'));
+        $this->seminar_case_type = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Seminar', 'option_group_id' => $case_type_id, 'return' => 'value'));
+        $this->business_case_type = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Business', 'option_group_id' => $case_type_id, 'return' => 'value'));
+        $this->remote_coaching_case_type = civicrm_api3('OptionValue', 'getvalue', array('name' => 'RemoteCoaching', 'option_group_id' => $case_type_id, 'return' => 'value'));
 
         $activity_type_option_group = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'activity_type'));
 

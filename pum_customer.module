@@ -65,3 +65,19 @@ function _pum_customer_is_condition_completable_by_customer($activity_type_id) {
   }
   return false;
 }
+
+function _pum_customer_dis_agree_expert_link($case_type)
+{
+  $c = pum_customer_mycases_config::singleton();
+  $case_types = explode(CRM_Core_DAO::VALUE_SEPARATOR, $case_type);
+  if (in_array($c->advice_case_type, $case_types)) {
+    return 'customer/proposed-experts/dis-agree-advice';
+  } elseif (in_array($c->seminar_case_type, $case_types)) {
+    return 'customer/proposed-experts/dis-agree-seminar';
+  } elseif (in_array($c->remote_coaching_case_type, $case_types)) {
+    return 'customer/proposed-experts/dis-agree-remote-coaching';
+  } elseif (in_array($c->business_case_type, $case_types)) {
+    return 'customer/proposed-experts/dis-agree-business';
+  }
+  return '';
+}

@@ -150,7 +150,7 @@ $handler->display->display_options['fields']['php']['label'] = '';
 $handler->display->display_options['fields']['php']['exclude'] = TRUE;
 $handler->display->display_options['fields']['php']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['php']['use_php_setup'] = 0;
-$handler->display->display_options['fields']['php']['php_value'] = 'return _mainactivity_dis_agree_expert_link($row->case_type);';
+$handler->display->display_options['fields']['php']['php_value'] = 'return _pum_customer_dis_agree_expert_link($row->case_type);';
 $handler->display->display_options['fields']['php']['use_php_click_sortable'] = '0';
 $handler->display->display_options['fields']['php']['php_click_sortable'] = '';
 /* Field: Global: Custom text */
@@ -160,7 +160,7 @@ $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
 $handler->display->display_options['fields']['nothing']['label'] = '';
 $handler->display->display_options['fields']['nothing']['alter']['text'] = '(Dis-) agree';
 $handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
-$handler->display->display_options['fields']['nothing']['alter']['path'] = '[php]?cid1=[id_1]&cid2=[id]';
+$handler->display->display_options['fields']['nothing']['alter']['path'] = '[php]?cid1=[id_1]&cid2=[id]&caseid=[id_2]';
 $handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
 $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
 /* Filter criterion: User: Current */
@@ -292,7 +292,7 @@ $handler->display->display_options['fields']['php']['label'] = '';
 $handler->display->display_options['fields']['php']['exclude'] = TRUE;
 $handler->display->display_options['fields']['php']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['php']['use_php_setup'] = 0;
-$handler->display->display_options['fields']['php']['php_value'] = 'return _mainactivity_dis_agree_expert_link($row->case_type);';
+$handler->display->display_options['fields']['php']['php_value'] = 'return _pum_customer_dis_agree_expert_link($row->case_type);';
 $handler->display->display_options['fields']['php']['use_php_click_sortable'] = '0';
 $handler->display->display_options['fields']['php']['php_click_sortable'] = '';
 /* Field: Global: Custom text */
