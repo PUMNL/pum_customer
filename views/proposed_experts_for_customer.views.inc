@@ -119,6 +119,16 @@ $handler->display->display_options['fields']['case_type']['field'] = 'case_type'
 $handler->display->display_options['fields']['case_type']['relationship'] = 'case_id';
 $handler->display->display_options['fields']['case_type']['label'] = 'Expert for';
 /* Field: CiviCRM Contacts: Display Name */
+$handler->display->display_options['fields']['customer_display_name']['id'] = 'customer_display_name';
+$handler->display->display_options['fields']['customer_display_name']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['customer_display_name']['field'] = 'display_name';
+$handler->display->display_options['fields']['customer_display_name']['label'] = 'Customer';
+$handler->display->display_options['fields']['customer_display_name']['relationship'] = 'contact_id';
+$handler->display->display_options['fields']['customer_display_name']['alter']['make_link'] = TRUE;
+$handler->display->display_options['fields']['customer_display_name']['alter']['path'] = 'customer-profile/[id_1]';
+$handler->display->display_options['fields']['customer_display_name']['alter']['absolute'] = TRUE;
+$handler->display->display_options['fields']['customer_display_name']['link_to_civicrm_contact'] = 0;
+/* Field: CiviCRM Contacts: Display Name */
 $handler->display->display_options['fields']['display_name']['id'] = 'display_name';
 $handler->display->display_options['fields']['display_name']['table'] = 'civicrm_contact';
 $handler->display->display_options['fields']['display_name']['field'] = 'display_name';
