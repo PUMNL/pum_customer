@@ -100,6 +100,13 @@ $handler->display->display_options['relationships']['contact_id_1']['field'] = '
 $handler->display->display_options['relationships']['contact_id_1']['relationship'] = 'case_id';
 $handler->display->display_options['relationships']['contact_id_1']['label'] = 'Traveler';
 $handler->display->display_options['relationships']['contact_id_1']['required'] = TRUE;
+/* Relationship: CiviCRM Case Contact: Case Contact's Contact ID */
+$handler->display->display_options['relationships']['contact_id']['id'] = 'contact_id';
+$handler->display->display_options['relationships']['contact_id']['table'] = 'civicrm_case_contact';
+$handler->display->display_options['relationships']['contact_id']['field'] = 'contact_id';
+$handler->display->display_options['relationships']['contact_id']['relationship'] = 'case_id_1';
+$handler->display->display_options['relationships']['contact_id']['label'] = 'Customer';
+$handler->display->display_options['relationships']['contact_id']['required'] = TRUE;
 /* Field: CiviCRM Cases: Case ID */
 $handler->display->display_options['fields']['id_1']['id'] = 'id_1';
 $handler->display->display_options['fields']['id_1']['table'] = 'civicrm_case';
@@ -124,6 +131,25 @@ $handler->display->display_options['fields']['id']['label'] = '';
 $handler->display->display_options['fields']['id']['exclude'] = TRUE;
 $handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['id']['separator'] = '';
+/* Field: CiviCRM Contacts: Contact ID */
+$handler->display->display_options['fields']['id_3']['id'] = 'id_3';
+$handler->display->display_options['fields']['id_3']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['id_3']['field'] = 'id';
+$handler->display->display_options['fields']['id_3']['relationship'] = 'contact_id';
+$handler->display->display_options['fields']['id_3']['label'] = '';
+$handler->display->display_options['fields']['id_3']['exclude'] = TRUE;
+$handler->display->display_options['fields']['id_3']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['id_3']['separator'] = '';
+/* Field: CiviCRM Contacts: Display Name */
+$handler->display->display_options['fields']['display_name_1']['id'] = 'display_name_1';
+$handler->display->display_options['fields']['display_name_1']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['display_name_1']['field'] = 'display_name';
+$handler->display->display_options['fields']['display_name_1']['relationship'] = 'contact_id';
+$handler->display->display_options['fields']['display_name_1']['label'] = 'Customer';
+$handler->display->display_options['fields']['display_name_1']['alter']['make_link'] = TRUE;
+$handler->display->display_options['fields']['display_name_1']['alter']['path'] = 'customer-profile/[id_3]';
+$handler->display->display_options['fields']['display_name_1']['alter']['absolute'] = TRUE;
+$handler->display->display_options['fields']['display_name_1']['link_to_civicrm_contact'] = 0;
 /* Field: CiviCRM Contacts: Display Name */
 $handler->display->display_options['fields']['display_name']['id'] = 'display_name';
 $handler->display->display_options['fields']['display_name']['table'] = 'civicrm_contact';
