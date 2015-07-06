@@ -154,6 +154,7 @@ $handler->display->display_options['fields']['display_name_1']['link_to_civicrm_
 $handler->display->display_options['fields']['display_name']['id'] = 'display_name';
 $handler->display->display_options['fields']['display_name']['table'] = 'civicrm_contact';
 $handler->display->display_options['fields']['display_name']['field'] = 'display_name';
+$handler->display->display_options['fields']['display_name']['label'] = 'Traveler';
 $handler->display->display_options['fields']['display_name']['relationship'] = 'contact_id_1';
 /* Field: CiviCRM Custom: Travel Data: Arrival date/time */
 $handler->display->display_options['fields']['arrival_time']['id'] = 'arrival_time';
