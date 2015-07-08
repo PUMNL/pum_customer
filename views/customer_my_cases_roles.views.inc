@@ -1,5 +1,8 @@
 <?php
 
+$config = pum_customer_mycases_config::singleton();
+
+
 $view = new view();
 $view->name = 'case_roles_for_customer_';
 $view->description = '';
@@ -90,6 +93,29 @@ $handler->display->display_options['arguments']['case_id']['default_argument_typ
 $handler->display->display_options['arguments']['case_id']['summary']['number_of_records'] = '0';
 $handler->display->display_options['arguments']['case_id']['summary']['format'] = 'default_summary';
 $handler->display->display_options['arguments']['case_id']['summary_options']['items_per_page'] = '25';
+$handler->display->display_options['filter_groups']['groups'] = array(
+  1 => 'OR',
+);
+/* Filter criterion: CiviCRM Relationships: Relationship Type A-to-B */
+$handler->display->display_options['filters']['relationship_type']['id'] = 'relationship_type';
+$handler->display->display_options['filters']['relationship_type']['table'] = 'civicrm_relationship';
+$handler->display->display_options['filters']['relationship_type']['field'] = 'relationship_type';
+$handler->display->display_options['filters']['relationship_type']['relationship'] = 'relationship_id_b';
+$handler->display->display_options['filters']['relationship_type']['operator'] = 'not in';
+$handler->display->display_options['filters']['relationship_type']['value'] = array(
+  $config->expert_relationship_type => $config->expert_relationship_type,
+);
+$handler->display->display_options['filters']['relationship_type']['group'] = 1;
+/* Filter criterion: CiviCRM Cases: Case Status */
+$handler->display->display_options['filters']['status']['id'] = 'status';
+$handler->display->display_options['filters']['status']['table'] = 'civicrm_case';
+$handler->display->display_options['filters']['status']['field'] = 'status';
+$handler->display->display_options['filters']['status']['relationship'] = 'relationship_id_b';
+$handler->display->display_options['filters']['status']['operator'] = 'not in';
+$handler->display->display_options['filters']['status']['value'] = array(
+  $config->matching_status => $config->matching_status,
+);
+$handler->display->display_options['filters']['status']['group'] = 1;
 
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');

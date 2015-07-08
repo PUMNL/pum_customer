@@ -17,6 +17,14 @@ function pum_customer_menu() {
   return $items;
 }
 
+function pum_customer_check_case_for_matching($case_status_id) {
+  $config = pum_customer_mycases_config::singleton();
+  if ($case_status_id == $config->matching_status) {
+    return true;
+  }
+  return false;
+}
+
 function pum_customer_user_has_role($roles = array())
 {
   global $user;

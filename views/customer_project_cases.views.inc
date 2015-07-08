@@ -177,11 +177,27 @@ $handler->display->display_options['fields']['display_name_1']['id'] = 'display_
 $handler->display->display_options['fields']['display_name_1']['table'] = 'civicrm_contact';
 $handler->display->display_options['fields']['display_name_1']['field'] = 'display_name';
 $handler->display->display_options['fields']['display_name_1']['relationship'] = 'contact_id_b_';
+$handler->display->display_options['fields']['display_name_1']['exclude'] = TRUE;
 $handler->display->display_options['fields']['display_name_1']['label'] = 'Expert';
 $handler->display->display_options['fields']['display_name_1']['alter']['make_link'] = TRUE;
 $handler->display->display_options['fields']['display_name_1']['alter']['path'] = 'customer/expert/[id_2]/[id]';
 $handler->display->display_options['fields']['display_name_1']['alter']['absolute'] = TRUE;
 $handler->display->display_options['fields']['display_name_1']['link_to_civicrm_contact'] = 0;
+/* Field: Global: PHP */
+$handler->display->display_options['fields']['php']['id'] = 'php';
+$handler->display->display_options['fields']['php']['table'] = 'views';
+$handler->display->display_options['fields']['php']['field'] = 'php';
+$handler->display->display_options['fields']['php']['label'] = 'Expert';
+$handler->display->display_options['fields']['php']['alter']['make_link'] = TRUE;
+$handler->display->display_options['fields']['php']['alter']['path'] = 'customer/expert/[id_2]/[id]';
+$handler->display->display_options['fields']['php']['alter']['absolute'] = TRUE;
+$handler->display->display_options['fields']['php']['use_php_setup'] = 0;
+$handler->display->display_options['fields']['php']['php_value'] = 'if (pum_customer_check_case_for_matching($row->status)) {
+  return \'\';
+}
+return $row->display_name_1;';
+$handler->display->display_options['fields']['php']['use_php_click_sortable'] = '0';
+$handler->display->display_options['fields']['php']['php_click_sortable'] = '';
 /* Field: Global: Custom text */
 $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
 $handler->display->display_options['fields']['nothing']['table'] = 'views';

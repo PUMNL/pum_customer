@@ -20,8 +20,15 @@ class pum_customer_mycases_config {
 
     public $business_case_type;
 
+    public $matching_status;
+
+    public $expert_relationship_type;
+
     protected function __construct() {
         civicrm_initialize();
+
+        $case_status_id = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_status'));
+        $this->matching_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Matching', 'option_group_id' => $case_status_id));
 
         $case_type_id = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_type'));
         $this->advice_case_type = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Advice', 'option_group_id' => $case_type_id, 'return' => 'value'));
@@ -38,6 +45,8 @@ class pum_customer_mycases_config {
 
         $this->cgConditions = civicrm_api3('CustomGroup', 'getsingle', array('name' => 'Condition'));
         $this->cfConditionsCustomerRemark = civicrm_api3('CustomField', 'getsingle', array('name' => 'Remark_Customer', 'custom_group_id' => $this->cgConditions['id']));
+
+        $this->expert_relationship_type = civicrm_api3('RelationshipType', 'getvalue', array('name_a_b' => 'Expert', 'return' => 'id'));
     }
 
     public function getConditions() {
