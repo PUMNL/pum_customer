@@ -143,7 +143,8 @@ $handler->display->display_options['fields']['start_date']['table'] = $main_acti
 $handler->display->display_options['fields']['start_date']['field'] = $start_date['column_name'];
 $handler->display->display_options['fields']['start_date']['relationship'] = 'case_id';
 $handler->display->display_options['fields']['start_date']['label'] = 'Start Date';
-$handler->display->display_options['fields']['start_date']['custom_date_format'] = 'd-m-Y';
+$handler->display->display_options['fields']['start_date']['date_format'] = 'custom';
+$handler->display->display_options['fields']['start_date']['custom_date_format'] = 'd F Y';
 $handler->display->display_options['fields']['start_date']['second_date_format'] = 'long';
 /* Field: CiviCRM Custom: (Main) Activity information: Activity End Date */
 $handler->display->display_options['fields']['end_date']['id'] = 'end_date';
@@ -151,7 +152,8 @@ $handler->display->display_options['fields']['end_date']['table'] = $main_activi
 $handler->display->display_options['fields']['end_date']['field'] = $end_date['column_name'];
 $handler->display->display_options['fields']['end_date']['relationship'] = 'case_id';
 $handler->display->display_options['fields']['end_date']['label'] = 'End Date';
-$handler->display->display_options['fields']['end_date']['custom_date_format'] = 'd-m-Y';
+$handler->display->display_options['fields']['end_date']['date_format'] = 'custom';
+$handler->display->display_options['fields']['end_date']['custom_date_format'] = 'd F Y';
 $handler->display->display_options['fields']['end_date']['second_date_format'] = 'long';
 /* Field: disgaree expert link */
 $handler->display->display_options['fields']['php']['id'] = 'php';

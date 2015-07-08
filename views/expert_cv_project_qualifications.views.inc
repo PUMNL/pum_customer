@@ -42,7 +42,9 @@ $handler->display->display_options['fields']['activity_date_time']['label'] = ''
 $handler->display->display_options['fields']['activity_date_time']['exclude'] = TRUE;
 $handler->display->display_options['fields']['activity_date_time']['element_type'] = 'em';
 $handler->display->display_options['fields']['activity_date_time']['element_label_colon'] = FALSE;
-$handler->display->display_options['fields']['activity_date_time']['date_format'] = 'd_m_y';
+$handler->display->display_options['fields']['activity_date_time']['date_format'] = 'custom';
+$handler->display->display_options['fields']['activity_date_time']['custom_date_format'] = 'd F Y';
+$handler->display->display_options['fields']['activity_date_time']['second_date_format'] = 'long';
 /* Field: CiviCRM Custom: Accept Main Activity Proposal: Project Qualifications */
 $handler->display->display_options['fields']['key_qualifications_313']['id'] = 'key_qualifications_313';
 $handler->display->display_options['fields']['key_qualifications_313']['table'] = $cgroup['table_name'];
