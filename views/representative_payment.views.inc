@@ -182,9 +182,13 @@ $handler->display->display_options['fields']['title']['table'] = 'civicrm_projec
 $handler->display->display_options['fields']['title']['field'] = 'title';
 $handler->display->display_options['fields']['title']['relationship'] = 'project_id';
 $handler->display->display_options['fields']['title']['label'] = 'Project';
+$handler->display->display_options['fields']['title']['exclude'] = TRUE;
+$handler->display->display_options['fields']['title']['alter']['alter_text'] = TRUE;
+$handler->display->display_options['fields']['title']['alter']['text'] = '[title]';
 $handler->display->display_options['fields']['title']['alter']['make_link'] = TRUE;
 $handler->display->display_options['fields']['title']['alter']['path'] = 'customer-project/[id]';
 $handler->display->display_options['fields']['title']['alter']['absolute'] = TRUE;
+$handler->display->display_options['fields']['title']['hide_alter_empty'] = FALSE;
 /* Field: CiviCRM Cases: Case Type */
 $handler->display->display_options['fields']['case_type']['id'] = 'case_type';
 $handler->display->display_options['fields']['case_type']['table'] = 'civicrm_case';
@@ -199,7 +203,7 @@ $handler->display->display_options['fields']['activity_date_time']['table'] = 'c
 $handler->display->display_options['fields']['activity_date_time']['field'] = 'activity_date_time';
 $handler->display->display_options['fields']['activity_date_time']['label'] = 'Date';
 $handler->display->display_options['fields']['activity_date_time']['date_format'] = 'custom';
-$handler->display->display_options['fields']['activity_date_time']['custom_date_format'] = 'j F Y';
+$handler->display->display_options['fields']['activity_date_time']['custom_date_format'] = 'Y-m-d';
 $handler->display->display_options['fields']['activity_date_time']['second_date_format'] = 'long';
 /* Field: CiviCRM Activities: Activity Status */
 $handler->display->display_options['fields']['status']['id'] = 'status';
@@ -251,9 +255,11 @@ $translatables['representative_payment'] = array(
   t('CiviCRM Case, with custom fields'),
   t('Client'),
   t('CiviCRM Project'),
+  t('Type'),
   t('.'),
   t('Customer'),
   t('Project'),
+  t('[title]'),
   t('Case Type'),
   t('Date'),
   t('Status'),
