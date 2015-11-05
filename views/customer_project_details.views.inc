@@ -84,7 +84,8 @@ $handler->display->display_options['fields']['rep_assesment']['field'] = 'view';
 $handler->display->display_options['fields']['rep_assesment']['label'] = 'Assesment by representative';
 $handler->display->display_options['fields']['rep_assesment']['element_label_type'] = 'h3';
 $handler->display->display_options['fields']['rep_assesment']['element_label_colon'] = FALSE;
-$handler->display->display_options['fields']['rep_assesment']['view'] = 'assesment_rep_for_expert_';
+$handler->display->display_options['fields']['rep_assesment']['view'] = 'assesment_rep_for_rep_';
+$handler->display->display_options['fields']['rep_assesment']['hide_empty'] = TRUE;
 $handler->display->display_options['fields']['rep_assesment']['arguments'] = '!1';
 /* Field: Global: View */
 $handler->display->display_options['fields']['cases']['id'] = 'cases';
