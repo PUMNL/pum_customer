@@ -9,6 +9,7 @@ $arrival_time = civicrm_api3('CustomField', 'getvalue', array('name' => 'arrival
 $destination = civicrm_api3('CustomField', 'getvalue', array('name' => 'destination', 'return' => 'column_name', 'custom_group_id' => $travel_data['id']));
 $flight_nr = civicrm_api3('CustomField', 'getvalue', array('name' => 'flight_number', 'return' => 'column_name', 'custom_group_id' => $travel_data['id']));
 $return_flight_number = civicrm_api3('CustomField', 'getvalue', array('name' => 'return_flight_number', 'return' => 'column_name', 'custom_group_id' => $travel_data['id']));
+$notes = civicrm_api3('CustomField', 'getvalue', array('name' => 'notes', 'return' => 'column_name', 'custom_group_id' => $travel_data['id']));
 
 $view = new view();
 $view->name = 'enter_airport_pickup_info';
@@ -188,6 +189,14 @@ $handler->display->display_options['fields']['return_flight_number']['table'] = 
 $handler->display->display_options['fields']['return_flight_number']['field'] = $return_flight_number;
 $handler->display->display_options['fields']['return_flight_number']['relationship'] = 'case_id';
 $handler->display->display_options['fields']['return_flight_number']['alter']['strip_tags'] = TRUE;
+/* Field: CiviCRM Custom: Pickup Data: Notes */
+$handler->display->display_options['fields']['notes_1']['id'] = 'notes_1';
+$handler->display->display_options['fields']['notes_1']['table'] = $travel_data['table_name'];
+$handler->display->display_options['fields']['notes_1']['label'] = 'Travel remarks';
+$handler->display->display_options['fields']['notes_1']['field'] = $notes;
+$handler->display->display_options['fields']['notes_1']['alter']['nl2br'] = TRUE;
+$handler->display->display_options['fields']['notes_1']['element_type'] = 'div';
+$handler->display->display_options['fields']['notes_1']['element_label_type'] = 'strong';
 /* Field: Global: Custom text */
 $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
 $handler->display->display_options['fields']['nothing']['table'] = 'views';
