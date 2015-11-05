@@ -43,8 +43,10 @@ function pum_customer_condition_update_form_submit($form, &$form_state) {
   $remarks = $form_state['values']['remarks'];
   $case_id = CRM_Core_DAO::singleValueQuery("SELECT case_id FROM civicrm_case_activity where activity_id = %1", array(1=>array($activity_id, 'Integer')));
 
+  $status = CRM_Core_OptionGroup::getValue('activity_status', 'Submitted', 'name');
+
   $params['id'] = $activity_id;
-  $params['status_id'] = 2; //completed
+  $params['status_id'] = $status; //completed
   $params['custom_'.$config->cfConditionsCustomerRemark['id']] = $remarks;
 
   civicrm_api3('Activity', 'create', $params);
