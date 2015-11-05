@@ -89,3 +89,13 @@ function _pum_customer_dis_agree_expert_link($case_type)
   }
   return '';
 }
+
+function pum_customer_get_mainactivity_follow_up($case_id) {
+  $ma = civicrm_api3('MainActivity', 'DebriefingCC', array('case_id' => $case_id));
+  return $ma['follow_up'];
+}
+
+function pum_customer_get_mainactivity_summary($case_id) {
+  $ma = civicrm_api3('MainActivity', 'DebriefingCC', array('case_id' => $case_id));
+  return $ma['summary'];
+}

@@ -64,6 +64,30 @@ $handler->display->display_options['fields']['view_2']['label'] = 'Airport picku
 $handler->display->display_options['fields']['view_2']['element_label_type'] = 'h2';
 $handler->display->display_options['fields']['view_2']['view'] = 'pickups_for_customer_and_rep_';
 $handler->display->display_options['fields']['view_2']['arguments'] = '[!id]';
+/* Field: Global: PHP */
+$handler->display->display_options['fields']['php']['id'] = 'php';
+$handler->display->display_options['fields']['php']['table'] = 'views';
+$handler->display->display_options['fields']['php']['field'] = 'php';
+$handler->display->display_options['fields']['php']['label'] = 'Summary';
+$handler->display->display_options['fields']['php']['alter']['nl2br'] = TRUE;
+$handler->display->display_options['fields']['php']['element_label_type'] = 'h2';
+$handler->display->display_options['fields']['php']['hide_empty'] = TRUE;
+$handler->display->display_options['fields']['php']['use_php_setup'] = 0;
+$handler->display->display_options['fields']['php']['php_value'] = 'return pum_customer_get_mainactivity_summary($row->id)';
+$handler->display->display_options['fields']['php']['use_php_click_sortable'] = '0';
+$handler->display->display_options['fields']['php']['php_click_sortable'] = '';
+/* Field: Global: PHP */
+$handler->display->display_options['fields']['php_1']['id'] = 'php_1';
+$handler->display->display_options['fields']['php_1']['table'] = 'views';
+$handler->display->display_options['fields']['php_1']['field'] = 'php';
+$handler->display->display_options['fields']['php_1']['label'] = 'Follow up activities';
+$handler->display->display_options['fields']['php_1']['alter']['nl2br'] = TRUE;
+$handler->display->display_options['fields']['php_1']['element_label_type'] = 'h2';
+$handler->display->display_options['fields']['php_1']['hide_empty'] = TRUE;
+$handler->display->display_options['fields']['php_1']['use_php_setup'] = 0;
+$handler->display->display_options['fields']['php_1']['php_value'] = 'return pum_customer_get_mainactivity_follow_up($row->id)';
+$handler->display->display_options['fields']['php_1']['use_php_click_sortable'] = '0';
+$handler->display->display_options['fields']['php_1']['php_click_sortable'] = '';
 /* Contextual filter: CiviCRM Cases: Case ID */
 $handler->display->display_options['arguments']['id']['id'] = 'id';
 $handler->display->display_options['arguments']['id']['table'] = 'civicrm_case';
