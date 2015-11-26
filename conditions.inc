@@ -51,7 +51,8 @@ function pum_customer_condition_update_form_submit($form, &$form_state) {
 
   civicrm_api3('Activity', 'create', $params);
 
-  $file = file_save_upload('upload');
+  $validators = array('file_validate_extensions' => array());
+  $file = file_save_upload('upload', $validators);
   if ($file) {
     $wrapper = file_stream_wrapper_get_instance_by_uri($file->uri);
     $filepath = $wrapper->realpath();
