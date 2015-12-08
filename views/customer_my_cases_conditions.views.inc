@@ -33,14 +33,14 @@ $handler->display->display_options['style_options']['columns'] = array(
 $handler->display->display_options['style_options']['default'] = 'activity_date_time';
 $handler->display->display_options['style_options']['info'] = array(
     'activity_date_time' => array(
-        'sortable' => 1,
+        'sortable' => 0,
         'default_sort_order' => 'asc',
         'align' => '',
         'separator' => '',
         'empty_column' => 0,
     ),
     'subject' => array(
-        'sortable' => 1,
+        'sortable' => 0,
         'default_sort_order' => 'asc',
         'align' => '',
         'separator' => '',

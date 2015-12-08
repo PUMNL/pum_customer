@@ -167,7 +167,7 @@ $handler->display->display_options['fields']['arrival_time']['relationship'] = '
 $handler->display->display_options['fields']['arrival_time']['exclude'] = TRUE;
 $handler->display->display_options['fields']['arrival_time']['date_format'] = 'short';
 $handler->display->display_options['fields']['arrival_time']['alter']['alter_text'] = TRUE;
-$handler->display->display_options['fields']['arrival_time']['alter']['text'] = 'at [arrival_time]';
+$handler->display->display_options['fields']['arrival_time']['alter']['text'] = 'on [arrival_time]';
 /* Field: CiviCRM Custom: Travel Data: Destination */
 $handler->display->display_options['fields']['destination']['id'] = 'destination';
 $handler->display->display_options['fields']['destination']['table'] = $travel_data['table_name'];
@@ -213,7 +213,7 @@ $handler->display->display_options['fields']['departure_time']['relationship'] =
 $handler->display->display_options['fields']['departure_time']['date_format'] = 'short';
 $handler->display->display_options['fields']['departure_time']['alter']['strip_tags'] = TRUE;
 $handler->display->display_options['fields']['departure_time']['alter']['alter_text'] = TRUE;
-$handler->display->display_options['fields']['departure_time']['alter']['text'] = 'at [departure_time]';
+$handler->display->display_options['fields']['departure_time']['alter']['text'] = 'on [departure_time]';
 $handler->display->display_options['fields']['departure_time']['exclude'] = TRUE;
 /* Field: CiviCRM Custom: Travel Data: Return from */
 $handler->display->display_options['fields']['return_travel_from']['id'] = 'return_travel_from';

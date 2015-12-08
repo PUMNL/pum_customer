@@ -60,6 +60,7 @@ $handler->display->display_options['fields']['objective_of_this_activity_404']['
 $handler->display->display_options['fields']['objective_of_this_activity_404']['alter']['trim_whitespace'] = TRUE;
 $handler->display->display_options['fields']['objective_of_this_activity_404']['alter']['strip_tags'] = TRUE;
 $handler->display->display_options['fields']['objective_of_this_activity_404']['element_label_type'] = 'strong';
+$handler->display->display_options['fields']['objective_of_this_activity_404']['element_type'] = 'p';
 /* Contextual filter: CiviCRM Cases: Case ID */
 $handler->display->display_options['arguments']['id']['id'] = 'id';
 $handler->display->display_options['arguments']['id']['table'] = 'civicrm_case';
