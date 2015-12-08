@@ -141,6 +141,16 @@ $handler->display->display_options['fields']['informed_client_about_rejection_51
 $handler->display->display_options['fields']['informed_client_about_rejection_51']['field'] = civicrm_api3('CustomField', 'getvalue', array('name' => 'Informed_client_about_rejection', 'custom_group_id' => $gid, 'return' => 'column_name'));
 $handler->display->display_options['fields']['informed_client_about_rejection_51']['relationship'] = 'activity_id';
 $handler->display->display_options['fields']['informed_client_about_rejection_51']['element_label_type'] = 'h4';
+/* Field: CiviCRM Activities: Details */
+$handler->display->display_options['fields']['details']['id'] = 'details';
+$handler->display->display_options['fields']['details']['table'] = 'civicrm_activity';
+$handler->display->display_options['fields']['details']['field'] = 'details';
+$handler->display->display_options['fields']['details']['relationship'] = 'activity_id';
+$handler->display->display_options['fields']['details']['alter']['trim_whitespace'] = FALSE;
+$handler->display->display_options['fields']['details']['alter']['nl2br'] = FALSE;
+$handler->display->display_options['fields']['details']['alter']['strip_tags'] = FALSE;
+$handler->display->display_options['fields']['details']['element_label_type'] = 'h4';
+$handler->display->display_options['fields']['details']['text_format'] = 'full_html';
 /* Sort criterion: CiviCRM Activities: Scheduled Activity Date */
 $handler->display->display_options['sorts']['activity_date_time']['id'] = 'activity_date_time';
 $handler->display->display_options['sorts']['activity_date_time']['table'] = 'civicrm_activity';
