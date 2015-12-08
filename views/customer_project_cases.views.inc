@@ -202,16 +202,23 @@ $handler->display->display_options['fields']['php']['php_value'] = 'if (pum_cust
 return $row->display_name_1;';
 $handler->display->display_options['fields']['php']['use_php_click_sortable'] = '0';
 $handler->display->display_options['fields']['php']['php_click_sortable'] = '';
-/* Field: Global: Custom text */
-$handler->display->display_options['fields']['nothing']['id'] = 'nothing';
-$handler->display->display_options['fields']['nothing']['table'] = 'views';
-$handler->display->display_options['fields']['nothing']['field'] = 'nothing';
-$handler->display->display_options['fields']['nothing']['label'] = '';
-$handler->display->display_options['fields']['nothing']['alter']['text'] = 'View case';
-$handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
-$handler->display->display_options['fields']['nothing']['alter']['path'] = 'customer/case-details/[id]';
-$handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
-$handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+/* Field: Global: PHP */
+$handler->display->display_options['fields']['php_1']['id'] = 'php_1';
+$handler->display->display_options['fields']['php_1']['table'] = 'views';
+$handler->display->display_options['fields']['php_1']['field'] = 'php';
+$handler->display->display_options['fields']['php_1']['label'] = '';
+$handler->display->display_options['fields']['php_1']['exclude'] = FALSE;
+$handler->display->display_options['fields']['php_1']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['php_1']['use_php_setup'] = 0;
+$handler->display->display_options['fields']['php_1']['php_value'] = 'return _pum_customer_link_to_case_details($row->id, $row->case_type);';
+$handler->display->display_options['fields']['php_1']['use_php_click_sortable'] = '0';
+$handler->display->display_options['fields']['php_1']['php_click_sortable'] = '';
+$handler->display->display_options['fields']['php_1']['alter']['alter_text'] = TRUE;
+$handler->display->display_options['fields']['php_1']['alter']['text'] = 'View case';
+$handler->display->display_options['fields']['php_1']['alter']['make_link'] = TRUE;
+$handler->display->display_options['fields']['php_1']['alter']['path'] = '[php_1]';
+$handler->display->display_options['fields']['php_1']['alter']['absolute'] = TRUE;
+$handler->display->display_options['fields']['php_1']['element_label_colon'] = FALSE;
 /* Contextual filter: CiviCRM Project: Project ID */
 $handler->display->display_options['arguments']['id']['id'] = 'id';
 $handler->display->display_options['arguments']['id']['table'] = 'civicrm_project';

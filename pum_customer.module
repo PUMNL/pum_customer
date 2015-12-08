@@ -66,6 +66,18 @@ function pum_customer_views_default_views() {
   return $views;
 }
 
+function _pum_customer_link_to_case_details($case_id, $case_type) {
+  $config = pum_customer_mycases_config::singleton();
+  $sep = CRM_Core_DAO::VALUE_SEPARATOR;
+  $case_type = trim(str_replace($sep, ',', $case_type), ',');
+  $case_types = explode(",", $case_type);
+  if (in_array($config->project_intake_case_type, $case_types)) {
+    return '';
+  } else {
+    return 'customer/case-details/'.$case_id;
+  }
+}
+
 function _pum_customer_is_condition_completable_by_customer($activity_type_id) {
   $config = pum_customer_mycases_config::singleton();
   if (in_array($activity_type_id, $config->getCompletableConditions())) {

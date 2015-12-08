@@ -70,20 +70,6 @@ $handler->display->display_options['style_options']['info'] = array(
     'separator' => '',
     'empty_column' => 0,
   ),
-  'start_date' => array(
-    'sortable' => 1,
-    'default_sort_order' => 'asc',
-    'align' => '',
-    'separator' => '',
-    'empty_column' => 0,
-  ),
-  'end_date' => array(
-    'sortable' => 1,
-    'default_sort_order' => 'asc',
-    'align' => '',
-    'separator' => '',
-    'empty_column' => 0,
-  ),
   'nothing' => array(
     'align' => '',
     'separator' => '',
@@ -161,22 +147,6 @@ $handler->display->display_options['fields']['title']['id'] = 'title';
 $handler->display->display_options['fields']['title']['table'] = 'civicrm_project';
 $handler->display->display_options['fields']['title']['field'] = 'title';
 $handler->display->display_options['fields']['title']['relationship'] = 'project_id';
-/* Field: CiviCRM Project: Start date */
-$handler->display->display_options['fields']['start_date']['id'] = 'start_date';
-$handler->display->display_options['fields']['start_date']['table'] = 'civicrm_project';
-$handler->display->display_options['fields']['start_date']['field'] = 'start_date';
-$handler->display->display_options['fields']['start_date']['relationship'] = 'project_id';
-$handler->display->display_options['fields']['start_date']['date_format'] = 'custom';
-$handler->display->display_options['fields']['start_date']['custom_date_format'] = 'j F Y';
-$handler->display->display_options['fields']['start_date']['second_date_format'] = 'long';
-/* Field: CiviCRM Project: End date */
-$handler->display->display_options['fields']['end_date']['id'] = 'end_date';
-$handler->display->display_options['fields']['end_date']['table'] = 'civicrm_project';
-$handler->display->display_options['fields']['end_date']['field'] = 'end_date';
-$handler->display->display_options['fields']['end_date']['relationship'] = 'project_id';
-$handler->display->display_options['fields']['end_date']['date_format'] = 'custom';
-$handler->display->display_options['fields']['end_date']['custom_date_format'] = 'j F Y';
-$handler->display->display_options['fields']['end_date']['second_date_format'] = 'long';
 /* Field: Global: Custom text */
 $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
 $handler->display->display_options['fields']['nothing']['table'] = 'views';
