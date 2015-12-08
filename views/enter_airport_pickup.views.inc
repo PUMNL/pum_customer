@@ -9,6 +9,7 @@ $arrival_time = civicrm_api3('CustomField', 'getvalue', array('name' => 'arrival
 $destination = civicrm_api3('CustomField', 'getvalue', array('name' => 'destination', 'return' => 'column_name', 'custom_group_id' => $travel_data['id']));
 $flight_nr = civicrm_api3('CustomField', 'getvalue', array('name' => 'flight_number', 'return' => 'column_name', 'custom_group_id' => $travel_data['id']));
 $return_flight_number = civicrm_api3('CustomField', 'getvalue', array('name' => 'return_flight_number', 'return' => 'column_name', 'custom_group_id' => $travel_data['id']));
+$return_travel_from = civicrm_api3('CustomField', 'getvalue', array('name' => 'return_from', 'return' => 'column_name', 'custom_group_id' => $travel_data['id']));
 $notes = civicrm_api3('CustomField', 'getvalue', array('name' => 'notes', 'return' => 'column_name', 'custom_group_id' => $travel_data['id']));
 
 $view = new view();
@@ -163,32 +164,73 @@ $handler->display->display_options['fields']['arrival_time']['id'] = 'arrival_ti
 $handler->display->display_options['fields']['arrival_time']['table'] = $travel_data['table_name'];
 $handler->display->display_options['fields']['arrival_time']['field'] = $arrival_time;
 $handler->display->display_options['fields']['arrival_time']['relationship'] = 'case_id';
+$handler->display->display_options['fields']['arrival_time']['exclude'] = TRUE;
 $handler->display->display_options['fields']['arrival_time']['date_format'] = 'short';
+$handler->display->display_options['fields']['arrival_time']['alter']['alter_text'] = TRUE;
+$handler->display->display_options['fields']['arrival_time']['alter']['text'] = 'at [arrival_time]';
 /* Field: CiviCRM Custom: Travel Data: Destination */
 $handler->display->display_options['fields']['destination']['id'] = 'destination';
 $handler->display->display_options['fields']['destination']['table'] = $travel_data['table_name'];
 $handler->display->display_options['fields']['destination']['field'] = $destination;
 $handler->display->display_options['fields']['destination']['relationship'] = 'case_id';
+$handler->display->display_options['fields']['destination']['exclude'] = TRUE;
 $handler->display->display_options['fields']['destination']['alter']['strip_tags'] = TRUE;
+$handler->display->display_options['fields']['destination']['alter']['alter_text'] = TRUE;
+$handler->display->display_options['fields']['destination']['alter']['text'] = 'Arrive at [destination]';
 /* Field: CiviCRM Custom: Travel Data: Flight number */
 $handler->display->display_options['fields']['flight_number']['id'] = 'flight_number';
 $handler->display->display_options['fields']['flight_number']['table'] = $travel_data['table_name'];
 $handler->display->display_options['fields']['flight_number']['field'] = $flight_nr;
+$handler->display->display_options['fields']['flight_number']['label'] = 'Arrival';
+$handler->display->display_options['fields']['flight_number']['exclude'] = TRUE;
 $handler->display->display_options['fields']['flight_number']['relationship'] = 'case_id';
 $handler->display->display_options['fields']['flight_number']['alter']['strip_tags'] = TRUE;
-/* Field: CiviCRM Custom: Travel Data: Departure date/time */
-$handler->display->display_options['fields']['departure_time']['id'] = 'departure_time';
-$handler->display->display_options['fields']['departure_time']['table'] = $travel_data['table_name'];
-$handler->display->display_options['fields']['departure_time']['field'] = $departure_time;
-$handler->display->display_options['fields']['departure_time']['label'] = '(Return) Departure time';
-$handler->display->display_options['fields']['departure_time']['relationship'] = 'case_id';
-$handler->display->display_options['fields']['departure_time']['date_format'] = 'short';
+$handler->display->display_options['fields']['flight_number']['alter']['alter_text'] = TRUE;
+$handler->display->display_options['fields']['flight_number']['alter']['text'] = 'with flight nr. [flight_number]';
+/* Field: Global: Custom text */
+$handler->display->display_options['fields']['nothing_2']['id'] = 'nothing_2';
+$handler->display->display_options['fields']['nothing_2']['table'] = 'views';
+$handler->display->display_options['fields']['nothing_2']['field'] = 'nothing';
+$handler->display->display_options['fields']['nothing_2']['label'] = 'Arrival';
+$handler->display->display_options['fields']['nothing_2']['alter']['text'] = '[destination]<br>[arrival_time]<br>[flight_number]';
+$handler->display->display_options['fields']['nothing_2']['element_label_colon'] = FALSE;
 /* Field: CiviCRM Custom: Travel Data: Flight number */
 $handler->display->display_options['fields']['return_flight_number']['id'] = 'return_flight_number';
 $handler->display->display_options['fields']['return_flight_number']['table'] = $travel_data['table_name'];
 $handler->display->display_options['fields']['return_flight_number']['field'] = $return_flight_number;
+$handler->display->display_options['fields']['return_flight_number']['label'] = 'Return';
 $handler->display->display_options['fields']['return_flight_number']['relationship'] = 'case_id';
 $handler->display->display_options['fields']['return_flight_number']['alter']['strip_tags'] = TRUE;
+$handler->display->display_options['fields']['return_flight_number']['alter']['alter_text'] = TRUE;
+$handler->display->display_options['fields']['return_flight_number']['exclude'] = TRUE;
+$handler->display->display_options['fields']['return_flight_number']['alter']['text'] = 'with flight nr. [return_flight_number]';
+/* Field: CiviCRM Custom: Travel Data: Departure date/time */
+$handler->display->display_options['fields']['departure_time']['id'] = 'departure_time';
+$handler->display->display_options['fields']['departure_time']['table'] = $travel_data['table_name'];
+$handler->display->display_options['fields']['departure_time']['field'] = $departure_time;
+$handler->display->display_options['fields']['departure_time']['label'] = 'Return';
+$handler->display->display_options['fields']['departure_time']['relationship'] = 'case_id';
+$handler->display->display_options['fields']['departure_time']['date_format'] = 'short';
+$handler->display->display_options['fields']['departure_time']['alter']['strip_tags'] = TRUE;
+$handler->display->display_options['fields']['departure_time']['alter']['alter_text'] = TRUE;
+$handler->display->display_options['fields']['departure_time']['alter']['text'] = 'at [departure_time]';
+$handler->display->display_options['fields']['departure_time']['exclude'] = TRUE;
+/* Field: CiviCRM Custom: Travel Data: Return from */
+$handler->display->display_options['fields']['return_travel_from']['id'] = 'return_travel_from';
+$handler->display->display_options['fields']['return_travel_from']['table'] = $travel_data['table_name'];
+$handler->display->display_options['fields']['return_travel_from']['field'] = $return_travel_from;
+$handler->display->display_options['fields']['return_travel_from']['relationship'] = 'case_id';
+$handler->display->display_options['fields']['return_travel_from']['alter']['alter_text'] = TRUE;
+$handler->display->display_options['fields']['return_travel_from']['alter']['text'] = 'Depart from [return_travel_from]';
+$handler->display->display_options['fields']['return_travel_from']['alter']['strip_tags'] = TRUE;
+$handler->display->display_options['fields']['return_travel_from']['exclude'] = TRUE;
+/* Field: Global: Custom text */
+$handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
+$handler->display->display_options['fields']['nothing_1']['table'] = 'views';
+$handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
+$handler->display->display_options['fields']['nothing_1']['label'] = 'Return';
+$handler->display->display_options['fields']['nothing_1']['alter']['text'] = '[return_travel_from]<br>[departure_time]<br>[return_flight_number]';
+$handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;
 /* Field: CiviCRM Custom: Pickup Data: Notes */
 $handler->display->display_options['fields']['notes_1']['id'] = 'notes_1';
 $handler->display->display_options['fields']['notes_1']['table'] = $travel_data['table_name'];

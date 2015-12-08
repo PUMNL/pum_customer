@@ -7,6 +7,7 @@ $travel_data = civicrm_api3('CustomGroup', 'getsingle', array('name' => 'travel_
 $departure_time = civicrm_api3('CustomField', 'getvalue', array('name' => 'return_departure_time', 'return' => 'column_name', 'custom_group_id' => $travel_data['id']));
 $arrival_time = civicrm_api3('CustomField', 'getvalue', array('name' => 'arrival_time', 'return' => 'column_name', 'custom_group_id' => $travel_data['id']));
 $destination = civicrm_api3('CustomField', 'getvalue', array('name' => 'destination', 'return' => 'column_name', 'custom_group_id' => $travel_data['id']));
+$return_from = civicrm_api3('CustomField', 'getvalue', array('name' => 'return_from', 'return' => 'column_name', 'custom_group_id' => $travel_data['id']));
 $flight_nr = civicrm_api3('CustomField', 'getvalue', array('name' => 'flight_number', 'return' => 'column_name', 'custom_group_id' => $travel_data['id']));
 $return_flight_nr = civicrm_api3('CustomField', 'getvalue', array('name' => 'return_flight_number', 'return' => 'column_name', 'custom_group_id' => $travel_data['id']));
 
@@ -131,8 +132,13 @@ $handler->display->display_options['fields']['flight_number']['alter']['strip_ta
 $handler->display->display_options['fields']['departure_time']['id'] = 'departure_time';
 $handler->display->display_options['fields']['departure_time']['table'] = $travel_data['table_name'];
 $handler->display->display_options['fields']['departure_time']['field'] = $departure_time;
-$handler->display->display_options['fields']['departure_time']['label'] = '(Return) Departure time';
+$handler->display->display_options['fields']['departure_time']['label'] = '(Return) Departure date/time';
 $handler->display->display_options['fields']['departure_time']['date_format'] = 'short';
+/* Field: CiviCRM Custom: Travel Data: Destination */
+$handler->display->display_options['fields']['return_from']['id'] = 'return_from';
+$handler->display->display_options['fields']['return_from']['table'] = $travel_data['table_name'];
+$handler->display->display_options['fields']['return_from']['field'] = $return_from;
+$handler->display->display_options['fields']['return_from']['alter']['strip_tags'] = TRUE;
 /* Field: CiviCRM Custom: Travel Data: Flight number */
 $handler->display->display_options['fields']['return_flight_number']['id'] = 'return_flight_number';
 $handler->display->display_options['fields']['return_flight_number']['table'] = $travel_data['table_name'];
