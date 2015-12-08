@@ -103,11 +103,8 @@ $handler->display->display_options['fields']['activity_type']['relationship'] = 
 $handler->display->display_options['fields']['subject']['id'] = 'subject';
 $handler->display->display_options['fields']['subject']['table'] = 'civicrm_activity';
 $handler->display->display_options['fields']['subject']['field'] = 'subject';
-$handler->display->display_options['fields']['subject']['alter']['make_link'] = TRUE;
-$handler->display->display_options['fields']['subject']['alter']['path'] = 'customer/condition-details/[id]';
-$handler->display->display_options['fields']['subject']['alter']['absolute'] = TRUE;
+$handler->display->display_options['fields']['subject']['label'] = 'Condition';
 $handler->display->display_options['fields']['subject']['relationship'] = 'activity_id';
-$handler->display->display_options['fields']['subject']['empty'] = '<a href="/customer/condition-details/[id]">View condition</a>';
 $handler->display->display_options['fields']['subject']['element_label_colon'] = FALSE;
 /* Field: CiviCRM Activities: Activity Status */
 $handler->display->display_options['fields']['status']['id'] = 'status';
@@ -115,6 +112,17 @@ $handler->display->display_options['fields']['status']['table'] = 'civicrm_activ
 $handler->display->display_options['fields']['status']['field'] = 'status';
 $handler->display->display_options['fields']['status']['relationship'] = 'activity_id';
 $handler->display->display_options['fields']['status']['label'] = 'Status';
+/* Field: Global: Custom text */
+$handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+$handler->display->display_options['fields']['nothing']['table'] = 'views';
+$handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+$handler->display->display_options['fields']['nothing']['label'] = '';
+$handler->display->display_options['fields']['nothing']['relationship'] = 'activity_id';
+$handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['nothing']['alter']['text'] = 'View condition';
+$handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
+$handler->display->display_options['fields']['nothing']['alter']['path'] = 'customer/condition-details/[id]';
+$handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
 /* Sort criterion: CiviCRM Activities: Scheduled Activity Date */
 $handler->display->display_options['sorts']['activity_date_time']['id'] = 'activity_date_time';
 $handler->display->display_options['sorts']['activity_date_time']['table'] = 'civicrm_activity';
