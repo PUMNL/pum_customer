@@ -79,6 +79,16 @@ $handler->display->display_options['arguments']['id']['default_argument_type'] =
 $handler->display->display_options['arguments']['id']['summary']['number_of_records'] = '0';
 $handler->display->display_options['arguments']['id']['summary']['format'] = 'default_summary';
 $handler->display->display_options['arguments']['id']['summary_options']['items_per_page'] = '25';
+/* Filter criterion: CiviCRM Activities: Current Revision */
+$handler->display->display_options['filters']['is_current_revision']['id'] = 'is_current_revision';
+$handler->display->display_options['filters']['is_current_revision']['table'] = 'civicrm_activity';
+$handler->display->display_options['filters']['is_current_revision']['field'] = 'is_current_revision';
+$handler->display->display_options['filters']['is_current_revision']['value'] = '1';
+/* Filter criterion: CiviCRM Activities: Is Deleted */
+$handler->display->display_options['filters']['is_deleted']['id'] = 'is_deleted';
+$handler->display->display_options['filters']['is_deleted']['table'] = 'civicrm_activity';
+$handler->display->display_options['filters']['is_deleted']['field'] = 'is_deleted';
+$handler->display->display_options['filters']['is_deleted']['value'] = '0';
 /* Filter criterion: CiviCRM Activities: Activity Status */
 $handler->display->display_options['filters']['status']['id'] = 'status';
 $handler->display->display_options['filters']['status']['table'] = 'civicrm_activity';
