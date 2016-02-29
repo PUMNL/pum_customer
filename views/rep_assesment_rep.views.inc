@@ -53,14 +53,6 @@ $handler->display->display_options['relationships']['contact_id']['field'] = 'co
 $handler->display->display_options['relationships']['contact_id']['relationship'] = 'activity_id';
 $handler->display->display_options['relationships']['contact_id']['label'] = 'Reported by';
 $handler->display->display_options['relationships']['contact_id']['record_type'] = '2';
-/* Field: CiviCRM Custom: Intake: Assessment Rep */
-$handler->display->display_options['fields']['assessment_rep_138']['id'] = 'assessment_rep_138';
-$handler->display->display_options['fields']['assessment_rep_138']['table'] = $intake_table;
-$handler->display->display_options['fields']['assessment_rep_138']['field'] = civicrm_api3('CustomField', 'getvalue', array('name' => 'Assessment_Rep', 'custom_group_id' => $intake_gid, 'return' => 'column_name'));
-$handler->display->display_options['fields']['assessment_rep_138']['relationship'] = 'case_id';
-$handler->display->display_options['fields']['assessment_rep_138']['label'] = '';
-$handler->display->display_options['fields']['assessment_rep_138']['element_type'] = 'h4';
-$handler->display->display_options['fields']['assessment_rep_138']['element_label_colon'] = FALSE;
 /* Field: CiviCRM Activities: Activity Status */
 $handler->display->display_options['fields']['status']['id'] = 'status';
 $handler->display->display_options['fields']['status']['table'] = 'civicrm_activity';
@@ -78,26 +70,6 @@ $handler->display->display_options['fields']['display_name']['label'] = '';
 $handler->display->display_options['fields']['display_name']['exclude'] = TRUE;
 $handler->display->display_options['fields']['display_name']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['display_name']['link_to_civicrm_contact'] = 0;
-/* Field: CiviCRM Activities: Scheduled Activity Date */
-$handler->display->display_options['fields']['activity_date_time']['id'] = 'activity_date_time';
-$handler->display->display_options['fields']['activity_date_time']['table'] = 'civicrm_activity';
-$handler->display->display_options['fields']['activity_date_time']['field'] = 'activity_date_time';
-$handler->display->display_options['fields']['activity_date_time']['relationship'] = 'activity_id';
-$handler->display->display_options['fields']['activity_date_time']['label'] = '';
-$handler->display->display_options['fields']['activity_date_time']['alter']['alter_text'] = TRUE;
-$handler->display->display_options['fields']['activity_date_time']['alter']['text'] = '[activity_date_time] ([status]) by [display_name]';
-$handler->display->display_options['fields']['activity_date_time']['element_type'] = 'em';
-$handler->display->display_options['fields']['activity_date_time']['element_label_colon'] = FALSE;
-$handler->display->display_options['fields']['activity_date_time']['date_format'] = 'custom';
-$handler->display->display_options['fields']['activity_date_time']['custom_date_format'] = 'j F Y';
-$handler->display->display_options['fields']['activity_date_time']['second_date_format'] = 'long';
-/* Field: CiviCRM Custom: Intake: Comment Rep */
-$handler->display->display_options['fields']['comment_rep_139']['id'] = 'comment_rep_139';
-$handler->display->display_options['fields']['comment_rep_139']['table'] = $intake_table;
-$handler->display->display_options['fields']['comment_rep_139']['field'] =  civicrm_api3('CustomField', 'getvalue', array('name' => 'Comment_Rep', 'custom_group_id' => $intake_gid, 'return' => 'column_name'));
-$handler->display->display_options['fields']['comment_rep_139']['relationship'] = 'case_id';
-$handler->display->display_options['fields']['comment_rep_139']['label'] = 'Comment';
-$handler->display->display_options['fields']['comment_rep_139']['element_label_type'] = 'h4';
 /* Field: CiviCRM Activities: Details */
 $handler->display->display_options['fields']['details_1']['id'] = 'details_1';
 $handler->display->display_options['fields']['details_1']['table'] = 'civicrm_activity';
