@@ -4,7 +4,6 @@ $case_status = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', '
 $case_type = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_type'));
 
 $submit_case_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Submitted', 'option_group_id' => $case_status));
-$intake_case_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Intake', 'option_group_id' => $case_status));
 $matching_case_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Matching', 'option_group_id' => $case_status));
 $preperation_case_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Preparation', 'option_group_id' => $case_status));
 $execution_case_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Execution', 'option_group_id' => $case_status));
@@ -285,13 +284,24 @@ $handler->display->display_options['fields']['php_1']['alter']['make_link'] = TR
 $handler->display->display_options['fields']['php_1']['alter']['path'] = '[php_1]';
 $handler->display->display_options['fields']['php_1']['alter']['absolute'] = TRUE;
 $handler->display->display_options['fields']['php_1']['element_label_colon'] = FALSE;
+/* Sort criterion: CiviCRM Cases: Case Status */
+$handler->display->display_options['sorts']['status']['id'] = 'status';
+$handler->display->display_options['sorts']['status']['table'] = 'civicrm_case';
+$handler->display->display_options['sorts']['status']['field'] = 'status';
+$handler->display->display_options['sorts']['status']['relationship'] = 'case_id';
+$handler->display->display_options['sorts']['status']['order'] = 'weight';
+/* Sort criterion: CiviCRM Custom: (Main) Activity information: Activity Start Date */
+$handler->display->display_options['sorts']['start_date']['id'] = 'start_date';
+$handler->display->display_options['sorts']['start_date']['table'] = $main_activity_info['table_name'];
+$handler->display->display_options['sorts']['start_date']['field'] = $start_date['column_name'];
+$handler->display->display_options['sorts']['start_date']['relationship'] = 'case_id';
 /* Filter criterion: CiviCRM Cases: Case Type */
-$handler->display->display_options['filters']['case_type_id']['id'] = 'case_type_id';
-$handler->display->display_options['filters']['case_type_id']['table'] = 'civicrm_case';
-$handler->display->display_options['filters']['case_type_id']['field'] = 'case_type_id';
-$handler->display->display_options['filters']['case_type_id']['relationship'] = 'case_id';
-$handler->display->display_options['filters']['case_type_id']['operator'] = 'in';
-$handler->display->display_options['filters']['case_type_id']['value'] = array(
+$handler->display->display_options['filters']['case_type']['id'] = 'case_type';
+$handler->display->display_options['filters']['case_type']['table'] = 'civicrm_case';
+$handler->display->display_options['filters']['case_type']['field'] = 'case_type';
+$handler->display->display_options['filters']['case_type']['relationship'] = 'case_id';
+$handler->display->display_options['filters']['case_type']['operator'] = 'in';
+$handler->display->display_options['filters']['case_type']['value'] = array(
     $advice_case_type => $advice_case_type,
     $business_case_type => $business_case_type,
     $grant_case_type => $grant_case_type,
@@ -306,7 +316,6 @@ $handler->display->display_options['filters']['status']['relationship'] = 'case_
 $handler->display->display_options['filters']['status']['operator'] = 'in';
 $handler->display->display_options['filters']['status']['value'] = array(
   $submit_case_status => $submit_case_status,
-  $intake_case_status => $intake_case_status,
   $matching_case_status => $matching_case_status,
   $preperation_case_status => $preperation_case_status,
   $execution_case_status => $execution_case_status,
