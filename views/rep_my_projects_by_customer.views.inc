@@ -1,7 +1,8 @@
 <?php
 
 $case_status = civicrm_api3('OptionGroup', 'getvalue', array('name' => 'case_status', 'return' => 'id'));
-$completed = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Completed', 'return' => 'value', 'option_group_id' => $case_status));
+$error = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Error', 'return' => 'value', 'option_group_id' => $case_status));
+$cancelled = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Cancelled', 'return' => 'value', 'option_group_id' => $case_status));
 
 $local_rep_rel_type_id = civicrm_api3('RelationshipType', 'getvalue', array('name_a_b' => 'Representative is', 'return' => 'id'));
 $main_activity_info = civicrm_api3('CustomGroup', 'getsingle', array('name' => 'main_activity_info'));
@@ -211,7 +212,8 @@ $handler->display->display_options['filters']['status']['field'] = 'status';
 $handler->display->display_options['filters']['status']['relationship'] = 'case_id';
 $handler->display->display_options['filters']['status']['operator'] = 'not in';
 $handler->display->display_options['filters']['status']['value'] = array(
-  $completed => $completed,
+  $error => $error,
+  $cancelled => $cancelled,
 );
 
 /* Display: Page */
