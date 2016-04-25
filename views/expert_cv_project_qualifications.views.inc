@@ -51,7 +51,7 @@ $handler->display->display_options['fields']['key_qualifications_313']['table'] 
 $handler->display->display_options['fields']['key_qualifications_313']['field'] = $qualifications;
 $handler->display->display_options['fields']['key_qualifications_313']['label'] = '';
 $handler->display->display_options['fields']['key_qualifications_313']['alter']['alter_text'] = TRUE;
-$handler->display->display_options['fields']['key_qualifications_313']['alter']['text'] = '[activity_date_time]: [key_qualifications_313]';
+$handler->display->display_options['fields']['key_qualifications_313']['alter']['text'] = '[key_qualifications_313]';
 $handler->display->display_options['fields']['key_qualifications_313']['alter']['strip_tags'] = TRUE;
 $handler->display->display_options['fields']['key_qualifications_313']['element_label_colon'] = FALSE;
 /* Sort criterion: CiviCRM Activities: Scheduled Activity Date */
