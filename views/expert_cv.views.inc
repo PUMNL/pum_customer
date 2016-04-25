@@ -41,11 +41,37 @@ $handler->display->display_options['fields']['id']['label'] = '';
 $handler->display->display_options['fields']['id']['exclude'] = TRUE;
 $handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['id']['separator'] = '';
+/* Field: CiviCRM Contacts: Gender */
+$handler->display->display_options['fields']['gender']['id'] = 'gender';
+$handler->display->display_options['fields']['gender']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['gender']['field'] = 'gender';
+$handler->display->display_options['fields']['gender']['label'] = '';
+$handler->display->display_options['fields']['gender']['exclude'] = TRUE;
+$handler->display->display_options['fields']['gender']['element_label_colon'] = FALSE;
+/* Field: Global: PHP */
+$handler->display->display_options['fields']['php']['id'] = 'php';
+$handler->display->display_options['fields']['php']['table'] = 'views';
+$handler->display->display_options['fields']['php']['field'] = 'php';
+$handler->display->display_options['fields']['php']['use_php_setup'] = 0;
+$handler->display->display_options['fields']['php']['exclude'] = TRUE;
+$handler->display->display_options['fields']['php']['php_value'] = 'return pum_customer_get_gender($row->gender);';
+$handler->display->display_options['fields']['php']['use_php_click_sortable'] = '0';
+$handler->display->display_options['fields']['php']['php_click_sortable'] = '';
+/* Field: CiviCRM Contacts: Prefix */
+$handler->display->display_options['fields']['prefix_id']['id'] = 'prefix_id';
+$handler->display->display_options['fields']['prefix_id']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['prefix_id']['field'] = 'prefix_id';
+$handler->display->display_options['fields']['prefix_id']['label'] = '';
+$handler->display->display_options['fields']['prefix_id']['exclude'] = TRUE;
+$handler->display->display_options['fields']['prefix_id']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['prefix_id']['empty'] = '[php]';
 /* Field: CiviCRM Contacts: Display Name */
 $handler->display->display_options['fields']['display_name']['id'] = 'display_name';
 $handler->display->display_options['fields']['display_name']['table'] = 'civicrm_contact';
 $handler->display->display_options['fields']['display_name']['field'] = 'display_name';
 $handler->display->display_options['fields']['display_name']['label'] = '';
+$handler->display->display_options['fields']['display_name']['alter']['alter_text'] = TRUE;
+$handler->display->display_options['fields']['display_name']['alter']['text'] = '[prefix_id] [display_name]';
 $handler->display->display_options['fields']['display_name']['element_type'] = 'h2';
 $handler->display->display_options['fields']['display_name']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['display_name']['link_to_civicrm_contact'] = 0;

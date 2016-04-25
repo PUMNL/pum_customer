@@ -17,6 +17,18 @@ function pum_customer_menu() {
   return $items;
 }
 
+function pum_customer_get_gender($gender_id) {
+  civicrm_initialize();
+  $option_group_id = civicrm_api3('OptionGroup', 'getvalue', array('name' => 'gender', 'return' => 'id'));
+  $option_name = civicrm_api3('OptionValue', 'getvalue', array('value' => $gender_id, 'option_group_id' => $option_group_id, 'return' => 'name'));
+  if (strtolower($option_name) == 'male') {
+    return 'Mr.';
+  } elseif (strtolower($option_name) == 'female') {
+    return 'Mrs.';
+  }
+  return '';
+}
+
 function pum_customer_check_case_for_intake($case_type_id) {
   $config = pum_customer_mycases_config::singleton();
   $sep = CRM_Core_DAO::VALUE_SEPARATOR;
