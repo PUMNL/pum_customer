@@ -3,6 +3,7 @@
 $case_status = civicrm_api3('OptionGroup', 'getvalue', array('name' => 'case_status', 'return' => 'id'));
 $error = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Error', 'return' => 'value', 'option_group_id' => $case_status));
 $cancelled = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Cancelled', 'return' => 'value', 'option_group_id' => $case_status));
+$rejected = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Rejected', 'return' => 'value', 'option_group_id' => $case_status));
 
 $local_rep_rel_type_id = civicrm_api3('RelationshipType', 'getvalue', array('name_a_b' => 'Representative is', 'return' => 'id'));
 $main_activity_info = civicrm_api3('CustomGroup', 'getsingle', array('name' => 'main_activity_info'));
@@ -219,6 +220,7 @@ $handler->display->display_options['filters']['status']['operator'] = 'not in';
 $handler->display->display_options['filters']['status']['value'] = array(
   $error => $error,
   $cancelled => $cancelled,
+  $rejected => $rejected,
 );
 $handler->display->display_options['filters']['status']['group'] = 1;
 /* Filter criterion: CiviCRM Project: End date */
@@ -241,6 +243,12 @@ $handler->display->display_options['filters']['end_date_1']['operator'] = '>=';
 $handler->display->display_options['filters']['end_date_1']['value']['value'] = 'now';
 $handler->display->display_options['filters']['end_date_1']['value']['type'] = 'offset';
 $handler->display->display_options['filters']['end_date_1']['group'] = 2;
+/* Filter criterion: CiviCRM Cases: Is Deleted */
+$handler->display->display_options['filters']['is_deleted']['id'] = 'is_deleted';
+$handler->display->display_options['filters']['is_deleted']['table'] = 'civicrm_case';
+$handler->display->display_options['filters']['is_deleted']['field'] = 'is_deleted';
+$handler->display->display_options['filters']['is_deleted']['relationship'] = 'case_id';
+$handler->display->display_options['filters']['is_deleted']['value'] = '0';
 
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');
@@ -251,9 +259,9 @@ $handler->display->display_options['menu']['name'] = 'menu-my-projects';
 $handler->display->display_options['menu']['weight'] = '0';
 $handler->display->display_options['menu']['context'] = 0;
 $handler->display->display_options['menu']['context_only_inline'] = 0;
-$translatables['my_cases_for_expert_'] = array(
+$translatables['my_projects_by_customer_for_rep_'] = array(
   t('Master'),
-  t('My cases'),
+  t('My projects by customer'),
   t('more'),
   t('Apply'),
   t('Reset'),
@@ -267,13 +275,16 @@ $translatables['my_cases_for_expert_'] = array(
   t('‹ previous'),
   t('next ›'),
   t('last »'),
+  t('There are no active projects'),
   t('Drupal User'),
   t('Expert relationship'),
   t('CiviCRM Case'),
   t('Customer'),
+  t('CiviCRM Project'),
   t('.'),
-  t('Case Type'),
+  t('Title'),
   t('Start Date'),
   t('End Date'),
+  t('View project'),
   t('Page'),
 );
