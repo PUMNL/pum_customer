@@ -13,8 +13,31 @@ function pum_customer_menu() {
     'access callback' => 'pum_customer_user_has_role',
     'access arguments' => array(array('Customer (contact)', 'Representative')), // arg 1 loads the user, arg 2 is the role name
   );
+  $items['customer/proposedexpert/cv/%'] = array(
+    'title' => 'CV of Proposed expert',
+    'description' => '',
+    'page callback' => 'pum_customer_cv_proposedexpert',
+    'page arguments' => array(3),
+    'access callback' => 'pum_customer_user_has_role',
+    'access arguments' => array(array('Customer (contact)', 'Representative')),
+    'file' => 'pages/cv_proposedexpert.inc',
+  );
+  $items['customer/proposedexpert/cv/%/question'] = array(
+    'title' => 'Ask question about proposed expert',
+    'page callback' => 'drupal_get_form',
+    'file' => 'pages/question_about_cv.inc',
+    'page arguments' => array('pum_customer_question_about_cv', 3),
+    'access callback' => 'pum_customer_user_has_role',
+    'access arguments' => array(array('Customer (contact)', 'Representative')),
+  );
 
   return $items;
+}
+
+function pum_customer_preprocess_html(&$vars) {
+  if (in_array('page-customer-proposedexpert', $vars['classes_array'])) {
+    $vars['classes_array'][] = 'section-portal';
+  }
 }
 
 function pum_customer_get_gender($gender_id) {
@@ -107,22 +130,6 @@ function _pum_customer_is_condition_completable_by_customer($activity_type_id) {
     return true;
   }
   return false;
-}
-
-function _pum_customer_dis_agree_expert_link($case_type)
-{
-  $c = pum_customer_mycases_config::singleton();
-  $case_types = explode(CRM_Core_DAO::VALUE_SEPARATOR, $case_type);
-  if (in_array($c->advice_case_type, $case_types)) {
-    return 'customer/proposed-experts/dis-agree-advice';
-  } elseif (in_array($c->seminar_case_type, $case_types)) {
-    return 'customer/proposed-experts/dis-agree-seminar';
-  } elseif (in_array($c->remote_coaching_case_type, $case_types)) {
-    return 'customer/proposed-experts/dis-agree-remote-coaching';
-  } elseif (in_array($c->business_case_type, $case_types)) {
-    return 'customer/proposed-experts/dis-agree-business';
-  }
-  return '';
 }
 
 function pum_customer_get_mainactivity_follow_up($case_id) {

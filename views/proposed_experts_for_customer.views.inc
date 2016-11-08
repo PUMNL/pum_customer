@@ -33,6 +33,15 @@ $handler->display->display_options['query']['options']['distinct'] = TRUE;
 $handler->display->display_options['exposed_form']['type'] = 'basic';
 $handler->display->display_options['pager']['type'] = 'none';
 $handler->display->display_options['style_plugin'] = 'table';
+/* Footer: Global: PHP */
+$handler->display->display_options['footer']['redirect_by_one']['id'] = 'redirect_by_one';
+$handler->display->display_options['footer']['redirect_by_one']['table'] = 'views';
+$handler->display->display_options['footer']['redirect_by_one']['field'] = 'php';
+$handler->display->display_options['footer']['redirect_by_one']['php_output'] = '<?php
+if (!(isset($view->preview) && $view->preview) && count($results)==1) {
+  drupal_goto(\'customer/proposedexpert/cv/\' . $results[0]->civicrm_case_civicrm_relationship_id);
+}
+?>';
 /* No results behavior: Global: Text area */
 $handler->display->display_options['empty']['area']['id'] = 'area';
 $handler->display->display_options['empty']['area']['table'] = 'views';
@@ -54,13 +63,6 @@ $handler->display->display_options['relationships']['case_id']['table'] = 'civic
 $handler->display->display_options['relationships']['case_id']['field'] = 'case_id';
 $handler->display->display_options['relationships']['case_id']['relationship'] = 'relationship_id_b';
 $handler->display->display_options['relationships']['case_id']['required'] = TRUE;
-/* Relationship: CiviCRM Case Activity: Case Activity's Activity ID */
-$handler->display->display_options['relationships']['activity_id']['id'] = 'activity_id';
-$handler->display->display_options['relationships']['activity_id']['table'] = 'civicrm_case_activity';
-$handler->display->display_options['relationships']['activity_id']['field'] = 'activity_id';
-$handler->display->display_options['relationships']['activity_id']['relationship'] = 'case_id';
-$handler->display->display_options['relationships']['activity_id']['label'] = 'Activity';
-$handler->display->display_options['relationships']['activity_id']['required'] = TRUE;
 /* Relationship: CiviCRM Case Contact: Case Contact's Contact ID */
 $handler->display->display_options['relationships']['contact_id']['id'] = 'contact_id';
 $handler->display->display_options['relationships']['contact_id']['table'] = 'civicrm_case_contact';
@@ -112,30 +114,24 @@ $handler->display->display_options['fields']['id_1']['label'] = '';
 $handler->display->display_options['fields']['id_1']['exclude'] = TRUE;
 $handler->display->display_options['fields']['id_1']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['id_1']['separator'] = '';
-/* Field: CiviCRM Cases: Case Type */
-$handler->display->display_options['fields']['case_type']['id'] = 'case_type';
-$handler->display->display_options['fields']['case_type']['table'] = 'civicrm_case';
-$handler->display->display_options['fields']['case_type']['field'] = 'case_type';
-$handler->display->display_options['fields']['case_type']['relationship'] = 'case_id';
-$handler->display->display_options['fields']['case_type']['label'] = 'Expert for';
 /* Field: CiviCRM Contacts: Display Name */
 $handler->display->display_options['fields']['customer_display_name']['id'] = 'customer_display_name';
 $handler->display->display_options['fields']['customer_display_name']['table'] = 'civicrm_contact';
 $handler->display->display_options['fields']['customer_display_name']['field'] = 'display_name';
 $handler->display->display_options['fields']['customer_display_name']['label'] = 'Customer';
 $handler->display->display_options['fields']['customer_display_name']['relationship'] = 'contact_id';
-$handler->display->display_options['fields']['customer_display_name']['alter']['make_link'] = TRUE;
-$handler->display->display_options['fields']['customer_display_name']['alter']['path'] = 'customer-profile/[id_1]';
-$handler->display->display_options['fields']['customer_display_name']['alter']['absolute'] = TRUE;
 $handler->display->display_options['fields']['customer_display_name']['link_to_civicrm_contact'] = 0;
+/* Field: CiviCRM Cases: Case Type */
+$handler->display->display_options['fields']['case_type']['id'] = 'case_type';
+$handler->display->display_options['fields']['case_type']['table'] = 'civicrm_case';
+$handler->display->display_options['fields']['case_type']['field'] = 'case_type';
+$handler->display->display_options['fields']['case_type']['relationship'] = 'case_id';
+$handler->display->display_options['fields']['case_type']['label'] = 'Main activity';
 /* Field: CiviCRM Contacts: Display Name */
 $handler->display->display_options['fields']['display_name']['id'] = 'display_name';
 $handler->display->display_options['fields']['display_name']['table'] = 'civicrm_contact';
 $handler->display->display_options['fields']['display_name']['field'] = 'display_name';
 $handler->display->display_options['fields']['display_name']['label'] = 'Expert';
-$handler->display->display_options['fields']['display_name']['alter']['make_link'] = TRUE;
-$handler->display->display_options['fields']['display_name']['alter']['path'] = 'customer/expert/[id]/[id_2]';
-$handler->display->display_options['fields']['display_name']['alter']['absolute'] = TRUE;
 $handler->display->display_options['fields']['display_name']['link_to_civicrm_contact'] = 0;
 /* Field: CiviCRM Custom: (Main) Activity information: Activity Start Date */
 $handler->display->display_options['fields']['start_date']['id'] = 'start_date';
@@ -155,26 +151,14 @@ $handler->display->display_options['fields']['end_date']['label'] = 'End Date';
 $handler->display->display_options['fields']['end_date']['date_format'] = 'custom';
 $handler->display->display_options['fields']['end_date']['custom_date_format'] = 'j F Y';
 $handler->display->display_options['fields']['end_date']['second_date_format'] = 'long';
-/* Field: disgaree expert link */
-$handler->display->display_options['fields']['php']['id'] = 'php';
-$handler->display->display_options['fields']['php']['table'] = 'views';
-$handler->display->display_options['fields']['php']['field'] = 'php';
-$handler->display->display_options['fields']['php']['ui_name'] = 'dis-agree-expert';
-$handler->display->display_options['fields']['php']['label'] = '';
-$handler->display->display_options['fields']['php']['exclude'] = TRUE;
-$handler->display->display_options['fields']['php']['element_label_colon'] = FALSE;
-$handler->display->display_options['fields']['php']['use_php_setup'] = 0;
-$handler->display->display_options['fields']['php']['php_value'] = 'return _pum_customer_dis_agree_expert_link($row->case_type);';
-$handler->display->display_options['fields']['php']['use_php_click_sortable'] = '0';
-$handler->display->display_options['fields']['php']['php_click_sortable'] = '';
 /* Field: Global: Custom text */
 $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
 $handler->display->display_options['fields']['nothing']['table'] = 'views';
 $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
 $handler->display->display_options['fields']['nothing']['label'] = '';
-$handler->display->display_options['fields']['nothing']['alter']['text'] = '(Dis-) agree';
+$handler->display->display_options['fields']['nothing']['alter']['text'] = 'View CV';
 $handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
-$handler->display->display_options['fields']['nothing']['alter']['path'] = '[php]?cid1=[id_1]&cid2=[id]&caseid=[id_2]';
+$handler->display->display_options['fields']['nothing']['alter']['path'] = 'customer/proposedexpert/cv/[id_2]';
 $handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
 $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
 /* Filter criterion: User: Current */
@@ -183,22 +167,6 @@ $handler->display->display_options['filters']['uid_current']['table'] = 'users';
 $handler->display->display_options['filters']['uid_current']['field'] = 'uid_current';
 $handler->display->display_options['filters']['uid_current']['relationship'] = 'drupal_id';
 $handler->display->display_options['filters']['uid_current']['value'] = '1';
-/* Filter criterion: CiviCRM Activities: Activity Status */
-$handler->display->display_options['filters']['status']['id'] = 'status';
-$handler->display->display_options['filters']['status']['table'] = 'civicrm_activity';
-$handler->display->display_options['filters']['status']['field'] = 'status';
-$handler->display->display_options['filters']['status']['relationship'] = 'activity_id';
-$handler->display->display_options['filters']['status']['value'] = array(
-  2 => '2', //completed
-);
-/* Filter criterion: CiviCRM Activities: Activity Type */
-$handler->display->display_options['filters']['activity_type']['id'] = 'activity_type';
-$handler->display->display_options['filters']['activity_type']['table'] = 'civicrm_activity';
-$handler->display->display_options['filters']['activity_type']['field'] = 'activity_type';
-$handler->display->display_options['filters']['activity_type']['relationship'] = 'activity_id';
-$handler->display->display_options['filters']['activity_type']['value'] = array(
-  $accept_ma_proposal_id => $accept_ma_proposal_id,
-);
 /* Filter criterion: CiviCRM Cases: Case Status */
 $handler->display->display_options['filters']['status_1']['id'] = 'status_1';
 $handler->display->display_options['filters']['status_1']['table'] = 'civicrm_case';
@@ -207,7 +175,7 @@ $handler->display->display_options['filters']['status_1']['relationship'] = 'cas
 $handler->display->display_options['filters']['status_1']['value'] = array(
   $matching_case_status_id => $matching_case_status_id,
 );
-/* Filter criterion: CiviCRM Custom: Visibility of case: Show project as proposed to expert */
+/* Filter criterion: CiviCRM Custom: Visibility of case: Show expert as proposed to customer */
 $handler->display->display_options['filters']['show_proposed_project_to_expert']['id'] = 'show_proposed_project_to_expert';
 $handler->display->display_options['filters']['show_proposed_project_to_expert']['table'] = $visibility_data['table_name'];
 $handler->display->display_options['filters']['show_proposed_project_to_expert']['field'] = $show_to_customer;
@@ -231,6 +199,7 @@ $handler->display->display_options['defaults']['row_plugin'] = FALSE;
 $handler->display->display_options['row_plugin'] = 'fields';
 $handler->display->display_options['defaults']['row_options'] = FALSE;
 $handler->display->display_options['defaults']['header'] = FALSE;
+$handler->display->display_options['defaults']['footer'] = FALSE;
 /* Header: Global: Result summary */
 $handler->display->display_options['header']['result']['id'] = 'result';
 $handler->display->display_options['header']['result']['table'] = 'views';
@@ -262,13 +231,6 @@ $handler->display->display_options['fields']['id_1']['label'] = '';
 $handler->display->display_options['fields']['id_1']['exclude'] = TRUE;
 $handler->display->display_options['fields']['id_1']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['id_1']['separator'] = '';
-/* Field: CiviCRM Cases: Case Type */
-$handler->display->display_options['fields']['case_type']['id'] = 'case_type';
-$handler->display->display_options['fields']['case_type']['table'] = 'civicrm_case';
-$handler->display->display_options['fields']['case_type']['field'] = 'case_type';
-$handler->display->display_options['fields']['case_type']['relationship'] = 'case_id';
-$handler->display->display_options['fields']['case_type']['label'] = 'Expert for';
-$handler->display->display_options['fields']['case_type']['exclude'] = TRUE;
 /* Field: CiviCRM Contacts: Display Name */
 $handler->display->display_options['fields']['display_name']['id'] = 'display_name';
 $handler->display->display_options['fields']['display_name']['table'] = 'civicrm_contact';
@@ -279,6 +241,13 @@ $handler->display->display_options['fields']['display_name']['alter']['make_link
 $handler->display->display_options['fields']['display_name']['alter']['path'] = 'customer/expert/[id]/[id_2]';
 $handler->display->display_options['fields']['display_name']['alter']['absolute'] = TRUE;
 $handler->display->display_options['fields']['display_name']['link_to_civicrm_contact'] = 0;
+/* Field: CiviCRM Cases: Case Type */
+$handler->display->display_options['fields']['case_type']['id'] = 'case_type';
+$handler->display->display_options['fields']['case_type']['table'] = 'civicrm_case';
+$handler->display->display_options['fields']['case_type']['field'] = 'case_type';
+$handler->display->display_options['fields']['case_type']['relationship'] = 'case_id';
+$handler->display->display_options['fields']['case_type']['label'] = 'Main activity';
+$handler->display->display_options['fields']['case_type']['exclude'] = TRUE;
 /* Field: CiviCRM Custom: (Main) Activity information: Activity Start Date */
 $handler->display->display_options['fields']['start_date']['id'] = 'start_date';
 $handler->display->display_options['fields']['start_date']['table'] = $main_activity_info['table_name'];
@@ -297,18 +266,6 @@ $handler->display->display_options['fields']['end_date']['label'] = 'End Date';
 $handler->display->display_options['fields']['end_date']['exclude'] = TRUE;
 $handler->display->display_options['fields']['end_date']['date_format'] = 'long';
 $handler->display->display_options['fields']['end_date']['second_date_format'] = 'long';
-/* Field: dis-agree-expert */
-$handler->display->display_options['fields']['php']['id'] = 'php';
-$handler->display->display_options['fields']['php']['table'] = 'views';
-$handler->display->display_options['fields']['php']['field'] = 'php';
-$handler->display->display_options['fields']['php']['ui_name'] = 'dis-agree-expert';
-$handler->display->display_options['fields']['php']['label'] = '';
-$handler->display->display_options['fields']['php']['exclude'] = TRUE;
-$handler->display->display_options['fields']['php']['element_label_colon'] = FALSE;
-$handler->display->display_options['fields']['php']['use_php_setup'] = 0;
-$handler->display->display_options['fields']['php']['php_value'] = 'return _pum_customer_dis_agree_expert_link($row->case_type);';
-$handler->display->display_options['fields']['php']['use_php_click_sortable'] = '0';
-$handler->display->display_options['fields']['php']['php_click_sortable'] = '';
 /* Field: Global: Custom text */
 $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
 $handler->display->display_options['fields']['nothing']['table'] = 'views';
