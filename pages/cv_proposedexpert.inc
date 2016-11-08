@@ -129,7 +129,7 @@ function pum_customer_cv_proposedexpert($case_id) {
       'query' => array(
         'cid1' => $customer['id'],
         'cid2' => $expert['contact_id'],
-        'case_id' => $case_id,
+        'caseid' => $case_id,
       ),
     ));
     $buttons['accept']['#markup'] = '<a href="'.$acceptRejectCvLink.'" class="button accept-reject-expert">'.t("Accept / Reject Expert").'</a>';
