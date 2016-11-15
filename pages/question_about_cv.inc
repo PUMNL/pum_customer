@@ -8,7 +8,7 @@ function pum_customer_question_about_cv($form, &$form_state, $case_id) {
   $form['details'] = array(
     '#type' => 'textarea',
     '#required' => true,
-    '#title' => t('Details'),
+    '#title' => t('Your question'),
   );
 
   $form['submit_button'] = array(
@@ -49,8 +49,8 @@ function pum_customer_question_about_cv_submit($form, &$form_state) {
 
   $from = CRM_Core_BAO_Domain::getNameAndEmail();
   $from = "$from[0] <$from[1]>";
-
-  $subject = 'Question about proposed expert ('.$case['subject'].') from '.$contact['display_name'];
+  
+  $subject = 'Question from '.$contact['display_name']. ' regarding '.$case['subject'];
 
   $mailParams = array(
     'groupName' => 'Activity Email Sender',
