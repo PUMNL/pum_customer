@@ -39,18 +39,22 @@ function pum_customer_question_about_cv_submit($form, &$form_state) {
 
   $case = civicrm_api3('Case', 'getsingle', array('id' => $case_id));
   $proj_off = false;
+  $expert = false;
   foreach($case['contacts'] as $role) {
     switch ($role['role']) {
       case 'Project Officer':
         $proj_off = $role;
+        break;
+      case 'Expert':
+        $expert = $role;
         break;
     }
   }
 
   $from = CRM_Core_BAO_Domain::getNameAndEmail();
   $from = "$from[0] <$from[1]>";
-  
-  $subject = 'Question from '.$contact['display_name']. ' regarding '.$case['subject'];
+
+  $subject = 'Question from '.$contact['display_name']. ' regarding '.$expert['display_name'];
 
   $mailParams = array(
     'groupName' => 'Activity Email Sender',
