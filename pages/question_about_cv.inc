@@ -5,12 +5,6 @@ function pum_customer_question_about_cv($form, &$form_state, $case_id) {
   $form['case_id']['#name'] = 'case_id';
   $form['case_id']['#value'] = $case_id;
 
-  $form['subject'] = array(
-    '#type' => 'textfield',
-    '#required' => true,
-    '#title' => t('Subject'),
-  );
-
   $form['details'] = array(
     '#type' => 'textarea',
     '#required' => true,
@@ -56,12 +50,14 @@ function pum_customer_question_about_cv_submit($form, &$form_state) {
   $from = CRM_Core_BAO_Domain::getNameAndEmail();
   $from = "$from[0] <$from[1]>";
 
+  $subject = 'Question about proposed expert ('.$case['subject'].') from '.$contact['display_name'];
+
   $mailParams = array(
     'groupName' => 'Activity Email Sender',
     'from' => $from,
     'toName' => $proj_off['display_name'],
     'toEmail' => $proj_off['email'],
-    'subject' => $form_state['values']['subject'],
+    'subject' => $subject,
     'text' => $form_state['values']['details'],
     'html' => $form_state['values']['details'],
     'replyTo' => $contact['email'],
@@ -72,7 +68,7 @@ function pum_customer_question_about_cv_submit($form, &$form_state) {
     $params['source_contact_id'] = $contact['id'];
     $params['target_contact_id'] = $proj_off['contact_id'];
     $params['assignee_contact_id'] = $proj_off['contact_id'];
-    $params['subject'] = $form_state['values']['subject'];
+    $params['subject'] = $subject;
     $params['details'] = $form_state['values']['details'];
     $params['activity_type_id'] = $emailActivityType;
     civicrm_api3('Activity', 'create', $params);

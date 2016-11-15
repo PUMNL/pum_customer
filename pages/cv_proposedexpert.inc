@@ -140,12 +140,15 @@ function pum_customer_cv_proposedexpert($case_id) {
 
   $page['buttons_top'] = $buttons;
 
+  $page['explain']['#type'] = 'markup';
+  $page['explain']['#markup'] = '<p>If you have any questions that need to be answered before you can accept/reject the proposed expert, please press \'questions\'. This will send an e-mail to the project officer.</p>';
+
   $page['availability']['#type'] = 'fieldset';
   $page['availability']['date']['#markup'] = '<p><strong>Period of availability: </strong>'.$startDate.' - '.$endDate.'</p>';
 
   $page['project_qualifications']['#type'] = 'fieldset';
   $page['project_qualifications']['#title'] = 'Project qualifications';
-  $page['project_qualifications']['qualifications']['#markup'] = $projectQualifications;
+  $page['project_qualifications']['qualifications']['#markup'] = nl2br($projectQualifications);
 
   $page['languages_caption']['#markup'] = '<p><strong>Languages</strong></p>';
   $page['languages']['#theme'] = 'table';
