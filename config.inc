@@ -26,6 +26,12 @@ class pum_customer_mycases_config {
 
     public $project_intake_case_type;
 
+    public $main_activity_info;
+
+    public $ma_start_date;
+
+    public $ma_end_date;
+
     protected function __construct() {
         civicrm_initialize();
 
@@ -52,6 +58,10 @@ class pum_customer_mycases_config {
         $this->cfConditionsCustomerRemark = civicrm_api3('CustomField', 'getsingle', array('name' => 'Remark_Customer', 'custom_group_id' => $this->cgConditions['id']));
 
         $this->expert_relationship_type = civicrm_api3('RelationshipType', 'getvalue', array('name_a_b' => 'Expert', 'return' => 'id'));
+
+        $this->main_activity_info = civicrm_api3('CustomGroup', 'getsingle', array('name' => 'main_activity_info'));
+        $this->ma_start_date = civicrm_api3('CustomField', 'getsingle', array('name' => 'main_activity_start_date', 'custom_group_id' => $this->main_activity_info['id']));
+        $this->ma_end_date = civicrm_api3('CustomField', 'getsingle', array('name' => 'main_activity_end_date', 'custom_group_id' => $this->main_activity_info['id']));
     }
 
     public function getConditions() {
