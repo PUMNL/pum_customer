@@ -2,3 +2,33 @@
 .your_expert_will_arrive_in_x_days a {
     color: #f04124 !important;
 }
+
+.section-portal .l-main .form-submit.Approve,
+.section-portal .l-main .form-submit.Approve:hover {
+    background-color: #43AC6A;;
+}
+.section-portal .l-main .form-submit.Reject,
+.section-portal .l-main .form-submit.Reject:hover {
+    background-color: #f04124;;
+}
+.pum_customer_token_current_project_request {
+    padding: 0px;
+    border: 1px solid gainsboro;
+    border-radius: 3px;
+    background-color: #f4f4f4;
+    margin-bottom: 1.5em;
+    margin-top: 1.5em;
+}
+.pum_customer_token_current_project_request > fieldset.collapsible {
+    margin-top: 0.5em;
+    border-top: none;
+    margin-bottom: 0px;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+.pum_customer_token_current_project_request > fieldset.collapsible.collapsed {
+    border: none;
+}
+.pum_customer_token_current_project_request legend {
+    background-color: transparent !important;
+}

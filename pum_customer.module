@@ -41,6 +41,20 @@ function pum_customer_block_info() {
   return $blocks;
 }
 
+function pum_customer_token_info() {
+  $node['current_project_request'] = array(
+    'name' => t('Current project request'),
+    'description' => t('The details of the current project request'),
+  );
+  $node['current_project_request_title'] = array(
+    'name' => t('Currnt subject of project request'),
+    'description' => t('The subject of the current project request case'),
+  );
+  return array(
+    'tokens' => array('node' => $node),
+  );
+}
+
 function pum_customer_block_view($delta='') {
   $block = array();
   switch ($delta) {
@@ -49,6 +63,108 @@ function pum_customer_block_view($delta='') {
       break;
   }
   return $block;
+}
+
+function pum_customer_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+
+  if ($type == 'node') {
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'current_project_request':
+          $request = '';
+          $queryParameters = drupal_get_query_parameters();
+          if (!empty($queryParameters['caseid'])) {
+            $request = _pum_customer_get_project_request_details($queryParameters['caseid']);
+          }
+          $replacements[$original] = $request;
+          break;
+        case 'current_project_request_title':
+          $request = '';
+          $queryParameters = drupal_get_query_parameters();
+          if (!empty($queryParameters['caseid'])) {
+            $request = _pum_customer_get_project_request_title($queryParameters['caseid']);
+          }
+          $replacements[$original] = $request;
+          break;
+      }
+    }
+  }
+
+  // Return the replacements.
+  return $replacements;
+}
+
+/**
+ * Alter webform.
+ *
+ * Alter the webform assess project request by rep and convert the
+ * dropdown with assess/reject to buttons. We loop through all elements on the
+ * form and check whether the element is this select element.
+ *
+ * @param $form
+ * @param $form_state
+ * @param $form_id
+ */
+function pum_customer_form_alter(&$form, &$form_state, $form_id) {
+  if (stripos($form_id, 'webform_client_form_') === 0) {
+    // Add a styleshet for mark up of approve and select button
+    drupal_add_css(drupal_get_path('module', 'pum_customer') . '/style.css', array('group' => CSS_DEFAULT, 'every_page' => TRUE));
+  }
+}
+
+function _pum_customer_get_project_request_title($case_id) {
+  civicrm_initialize();
+  $project = '';
+  try {
+    $project_id = CRM_Threepeas_BAO_PumCaseProject::getProjectIdWithCaseId($case_id);
+    $project = CRM_Threepeas_BAO_PumProject::getProjectTitleWithId($project_id);
+  } catch (Exception $e) {
+    return '';
+  }
+
+  return $project;
+}
+
+function _pum_customer_get_project_request_details($case_id) {
+  civicrm_initialize();
+  $activityTypeOptionGroupId = civicrm_api3('OptionGroup', 'getvalue', array('name' => 'activity_type', 'return' => 'id'));
+  $openCaseActivityType = civicrm_api3('OptionValue', 'getvalue', array('option_group_id' => $activityTypeOptionGroupId, 'name' => 'Open case', 'return' => 'value'));
+  $caseTypeOptionGroupId = civicrm_api3('OptionGroup', 'getvalue', array('name' => 'case_type', 'return' => 'id'));
+  $projectIntakeCaseType = civicrm_api3('OptionValue', 'getvalue', array('option_group_id' => $caseTypeOptionGroupId, 'name' => 'Projectintake', 'return' => 'value'));
+
+  try {
+    $case = civicrm_api3('Case', 'getsingle', array('id' => $case_id));
+  } catch (Exception $e) {
+    return '';
+  }
+  if ($case['case_type_id'] != $projectIntakeCaseType) {
+    return '';
+  }
+
+  $projectIntake = '';
+  $caseActivities = civicrm_api3('CaseActivity', 'get', array('case_id' => $case['id'], 'sequential' => 1, 'option.limit' => 99999));
+  foreach($caseActivities['values'] as $caseActivity) {
+    if ($caseActivity['activity_type_id'] == $openCaseActivityType) {
+      $projectIntake = $caseActivity['details'];
+      break;
+    }
+  }
+
+  drupal_add_library('system', 'drupal.collapse');
+  drupal_add_css(drupal_get_path('module', 'pum_customer') . '/style.css', array('group' => CSS_DEFAULT, 'every_page' => TRUE));
+  $page['intake']['#type'] = 'fieldset';
+  $page['intake']['#title'] = t('Click to view original project request');
+  $page['intake']['#prefix'] = '<div class="pum_customer_token_current_project_request">';
+  $page['intake']['#suffix'] = '</div>';
+  $page['intake']['details']['#markup'] = $projectIntake;
+  $page['intake']['#attributes'] = array (
+    'class' => array(
+      'collapsible', 'collapsed'
+    )
+  );
+
+  return drupal_render($page);
 }
 
 function _pum_customer_your_expert_will_arrive_block(&$block) {
