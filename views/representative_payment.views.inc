@@ -3,6 +3,9 @@
 $activity_type_option_group = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'activity_type'));
 $rep_payment_id = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Representative payment', 'option_group_id' => $activity_type_option_group, 'return' => 'value'));
 
+$rep_payment_custom_group = civicrm_api3('CustomGroup', 'getsingle', array('name' => 'rep_payment'));
+$date_paid_custom_field = civicrm_api3('CustomField', 'getsingle', array('name' => 'date_paid', 'custom_group_id' => $rep_payment_custom_group['id']));
+
 $view = new view();
 $view->name = 'representative_payment';
 $view->description = '';
@@ -22,8 +25,7 @@ $handler->display->display_options['access']['role'] = pum_customer_get_role_ids
 $handler->display->display_options['cache']['type'] = 'none';
 $handler->display->display_options['query']['type'] = 'views_query';
 $handler->display->display_options['exposed_form']['type'] = 'basic';
-$handler->display->display_options['pager']['type'] = 'some';
-$handler->display->display_options['pager']['options']['items_per_page'] = '25';
+$handler->display->display_options['pager']['type'] = 'none';
 $handler->display->display_options['pager']['options']['offset'] = '0';
 $handler->display->display_options['style_plugin'] = 'table';
 $handler->display->display_options['style_options']['columns'] = array(
@@ -62,28 +64,28 @@ $handler->display->display_options['style_options']['info'] = array(
     'empty_column' => 0,
   ),
   'display_name' => array(
-    'sortable' => 1,
+    'sortable' => 0,
     'default_sort_order' => 'asc',
     'align' => '',
     'separator' => '',
     'empty_column' => 0,
   ),
   'title' => array(
-    'sortable' => 1,
+    'sortable' => 0,
     'default_sort_order' => 'asc',
     'align' => '',
     'separator' => '',
     'empty_column' => 0,
   ),
   'case_type' => array(
-    'sortable' => 1,
+    'sortable' => 0,
     'default_sort_order' => 'asc',
     'align' => '',
     'separator' => '',
     'empty_column' => 0,
   ),
-  'activity_date_time' => array(
-    'sortable' => 1,
+  'date_paid' => array(
+    'sortable' => 0,
     'default_sort_order' => 'desc',
     'align' => '',
     'separator' => '',
@@ -97,7 +99,7 @@ $handler->display->display_options['style_options']['info'] = array(
     'empty_column' => 0,
   ),
   'amount_rep' => array(
-    'sortable' => 1,
+    'sortable' => 0,
     'default_sort_order' => 'asc',
     'align' => '',
     'separator' => '',
@@ -111,6 +113,13 @@ $handler->display->display_options['style_options']['info'] = array(
     'empty_column' => 0,
   ),
 );
+/* Footer: Global: Text area */
+$handler->display->display_options['footer']['area']['id'] = 'area';
+$handler->display->display_options['footer']['area']['table'] = 'views';
+$handler->display->display_options['footer']['area']['field'] = 'area';
+$handler->display->display_options['footer']['area']['content'] = '<p>Please allow 7 working days for transactions processing after date paid.</p>
+<p><a href="/representative-payment-history">Your payment history</a></p>';
+$handler->display->display_options['footer']['area']['format'] = 'filtered_html';
 /* Relationship: CiviCRM Representative Compose: Contact */
 $handler->display->display_options['relationships']['contact_id']['id'] = 'contact_id';
 $handler->display->display_options['relationships']['contact_id']['table'] = 'civicrm_representative_compose';
@@ -197,19 +206,19 @@ $handler->display->display_options['fields']['case_type']['relationship'] = 'cas
 $handler->display->display_options['fields']['case_type']['alter']['make_link'] = TRUE;
 $handler->display->display_options['fields']['case_type']['alter']['path'] = 'customer/case-details/[id_2]';
 $handler->display->display_options['fields']['case_type']['alter']['absolute'] = TRUE;
-/* Field: CiviCRM Activities: Scheduled Activity Date */
-$handler->display->display_options['fields']['activity_date_time']['id'] = 'activity_date_time';
-$handler->display->display_options['fields']['activity_date_time']['table'] = 'civicrm_activity';
-$handler->display->display_options['fields']['activity_date_time']['field'] = 'activity_date_time';
-$handler->display->display_options['fields']['activity_date_time']['label'] = 'Date';
-$handler->display->display_options['fields']['activity_date_time']['date_format'] = 'custom';
-$handler->display->display_options['fields']['activity_date_time']['custom_date_format'] = 'Y-m-d';
-$handler->display->display_options['fields']['activity_date_time']['second_date_format'] = 'long';
 /* Field: CiviCRM Activities: Activity Status */
 $handler->display->display_options['fields']['status']['id'] = 'status';
 $handler->display->display_options['fields']['status']['table'] = 'civicrm_activity';
 $handler->display->display_options['fields']['status']['field'] = 'status';
 $handler->display->display_options['fields']['status']['label'] = 'Status';
+/* Field: rep_payment:date_paid */
+$handler->display->display_options['fields']['date_paid']['id'] = 'date_paid';
+$handler->display->display_options['fields']['date_paid']['table'] = $rep_payment_custom_group['table_name'];
+$handler->display->display_options['fields']['date_paid']['field'] = $date_paid_custom_field['column_name'];
+$handler->display->display_options['fields']['date_paid']['label'] = 'Date paid';
+$handler->display->display_options['fields']['date_paid']['date_format'] = 'custom';
+$handler->display->display_options['fields']['date_paid']['custom_date_format'] = 'Y-m-d';
+$handler->display->display_options['fields']['date_paid']['second_date_format'] = 'long';
 /* Field: CiviCRM Representative Compose: Total amount */
 $handler->display->display_options['fields']['amount_rep']['id'] = 'amount_rep';
 $handler->display->display_options['fields']['amount_rep']['table'] = 'civicrm_representative_compose';
@@ -218,6 +227,15 @@ $handler->display->display_options['fields']['amount_rep']['field'] = 'amount_re
 $handler->display->display_options['fields']['comments']['id'] = 'comments';
 $handler->display->display_options['fields']['comments']['table'] = 'civicrm_representative_compose';
 $handler->display->display_options['fields']['comments']['field'] = 'comments';
+/* Sort criterion: CiviCRM Activities: Activity Status */
+$handler->display->display_options['sorts']['status']['id'] = 'status';
+$handler->display->display_options['sorts']['status']['table'] = 'civicrm_activity';
+$handler->display->display_options['sorts']['status']['field'] = 'status_id';
+/* Sort criterion: CiviCRM Custom: Representative Payment: Date paid */
+$handler->display->display_options['sorts']['date_paid']['id'] = 'date_paid';
+$handler->display->display_options['sorts']['date_paid']['table'] = $rep_payment_custom_group['table_name'];
+$handler->display->display_options['sorts']['date_paid']['field'] = $date_paid_custom_field['column_name'];
+$handler->display->display_options['sorts']['date_paid']['order'] = 'DESC';
 /* Filter criterion: CiviCRM Activities: Activity Type */
 $handler->display->display_options['filters']['activity_type']['id'] = 'activity_type';
 $handler->display->display_options['filters']['activity_type']['table'] = 'civicrm_activity';
@@ -236,9 +254,17 @@ $handler->display->display_options['filters']['is_current_revision']['id'] = 'is
 $handler->display->display_options['filters']['is_current_revision']['table'] = 'civicrm_activity';
 $handler->display->display_options['filters']['is_current_revision']['field'] = 'is_current_revision';
 $handler->display->display_options['filters']['is_current_revision']['value'] = '1';
+/* Filter criterion: CiviCRM Custom: Representative Payment: Date paid */
+$handler->display->display_options['filters']['activity_date_time']['id'] = 'activity_date_time';
+$handler->display->display_options['filters']['activity_date_time']['table'] = 'civicrm_activity';
+$handler->display->display_options['filters']['activity_date_time']['field'] = 'activity_date_time';
+$handler->display->display_options['filters']['activity_date_time']['operator'] = '>=';
+$handler->display->display_options['filters']['activity_date_time']['value']['value'] = '-6 months';
+$handler->display->display_options['filters']['activity_date_time']['value']['type'] = 'offset';
+
 
 /* Display: Page */
-$handler = $view->new_display('page', 'Page', 'page');
+$handler = $view->new_display('page', 'Representative Payment', 'page');
 $handler->display->display_options['path'] = 'representative-payment';
 $handler->display->display_options['menu']['type'] = 'normal';
 $handler->display->display_options['menu']['title'] = 'Representative payment';
@@ -246,6 +272,46 @@ $handler->display->display_options['menu']['name'] = 'menu-financials';
 $handler->display->display_options['menu']['weight'] = '0';
 $handler->display->display_options['menu']['context'] = 0;
 $handler->display->display_options['menu']['context_only_inline'] = 0;
+
+
+$handler = $view->new_display('page', 'Representative Payment History', 'page_history');
+$handler->display->display_options['title'] = 'Representative payment history';
+$handler->display->display_options['defaults']['filter_groups'] = FALSE;
+$handler->display->display_options['defaults']['filters'] = FALSE;
+$handler->display->display_options['defaults']['footer'] = false;
+/* Filter criterion: CiviCRM Activities: Activity Type */
+$handler->display->display_options['filters']['activity_type']['id'] = 'activity_type';
+$handler->display->display_options['filters']['activity_type']['table'] = 'civicrm_activity';
+$handler->display->display_options['filters']['activity_type']['field'] = 'activity_type';
+$handler->display->display_options['filters']['activity_type']['value'] = array(
+  $rep_payment_id => $rep_payment_id,
+);
+/* Filter criterion: User: Current */
+$handler->display->display_options['filters']['uid_current']['id'] = 'uid_current';
+$handler->display->display_options['filters']['uid_current']['table'] = 'users';
+$handler->display->display_options['filters']['uid_current']['field'] = 'uid_current';
+$handler->display->display_options['filters']['uid_current']['relationship'] = 'drupal_id';
+$handler->display->display_options['filters']['uid_current']['value'] = '1';
+/* Filter criterion: CiviCRM Activities: Current Revision */
+$handler->display->display_options['filters']['is_current_revision']['id'] = 'is_current_revision';
+$handler->display->display_options['filters']['is_current_revision']['table'] = 'civicrm_activity';
+$handler->display->display_options['filters']['is_current_revision']['field'] = 'is_current_revision';
+$handler->display->display_options['filters']['is_current_revision']['value'] = '1';
+/* Filter criterion: CiviCRM Custom: Representative Payment: Date paid */
+$handler->display->display_options['filters']['activity_date_time']['id'] = 'activity_date_time';
+$handler->display->display_options['filters']['activity_date_time']['table'] = 'civicrm_activity';
+$handler->display->display_options['filters']['activity_date_time']['field'] = 'activity_date_time';
+$handler->display->display_options['filters']['activity_date_time']['operator'] = '<';
+$handler->display->display_options['filters']['activity_date_time']['value']['value'] = '-6 months';
+$handler->display->display_options['filters']['activity_date_time']['value']['type'] = 'offset';
+
+$handler->display->display_options['path'] = 'representative-payment-history';
+$handler->display->display_options['menu']['type'] = false;;
+$handler->display->display_options['menu']['context'] = 0;
+$handler->display->display_options['menu']['context_only_inline'] = 0;
+
+
+
 $translatables['representative_payment'] = array(
   t('Master'),
   t('Representative payment'),
