@@ -113,6 +113,85 @@ function pum_customer_form_alter(&$form, &$form_state, $form_id) {
   }
 }
 
+/**
+ * When a user with the role 'Customer (contact)' is viewing its own profile redirect it to
+ * the edit form of the profile.
+ *
+ * @param $build
+ * @param $type
+ */
+function pum_customer_user_view_alter($build, $type) {
+  global $user;
+  if ($build['#account']->uid == $user->uid && in_array('Customer (contact)', $user->roles)) {
+    drupal_goto('user/'.$user->uid.'/edit');
+  }
+}
+
+/**
+ * Alter the invokation of hook form_alter and make sure our hook is called after the system hooks.
+ *
+ * @param $implementations
+ * @param $hook
+ */
+function pum_customer_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'form_alter') {
+    // Make sure our form_user_profile_form_alter is executed after
+    // the system_form_user_profile_form_alter so that we can
+    // remove the field timezone.
+    $group = $implementations['pum_customer'];
+    unset($implementations['pum_customer']);
+    $implementations['pum_customer'] = $group;
+  }
+}
+
+/**
+ * When a user with the role 'Customer (contact)' is editing its profile remove all local tasks.
+ *
+ * @param $data
+ * @param $router_item
+ * @param $root_path
+ */
+function pum_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  global $user;
+  if ($root_path == 'user/%/edit' && in_array('Customer (contact)', $user->roles)) {
+    foreach ($data['tabs'][0]['output'] as $index => $tab) {
+      $data['tabs'][0]['output']['#access'] = FALSE;
+    }
+    foreach($data['tabs'][1]['output'] as $index => $tab) {
+      $data['tabs'][1]['output']['#access'] = false;
+    }
+  }
+}
+
+/**
+ * Alter the profile edit form and remove all unneccessary fields. Only for the users
+ * with the role 'Customer (contact)'.
+ *
+ * @param $form
+ * @param $form_state
+ */
+function pum_customer_form_user_profile_form_alter(&$form, &$form_state) {
+  global $user;
+  if ($form['#user']->uid == $user->uid && in_array('Customer (contact)', $user->roles)) {
+    $form['mimemail']['#access'] = FALSE;
+    $form['account']['timezone']['#access'] = TRUE;
+    $form['field_email_preferences']['#access'] = FALSE;
+    $form['timezone']['#access'] = FALSE;
+    $form['picture']['#access'] = FALSE;
+    $form['actions']['submit']['#submit'][] = 'pum_customer_form_user_profile_submit';
+  }
+}
+
+/**
+ * Redirect the user edit form back to portal.
+ *
+ * @param $form
+ * @param $form_state
+ */
+function pum_customer_form_user_profile_submit($form, &$form_state) {
+  $form_state['redirect'] = array('portal');
+}
+
 function _pum_customer_get_project_request_title($case_id) {
   civicrm_initialize();
   $project = '';
