@@ -21,7 +21,7 @@ $handler = $view->new_display('default', 'Master', 'default');
 $handler->display->display_options['title'] = 'Representative payment';
 $handler->display->display_options['use_more_always'] = FALSE;
 $handler->display->display_options['access']['type'] = 'role';
-$handler->display->display_options['access']['role'] = pum_customer_get_role_ids(array('administrator','Gebruikers Vertegenwoordiger','IT','Representative'));
+$handler->display->display_options['access']['role'] = pum_customer_get_role_ids(array('Representative'));
 $handler->display->display_options['cache']['type'] = 'none';
 $handler->display->display_options['query']['type'] = 'views_query';
 $handler->display->display_options['exposed_form']['type'] = 'basic';
@@ -117,9 +117,23 @@ $handler->display->display_options['style_options']['info'] = array(
 $handler->display->display_options['footer']['area']['id'] = 'area';
 $handler->display->display_options['footer']['area']['table'] = 'views';
 $handler->display->display_options['footer']['area']['field'] = 'area';
-$handler->display->display_options['footer']['area']['content'] = '<p>Please allow 7 working days for transactions processing after date paid.</p>
-<p><a href="/representative-payment-history">Your payment history</a></p>';
+$handler->display->display_options['footer']['area']['empty'] = FALSE;
+$handler->display->display_options['footer']['area']['content'] = '<p>Please allow 7 working days for transactions processing after date paid.</p>';
 $handler->display->display_options['footer']['area']['format'] = 'filtered_html';
+/* Footer: Global: Text area */
+$handler->display->display_options['footer']['area_1']['id'] = 'area_1';
+$handler->display->display_options['footer']['area_1']['table'] = 'views';
+$handler->display->display_options['footer']['area_1']['field'] = 'area';
+$handler->display->display_options['footer']['area_1']['empty'] = TRUE;
+$handler->display->display_options['footer']['area_1']['content'] = '<p><a href="/representative-payment-history">Your payment history</a></p>';
+$handler->display->display_options['footer']['area_1']['format'] = 'filtered_html';
+/* No results behavior: Global: Text area */
+$handler->display->display_options['empty']['area']['id'] = 'area';
+$handler->display->display_options['empty']['area']['table'] = 'views';
+$handler->display->display_options['empty']['area']['field'] = 'area';
+$handler->display->display_options['empty']['area']['empty'] = TRUE;
+$handler->display->display_options['empty']['area']['content'] = 'There are no recent payments.';
+$handler->display->display_options['empty']['area']['format'] = 'filtered_html';
 /* Relationship: CiviCRM Representative Compose: Contact */
 $handler->display->display_options['relationships']['contact_id']['id'] = 'contact_id';
 $handler->display->display_options['relationships']['contact_id']['table'] = 'civicrm_representative_compose';
