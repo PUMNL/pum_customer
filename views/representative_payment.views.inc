@@ -289,10 +289,11 @@ $handler->display->display_options['menu']['context_only_inline'] = 0;
 
 
 $handler = $view->new_display('page', 'Representative Payment History', 'page_history');
-$handler->display->display_options['title'] = 'Representative payment history';
+$handler->display->display_options['defaults']['title'] = FALSE;
 $handler->display->display_options['defaults']['filter_groups'] = FALSE;
 $handler->display->display_options['defaults']['filters'] = FALSE;
 $handler->display->display_options['defaults']['footer'] = false;
+$handler->display->display_options['title'] = 'Representative payment history';
 /* Filter criterion: CiviCRM Activities: Activity Type */
 $handler->display->display_options['filters']['activity_type']['id'] = 'activity_type';
 $handler->display->display_options['filters']['activity_type']['table'] = 'civicrm_activity';
