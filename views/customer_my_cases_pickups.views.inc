@@ -11,6 +11,8 @@ $return_from = civicrm_api3('CustomField', 'getvalue', array('name' => 'return_f
 $flight_nr = civicrm_api3('CustomField', 'getvalue', array('name' => 'flight_number', 'return' => 'column_name', 'custom_group_id' => $travel_data['id']));
 $return_flight_nr = civicrm_api3('CustomField', 'getvalue', array('name' => 'return_flight_number', 'return' => 'column_name', 'custom_group_id' => $travel_data['id']));
 
+$config = pum_customer_mycases_config::singleton();
+
 $view = new view();
 $view->name = 'pickups_for_customer_and_rep_';
 $view->description = '';
@@ -199,6 +201,109 @@ $handler->display->display_options['filters']['is_deleted']['value'] = '0';
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');
 $handler->display->display_options['path'] = 'customer/pickups';
+
+/* Display: Upcoming Pickups */
+$handler = $view->new_display('page', 'Upcoming Pickups', 'upcoming-pickups');
+$handler->display->display_options['defaults']['relationships'] = FALSE;
+/* Relationship: CiviCRM Parent case: Parent case */
+$handler->display->display_options['relationships']['case_id']['id'] = 'case_id';
+$handler->display->display_options['relationships']['case_id']['table'] = 'civicrm_value_travel_parent';
+$handler->display->display_options['relationships']['case_id']['field'] = 'case_id';
+$handler->display->display_options['relationships']['case_id']['label'] = 'Parent';
+$handler->display->display_options['relationships']['case_id']['required'] = TRUE;
+/* Relationship: CiviCRM Case Activity: Case Activity's Activity ID */
+$handler->display->display_options['relationships']['activity_id']['id'] = 'activity_id';
+$handler->display->display_options['relationships']['activity_id']['table'] = 'civicrm_case_activity';
+$handler->display->display_options['relationships']['activity_id']['field'] = 'activity_id';
+$handler->display->display_options['relationships']['activity_id']['label'] = 'Pickup activity';
+$handler->display->display_options['relationships']['activity_id']['required'] = TRUE;
+/* Relationship: CiviCRM Case Contact: Case Contact's Contact ID */
+$handler->display->display_options['relationships']['contact_id']['id'] = 'contact_id';
+$handler->display->display_options['relationships']['contact_id']['table'] = 'civicrm_case_contact';
+$handler->display->display_options['relationships']['contact_id']['field'] = 'contact_id';
+$handler->display->display_options['relationships']['contact_id']['label'] = 'Traveler';
+$handler->display->display_options['relationships']['contact_id']['required'] = TRUE;
+/* Relationship: CiviCRM Case Contact: Case Contact's Contact ID */
+$handler->display->display_options['relationships']['contact_id_1']['id'] = 'contact_id_1';
+$handler->display->display_options['relationships']['contact_id_1']['table'] = 'civicrm_case_contact';
+$handler->display->display_options['relationships']['contact_id_1']['field'] = 'contact_id';
+$handler->display->display_options['relationships']['contact_id_1']['relationship'] = 'case_id';
+$handler->display->display_options['relationships']['contact_id_1']['label'] = 'Customer';
+$handler->display->display_options['relationships']['contact_id_1']['required'] = TRUE;
+/* Relationship: CiviCRM Cases: CiviCRM Relationship (starting from contact case ID) */
+$handler->display->display_options['relationships']['relationship_id']['id'] = 'relationship_id';
+$handler->display->display_options['relationships']['relationship_id']['table'] = 'civicrm_case';
+$handler->display->display_options['relationships']['relationship_id']['field'] = 'relationship_id';
+$handler->display->display_options['relationships']['relationship_id']['relationship'] = 'case_id';
+$handler->display->display_options['relationships']['relationship_id']['label'] = 'Customer (contact) relationship';
+$handler->display->display_options['relationships']['relationship_id']['relationship_type'] = '0';
+/* Relationship: CiviCRM Relationships: Contact ID B */
+$handler->display->display_options['relationships']['contact_id_b_']['id'] = 'contact_id_b_';
+$handler->display->display_options['relationships']['contact_id_b_']['table'] = 'civicrm_relationship';
+$handler->display->display_options['relationships']['contact_id_b_']['field'] = 'contact_id_b_';
+$handler->display->display_options['relationships']['contact_id_b_']['relationship'] = 'relationship_id';
+$handler->display->display_options['relationships']['contact_id_b_']['label'] = 'Customer (contact)';
+/* Relationship: CiviCRM Contacts: Drupal ID */
+$handler->display->display_options['relationships']['drupal_id']['id'] = 'drupal_id';
+$handler->display->display_options['relationships']['drupal_id']['table'] = 'civicrm_contact';
+$handler->display->display_options['relationships']['drupal_id']['field'] = 'drupal_id';
+$handler->display->display_options['relationships']['drupal_id']['relationship'] = 'contact_id_b_';
+$handler->display->display_options['relationships']['drupal_id']['label'] = 'Drupal User - Customer (Contact)';
+$handler->display->display_options['defaults']['arguments'] = FALSE;
+$handler->display->display_options['defaults']['filter_groups'] = FALSE;
+$handler->display->display_options['defaults']['filters'] = FALSE;
+/* Filter criterion: CiviCRM Activities: Activity Type */
+$handler->display->display_options['filters']['activity_type']['id'] = 'activity_type';
+$handler->display->display_options['filters']['activity_type']['table'] = 'civicrm_activity';
+$handler->display->display_options['filters']['activity_type']['field'] = 'activity_type';
+$handler->display->display_options['filters']['activity_type']['relationship'] = 'activity_id';
+$handler->display->display_options['filters']['activity_type']['value'] = array(
+  $pick_info_activity => $pick_info_activity,
+);
+/* Filter criterion: CiviCRM Activities: Current Revision */
+$handler->display->display_options['filters']['is_current_revision']['id'] = 'is_current_revision';
+$handler->display->display_options['filters']['is_current_revision']['table'] = 'civicrm_activity';
+$handler->display->display_options['filters']['is_current_revision']['field'] = 'is_current_revision';
+$handler->display->display_options['filters']['is_current_revision']['relationship'] = 'activity_id';
+$handler->display->display_options['filters']['is_current_revision']['value'] = '1';
+/* Filter criterion: CiviCRM Activities: Is Deleted */
+$handler->display->display_options['filters']['is_deleted']['id'] = 'is_deleted';
+$handler->display->display_options['filters']['is_deleted']['table'] = 'civicrm_activity';
+$handler->display->display_options['filters']['is_deleted']['field'] = 'is_deleted';
+$handler->display->display_options['filters']['is_deleted']['relationship'] = 'activity_id';
+$handler->display->display_options['filters']['is_deleted']['value'] = '0';
+/* Filter criterion: CiviCRM Cases: Case Status */
+$handler->display->display_options['filters']['status']['id'] = 'status';
+$handler->display->display_options['filters']['status']['table'] = 'civicrm_case';
+$handler->display->display_options['filters']['status']['field'] = 'status';
+$handler->display->display_options['filters']['status']['relationship'] = 'case_id';
+$handler->display->display_options['filters']['status']['value'] = array(
+  $config->preperation_status => $config->preperation_status,
+);
+/* Filter criterion: CiviCRM Custom: (Main) Activity information: Activity Start Date */
+$handler->display->display_options['filters']['start_date']['id'] = 'start_date';
+$handler->display->display_options['filters']['start_date']['table'] = $config->main_activity_info['table_name'];
+$handler->display->display_options['filters']['start_date']['field'] = $config->ma_start_date['column_name'];
+$handler->display->display_options['filters']['start_date']['relationship'] = 'case_id';
+$handler->display->display_options['filters']['start_date']['operator'] = '>=';
+$handler->display->display_options['filters']['start_date']['value']['value'] = '-7 days';
+$handler->display->display_options['filters']['start_date']['value']['type'] = 'offset';
+/* Filter criterion: CiviCRM Custom: (Main) Activity information: Activity Start Date */
+$handler->display->display_options['filters']['start_date_1']['id'] = 'start_date_1';
+$handler->display->display_options['filters']['start_date_1']['table'] = $config->main_activity_info['table_name'];
+$handler->display->display_options['filters']['start_date_1']['field'] = $config->ma_start_date['column_name'];
+$handler->display->display_options['filters']['start_date_1']['relationship'] = 'case_id';
+$handler->display->display_options['filters']['start_date_1']['operator'] = '<=';
+$handler->display->display_options['filters']['start_date_1']['value']['value'] = 'now';
+$handler->display->display_options['filters']['start_date_1']['value']['type'] = 'offset';
+/* Filter criterion: User: Current */
+$handler->display->display_options['filters']['uid_current']['id'] = 'uid_current';
+$handler->display->display_options['filters']['uid_current']['table'] = 'users';
+$handler->display->display_options['filters']['uid_current']['field'] = 'uid_current';
+$handler->display->display_options['filters']['uid_current']['relationship'] = 'drupal_id';
+$handler->display->display_options['filters']['uid_current']['value'] = '1';
+$handler->display->display_options['path'] = 'customer/upcoming-pickups';
+
 $translatables['pickups_for_customer_and_rep_'] = array(
   t('Master'),
   t('Pickups'),

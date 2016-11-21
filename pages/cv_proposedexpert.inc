@@ -111,7 +111,14 @@ function pum_customer_cv_proposedexpert($case_id) {
     );
   }
 
-  drupal_set_title($expert['display_name']);
+  $expert_gender = civicrm_api3('Contact', 'getvalue', array('id' => $expert['contact_id'], 'return' => 'gender_id'));
+  $title = $expert['display_name'];
+  if ($expert_gender == '1') {
+    $title = 'Mrs. '.$expert['display_name'];
+  } elseif ($expert_gender == '2') {
+    $title = 'Mr. '.$expert['display_name'];
+  }
+  drupal_set_title($title);
 
   $acceptRejectCvLink = false;
   if ($adviceCaseType == $case['case_type_id']) {

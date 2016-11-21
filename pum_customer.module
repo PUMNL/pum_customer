@@ -262,6 +262,7 @@ function _pum_customer_your_expert_will_arrive_block(&$block) {
           WHERE ma.`".$config->ma_start_date['column_name']."` BETWEEN DATE(%1) AND DATE(%2)
           AND (c.case_type_id LIKE %3 OR c.case_type_id LIKE %4 OR c.case_type_id LIKE %5 OR c.case_type_id LIKE %6)
           AND (cc.contact_id = %7 OR r.contact_id_b = %7 OR r.contact_id_a = %7)
+          AND c.status_id = %8
           ORDER BY ma.`".$config->ma_start_date['column_name']."` ASC
           LIMIT 0, 1";
 
@@ -272,18 +273,19 @@ function _pum_customer_your_expert_will_arrive_block(&$block) {
   $params[5] = array('%'.CRM_Core_DAO::VALUE_SEPARATOR.$config->seminar_case_type.CRM_Core_DAO::VALUE_SEPARATOR.'%', 'String');
   $params[6] = array('%'.CRM_Core_DAO::VALUE_SEPARATOR.$config->remote_coaching_case_type.CRM_Core_DAO::VALUE_SEPARATOR.'%', 'String');
   $params[7] = array($session->get('userID'), 'Integer');
+  $params[8] = array($config->preperation_status, 'Integer');
 
-  $content = array();
   $dao = CRM_Core_DAO::executeQuery($sql, $params);
-  while ($dao->fetch()) {
-    $link = url('customer/pickups/'.$dao->case_id, array('absolute'=> true));
+  if ($dao->fetch()) {
+    $link = url('customer/upcoming-pickups', array('absolute'=> true));
     $date = new DateTime($dao->start_date);
-    $days = $date->diff($now)->format('%a');
-    $content[] = '<p class="your_expert_will_arrive_in_x_days">Your expert will arrive in '.$days.' day(s)<br /><a href="'.$link.'">click for Pickup Details.</a></p>';
-  }
-
-  if (count($content) > 0) {
-    $block['content'] = implode("\r\n", $content);
+    $days = $date->diff($now)->format('%a') + 1;
+    if ($days <= 1) {
+      $days = 'today';
+    } else {
+      $days = 'in '.$days.' days';
+    }
+    $block['content'] = '<p class="your_expert_will_arrive_in_x_days">Your expert will arrive '.$days.'<br /><a href="'.$link.'">click for Pickup Details.</a></p>';
     drupal_add_css(drupal_get_path('module', 'pum_customer') . '/style.css', array('group' => CSS_DEFAULT, 'every_page' => TRUE));
   }
 }

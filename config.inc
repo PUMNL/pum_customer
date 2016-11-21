@@ -22,6 +22,8 @@ class pum_customer_mycases_config {
 
     public $matching_status;
 
+    public $preperation_status;
+
     public $expert_relationship_type;
 
     public $project_intake_case_type;
@@ -40,6 +42,7 @@ class pum_customer_mycases_config {
 
         $case_status_id = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_status'));
         $this->matching_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Matching', 'option_group_id' => $case_status_id));
+        $this->preperation_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Preparation', 'option_group_id' => $case_status_id));
 
         $case_type_id = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_type'));
         $this->advice_case_type = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Advice', 'option_group_id' => $case_type_id, 'return' => 'value'));
