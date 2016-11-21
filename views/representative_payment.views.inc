@@ -113,6 +113,13 @@ $handler->display->display_options['style_options']['info'] = array(
     'empty_column' => 0,
   ),
 );
+/* Header: Global: Text area */
+$handler->display->display_options['header']['area']['id'] = 'area';
+$handler->display->display_options['header']['area']['table'] = 'views';
+$handler->display->display_options['header']['area']['field'] = 'area';
+$handler->display->display_options['header']['area']['empty'] = TRUE;
+$handler->display->display_options['header']['area']['content'] = '<p> This overview shows the payments of the last half year as well as future payments. You\'ll find older payments in \'payment history\'.</p>';
+$handler->display->display_options['header']['area']['format'] = 'filtered_html';
 /* Footer: Global: Text area */
 $handler->display->display_options['footer']['area']['id'] = 'area';
 $handler->display->display_options['footer']['area']['table'] = 'views';
@@ -125,7 +132,7 @@ $handler->display->display_options['footer']['area_1']['id'] = 'area_1';
 $handler->display->display_options['footer']['area_1']['table'] = 'views';
 $handler->display->display_options['footer']['area_1']['field'] = 'area';
 $handler->display->display_options['footer']['area_1']['empty'] = TRUE;
-$handler->display->display_options['footer']['area_1']['content'] = '<p><a href="/representative-payment-history">Your payment history</a></p>';
+$handler->display->display_options['footer']['area_1']['content'] = '<p><a href="/representative-payment-history">View your payment history</a></p>';
 $handler->display->display_options['footer']['area_1']['format'] = 'filtered_html';
 /* No results behavior: Global: Text area */
 $handler->display->display_options['empty']['area']['id'] = 'area';
@@ -293,7 +300,15 @@ $handler->display->display_options['defaults']['title'] = FALSE;
 $handler->display->display_options['defaults']['filter_groups'] = FALSE;
 $handler->display->display_options['defaults']['filters'] = FALSE;
 $handler->display->display_options['defaults']['footer'] = false;
+$handler->display->display_options['defaults']['header'] = false;
 $handler->display->display_options['title'] = 'Representative payment history';
+/* Header: Global: Text area */
+$handler->display->display_options['header']['area_1']['id'] = 'area_1';
+$handler->display->display_options['header']['area_1']['table'] = 'views';
+$handler->display->display_options['header']['area_1']['field'] = 'area';
+$handler->display->display_options['header']['area_1']['empty'] = TRUE;
+$handler->display->display_options['header']['area_1']['content'] = '<p><a href="/representative-payment">Back to recent payments</a></p>';
+$handler->display->display_options['header']['area_1']['format'] = 'filtered_html';
 /* Filter criterion: CiviCRM Activities: Activity Type */
 $handler->display->display_options['filters']['activity_type']['id'] = 'activity_type';
 $handler->display->display_options['filters']['activity_type']['table'] = 'civicrm_activity';
