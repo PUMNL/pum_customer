@@ -304,6 +304,197 @@ $handler->display->display_options['filters']['uid_current']['relationship'] = '
 $handler->display->display_options['filters']['uid_current']['value'] = '1';
 $handler->display->display_options['path'] = 'customer/upcoming-pickups';
 
+/* Display: Upcoming Pickups */
+$handler = $view->new_display('page', 'All Upcoming Pickups', 'all-upcoming-pickups');
+$handler->display->display_options['defaults']['access'] = FALSE;
+$handler->display->display_options['defaults']['title'] = FALSE;
+$handler->display->display_options['defaults']['relationships'] = FALSE;
+$handler->display->display_options['defaults']['fields'] = FALSE;
+$handler->display->display_options['defaults']['arguments'] = FALSE;
+$handler->display->display_options['defaults']['filter_groups'] = FALSE;
+$handler->display->display_options['defaults']['filters'] = FALSE;
+
+$handler->display->display_options['title'] = 'My expert flight details';
+$handler->display->display_options['access']['type'] = 'role';
+$handler->display->display_options['access']['role'] = pum_customer_get_role_ids(array('Customer', 'Customer (contact)'));
+/* Relationship: CiviCRM Parent case: Parent case */
+$handler->display->display_options['relationships']['case_id']['id'] = 'case_id';
+$handler->display->display_options['relationships']['case_id']['table'] = 'civicrm_value_travel_parent';
+$handler->display->display_options['relationships']['case_id']['field'] = 'case_id';
+$handler->display->display_options['relationships']['case_id']['label'] = 'Parent';
+$handler->display->display_options['relationships']['case_id']['required'] = TRUE;
+/* Relationship: CiviCRM Case Activity: Case Activity's Activity ID */
+$handler->display->display_options['relationships']['activity_id']['id'] = 'activity_id';
+$handler->display->display_options['relationships']['activity_id']['table'] = 'civicrm_case_activity';
+$handler->display->display_options['relationships']['activity_id']['field'] = 'activity_id';
+$handler->display->display_options['relationships']['activity_id']['label'] = 'Pickup activity';
+$handler->display->display_options['relationships']['activity_id']['required'] = TRUE;
+/* Relationship: CiviCRM Case Contact: Case Contact's Contact ID */
+$handler->display->display_options['relationships']['contact_id']['id'] = 'contact_id';
+$handler->display->display_options['relationships']['contact_id']['table'] = 'civicrm_case_contact';
+$handler->display->display_options['relationships']['contact_id']['field'] = 'contact_id';
+$handler->display->display_options['relationships']['contact_id']['label'] = 'Traveler';
+$handler->display->display_options['relationships']['contact_id']['required'] = TRUE;
+/* Relationship: CiviCRM Case Contact: Case Contact's Contact ID */
+$handler->display->display_options['relationships']['contact_id_1']['id'] = 'contact_id_1';
+$handler->display->display_options['relationships']['contact_id_1']['table'] = 'civicrm_case_contact';
+$handler->display->display_options['relationships']['contact_id_1']['field'] = 'contact_id';
+$handler->display->display_options['relationships']['contact_id_1']['relationship'] = 'case_id';
+$handler->display->display_options['relationships']['contact_id_1']['label'] = 'Customer';
+$handler->display->display_options['relationships']['contact_id_1']['required'] = TRUE;
+/* Relationship: CiviCRM Cases: CiviCRM Relationship (starting from contact case ID) */
+$handler->display->display_options['relationships']['relationship_id']['id'] = 'relationship_id';
+$handler->display->display_options['relationships']['relationship_id']['table'] = 'civicrm_case';
+$handler->display->display_options['relationships']['relationship_id']['field'] = 'relationship_id';
+$handler->display->display_options['relationships']['relationship_id']['relationship'] = 'case_id';
+$handler->display->display_options['relationships']['relationship_id']['label'] = 'Customer (contact) relationship';
+$handler->display->display_options['relationships']['relationship_id']['relationship_type'] = '0';
+/* Relationship: CiviCRM Relationships: Contact ID B */
+$handler->display->display_options['relationships']['contact_id_b_']['id'] = 'contact_id_b_';
+$handler->display->display_options['relationships']['contact_id_b_']['table'] = 'civicrm_relationship';
+$handler->display->display_options['relationships']['contact_id_b_']['field'] = 'contact_id_b_';
+$handler->display->display_options['relationships']['contact_id_b_']['relationship'] = 'relationship_id';
+$handler->display->display_options['relationships']['contact_id_b_']['label'] = 'Customer (contact)';
+/* Relationship: CiviCRM Contacts: Drupal ID */
+$handler->display->display_options['relationships']['drupal_id']['id'] = 'drupal_id';
+$handler->display->display_options['relationships']['drupal_id']['table'] = 'civicrm_contact';
+$handler->display->display_options['relationships']['drupal_id']['field'] = 'drupal_id';
+$handler->display->display_options['relationships']['drupal_id']['relationship'] = 'contact_id_b_';
+$handler->display->display_options['relationships']['drupal_id']['label'] = 'Drupal User - Customer (Contact)';
+/* Field: CiviCRM Cases: Case ID */
+$handler->display->display_options['fields']['id_1']['id'] = 'id_1';
+$handler->display->display_options['fields']['id_1']['table'] = 'civicrm_case';
+$handler->display->display_options['fields']['id_1']['field'] = 'id';
+$handler->display->display_options['fields']['id_1']['exclude'] = TRUE;
+$handler->display->display_options['fields']['id_1']['separator'] = '';
+/* Field: CiviCRM Contacts: Contact ID */
+$handler->display->display_options['fields']['id_3']['id'] = 'id_3';
+$handler->display->display_options['fields']['id_3']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['id_3']['field'] = 'id';
+$handler->display->display_options['fields']['id_3']['relationship'] = 'contact_id_1';
+$handler->display->display_options['fields']['id_3']['label'] = '';
+$handler->display->display_options['fields']['id_3']['exclude'] = TRUE;
+$handler->display->display_options['fields']['id_3']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['id_3']['separator'] = '';
+/* Field: CiviCRM Activities: Activity ID */
+$handler->display->display_options['fields']['id_2']['id'] = 'id_2';
+$handler->display->display_options['fields']['id_2']['table'] = 'civicrm_activity';
+$handler->display->display_options['fields']['id_2']['field'] = 'id';
+$handler->display->display_options['fields']['id_2']['relationship'] = 'activity_id';
+$handler->display->display_options['fields']['id_2']['label'] = '';
+$handler->display->display_options['fields']['id_2']['exclude'] = TRUE;
+$handler->display->display_options['fields']['id_2']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['id_2']['separator'] = '';
+/* Field: CiviCRM Contacts: Contact ID */
+$handler->display->display_options['fields']['id']['id'] = 'id';
+$handler->display->display_options['fields']['id']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['id']['field'] = 'id';
+$handler->display->display_options['fields']['id']['relationship'] = 'contact_id';
+$handler->display->display_options['fields']['id']['label'] = '';
+$handler->display->display_options['fields']['id']['exclude'] = TRUE;
+$handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['id']['separator'] = '';
+/* Field: CiviCRM Contacts: Display Name */
+$handler->display->display_options['fields']['display_name']['id'] = 'display_name';
+$handler->display->display_options['fields']['display_name']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['display_name']['label'] = 'Traveler';
+$handler->display->display_options['fields']['display_name']['field'] = 'display_name';
+$handler->display->display_options['fields']['display_name']['relationship'] = 'contact_id';
+/* Field: CiviCRM Custom: Travel Data: Arrival date/time */
+$handler->display->display_options['fields']['arrival_time']['id'] = 'arrival_time';
+$handler->display->display_options['fields']['arrival_time']['table'] = $travel_data['table_name'];
+$handler->display->display_options['fields']['arrival_time']['field'] = $arrival_time;
+$handler->display->display_options['fields']['arrival_time']['date_format'] = 'short';
+/* Field: CiviCRM Custom: Travel Data: Destination */
+$handler->display->display_options['fields']['destination']['id'] = 'destination';
+$handler->display->display_options['fields']['destination']['table'] = $travel_data['table_name'];
+$handler->display->display_options['fields']['destination']['field'] = $destination;
+$handler->display->display_options['fields']['destination']['alter']['strip_tags'] = TRUE;
+/* Field: CiviCRM Custom: Travel Data: Flight number */
+$handler->display->display_options['fields']['flight_number']['id'] = 'flight_number';
+$handler->display->display_options['fields']['flight_number']['table'] = $travel_data['table_name'];
+$handler->display->display_options['fields']['flight_number']['field'] = $flight_nr;
+$handler->display->display_options['fields']['flight_number']['alter']['strip_tags'] = TRUE;
+/* Field: CiviCRM Custom: Travel Data: Departure date/time */
+$handler->display->display_options['fields']['departure_time']['id'] = 'departure_time';
+$handler->display->display_options['fields']['departure_time']['table'] = $travel_data['table_name'];
+$handler->display->display_options['fields']['departure_time']['field'] = $departure_time;
+$handler->display->display_options['fields']['departure_time']['label'] = '(Return) Departure date/time';
+$handler->display->display_options['fields']['departure_time']['date_format'] = 'short';
+/* Field: CiviCRM Custom: Travel Data: Destination */
+$handler->display->display_options['fields']['return_from']['id'] = 'return_from';
+$handler->display->display_options['fields']['return_from']['table'] = $travel_data['table_name'];
+$handler->display->display_options['fields']['return_from']['field'] = $return_from;
+$handler->display->display_options['fields']['return_from']['alter']['strip_tags'] = TRUE;
+/* Field: CiviCRM Custom: Travel Data: Flight number */
+$handler->display->display_options['fields']['return_flight_number']['id'] = 'return_flight_number';
+$handler->display->display_options['fields']['return_flight_number']['table'] = $travel_data['table_name'];
+$handler->display->display_options['fields']['return_flight_number']['field'] = $return_flight_nr;
+$handler->display->display_options['fields']['return_flight_number']['alter']['strip_tags'] = TRUE;
+/* Field: CiviCRM Activities: Activity Status */
+$handler->display->display_options['fields']['status']['id'] = 'status';
+$handler->display->display_options['fields']['status']['table'] = 'civicrm_activity';
+$handler->display->display_options['fields']['status']['field'] = 'status';
+$handler->display->display_options['fields']['status']['relationship'] = 'activity_id';
+$handler->display->display_options['fields']['status']['label'] = '';
+$handler->display->display_options['fields']['status']['exclude'] = TRUE;
+$handler->display->display_options['fields']['status']['element_label_colon'] = FALSE;
+/* Field: Global: PHP */
+$handler->display->display_options['fields']['php']['id'] = 'php';
+$handler->display->display_options['fields']['php']['table'] = 'views';
+$handler->display->display_options['fields']['php']['field'] = 'php';
+$handler->display->display_options['fields']['php']['label'] = '';
+$handler->display->display_options['fields']['php']['use_php_setup'] = 0;
+$handler->display->display_options['fields']['php']['php_output'] = '<?php
+if ($data->civicrm_activity_civicrm_case_activity_status_id == 1) {
+  echo \'<a href="/enter-pickup-info/form?cid2=\'.$row->id.\'&caseid=\'.$row->id_1.\'&aid=\'.$row->id_2.\'">Provide pickup info</a>\';
+} else {
+  echo \'<a href="/customer/pickup-details/\'.$row->id_1.\'">View pickup details</a>\';
+}
+?>';
+/* Filter criterion: CiviCRM Activities: Activity Type */
+$handler->display->display_options['filters']['activity_type']['id'] = 'activity_type';
+$handler->display->display_options['filters']['activity_type']['table'] = 'civicrm_activity';
+$handler->display->display_options['filters']['activity_type']['field'] = 'activity_type';
+$handler->display->display_options['filters']['activity_type']['relationship'] = 'activity_id';
+$handler->display->display_options['filters']['activity_type']['value'] = array(
+  $pick_info_activity => $pick_info_activity,
+);
+/* Filter criterion: CiviCRM Activities: Current Revision */
+$handler->display->display_options['filters']['is_current_revision']['id'] = 'is_current_revision';
+$handler->display->display_options['filters']['is_current_revision']['table'] = 'civicrm_activity';
+$handler->display->display_options['filters']['is_current_revision']['field'] = 'is_current_revision';
+$handler->display->display_options['filters']['is_current_revision']['relationship'] = 'activity_id';
+$handler->display->display_options['filters']['is_current_revision']['value'] = '1';
+/* Filter criterion: CiviCRM Activities: Is Deleted */
+$handler->display->display_options['filters']['is_deleted']['id'] = 'is_deleted';
+$handler->display->display_options['filters']['is_deleted']['table'] = 'civicrm_activity';
+$handler->display->display_options['filters']['is_deleted']['field'] = 'is_deleted';
+$handler->display->display_options['filters']['is_deleted']['relationship'] = 'activity_id';
+$handler->display->display_options['filters']['is_deleted']['value'] = '0';
+/* Filter criterion: CiviCRM Cases: Case Status */
+$handler->display->display_options['filters']['status']['id'] = 'status';
+$handler->display->display_options['filters']['status']['table'] = 'civicrm_case';
+$handler->display->display_options['filters']['status']['field'] = 'status';
+$handler->display->display_options['filters']['status']['relationship'] = 'case_id';
+$handler->display->display_options['filters']['status']['value'] = array(
+  $config->preperation_status => $config->preperation_status,
+  $config->matching_status => $config->matching_status,
+);
+/* Filter criterion: User: Current */
+$handler->display->display_options['filters']['uid_current']['id'] = 'uid_current';
+$handler->display->display_options['filters']['uid_current']['table'] = 'users';
+$handler->display->display_options['filters']['uid_current']['field'] = 'uid_current';
+$handler->display->display_options['filters']['uid_current']['relationship'] = 'drupal_id';
+$handler->display->display_options['filters']['uid_current']['value'] = '1';
+$handler->display->display_options['path'] = 'customer/all-upcoming-pickups';
+$handler->display->display_options['menu']['type'] = 'normal';
+$handler->display->display_options['menu']['title'] = 'My expert flight details';
+$handler->display->display_options['menu']['weight'] = '0';
+$handler->display->display_options['menu']['name'] = 'menu-my-projects';
+$handler->display->display_options['menu']['context'] = 0;
+$handler->display->display_options['menu']['context_only_inline'] = 0;
+
 $translatables['pickups_for_customer_and_rep_'] = array(
   t('Master'),
   t('Pickups'),
