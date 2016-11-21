@@ -79,6 +79,13 @@ $handler->display->display_options['style_options']['info'] = array(
     'empty_column' => 0,
   ),
 );
+/* Header: Global: Text area */
+$handler->display->display_options['header']['area']['id'] = 'area';
+$handler->display->display_options['header']['area']['table'] = 'views';
+$handler->display->display_options['header']['area']['field'] = 'area';
+$handler->display->display_options['header']['area']['content'] = 'New customers can be removed by the Project Officer if they are no longer interested.<br />
+<em>(Definition new customer: only an account has been created – no project request submitted)</em>';
+$handler->display->display_options['header']['area']['format'] = 'filtered_html';
 /* Footer: Global: PHP */
 $handler->display->display_options['footer']['redirect_by_one']['id'] = 'redirect_by_one';
 $handler->display->display_options['footer']['redirect_by_one']['table'] = 'views';
