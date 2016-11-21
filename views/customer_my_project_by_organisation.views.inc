@@ -138,9 +138,6 @@ $handler->display->display_options['fields']['display_name']['table'] = 'civicrm
 $handler->display->display_options['fields']['display_name']['field'] = 'display_name';
 $handler->display->display_options['fields']['display_name']['relationship'] = 'contact_id_a_';
 $handler->display->display_options['fields']['display_name']['label'] = 'Organisation';
-$handler->display->display_options['fields']['display_name']['alter']['make_link'] = TRUE;
-$handler->display->display_options['fields']['display_name']['alter']['path'] = 'customer-profile/[id]';
-$handler->display->display_options['fields']['display_name']['alter']['absolute'] = TRUE;
 $handler->display->display_options['fields']['display_name']['link_to_civicrm_contact'] = 0;
 /* Field: CiviCRM Project: Title */
 $handler->display->display_options['fields']['title']['id'] = 'title';
