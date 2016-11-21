@@ -38,6 +38,8 @@ function pum_customer_question_about_cv_submit($form, &$form_state) {
   $emailActivityType = civicrm_api3('OptionValue', 'getvalue', array('option_group_id' => $activityTypeOptionGroupId, 'name' => 'Email', 'return' => 'value'));
 
   $case = civicrm_api3('Case', 'getsingle', array('id' => $case_id));
+  $customer_id = $case['client_id'];
+  $customer = civicrm_api3('Contact', 'getsingle', array('id' => $customer_id));
   $proj_off = false;
   $expert = false;
   foreach($case['contacts'] as $role) {
@@ -54,7 +56,7 @@ function pum_customer_question_about_cv_submit($form, &$form_state) {
   $from = CRM_Core_BAO_Domain::getNameAndEmail();
   $from = "$from[0] <$from[1]>";
 
-  $subject = 'Question from '.$contact['display_name']. ' regarding '.$expert['display_name'];
+  $subject = 'Question from '.$contact['display_name']. ', '.$customer['display_name'].' regarding '.$expert['display_name'];
 
   $mailParams = array(
     'groupName' => 'Activity Email Sender',
