@@ -151,26 +151,31 @@ function pum_customer_cv_proposedexpert($case_id) {
   $page['explain']['#markup'] = '<p>If you have any questions that need to be answered before you can accept/reject the proposed expert, please press \'questions\'. This will send an e-mail to the project officer.</p>';
 
   $page['availability']['#type'] = 'fieldset';
-  $page['availability']['date']['#markup'] = '<p><strong>Period of availability: </strong>'.$startDate.' - '.$endDate.'</p>';
+  $page['availability']['#title'] = 'Period of availability';
+  $page['availability']['date']['#markup'] = '<p>'.$startDate.' - '.$endDate.'</p>';
 
   $page['project_qualifications']['#type'] = 'fieldset';
   $page['project_qualifications']['#title'] = 'Project qualifications';
   $page['project_qualifications']['qualifications']['#markup'] = nl2br($projectQualifications);
 
-  $page['languages_caption']['#markup'] = '<p><strong>Languages</strong></p>';
-  $page['languages']['#theme'] = 'table';
-  $page['languages']['#header'] = array('Language', 'Level');
-  $page['languages']['#rows'] = $languages;
-  $page['languages']['#attributes'] = array('width' => '100%');
+  $page['languages_fieldset']['#type'] = 'fieldset';
+  $page['languages_fieldset']['#title'] = 'Languages';
+  $page['languages_fieldset']['languages']['#theme'] = 'table';
+  $page['languages_fieldset']['languages']['#header'] = array('Language', 'Level');
+  $page['languages_fieldset']['languages']['#rows'] = $languages;
+  $page['languages_fieldset']['languages']['#attributes'] = array('width' => '100%');
 
-  $page['education_caption']['#markup'] = '<p><strong>Education</strong></p>';
-  $page['education']['#theme'] = 'table';
-  $page['education']['#header'] = array('Name', 'Level', 'Field of Study/Major', 'Degree', 'Period');
-  $page['education']['#rows'] = $educations;
-  $page['education']['#attributes'] = array('width' => '100%');
+  $page['education_fieldset']['#type'] = 'fieldset';
+  $page['education_fieldset']['#title'] = 'Education';
+  $page['education_fieldset']['education']['#theme'] = 'table';
+  $page['education_fieldset']['education']['#header'] = array('Name', 'Level', 'Field of Study/Major', 'Degree', 'Period');
+  $page['education_fieldset']['education']['#rows'] = $educations;
+  $page['education_fieldset']['education']['#attributes'] = array('width' => '100%');
 
-  $page['workhistory_caption']['#markup'] = '<p><strong>Work Experience</strong></p>';
-  $page['workhistory'] = array();
+
+  $page['workhistory_fieldset']['#type'] = 'fieldset';
+  $page['workhistory_fieldset']['#title'] = 'Work Experience';
+  $page['workhistory_fieldset']['workhistory'] = array();
   $sql = "SELECT * FROM `".$workhistoryCustomGroup['table_name']."` WHERE `entity_id` = %1 ORDER BY `".$workhistoryFromField."` DESC, `".$workhistoryToField."` DESC";
   $sqlParams = array();
   $sqlParams[1] = array($expert['contact_id'], 'Integer');
@@ -199,7 +204,7 @@ function pum_customer_cv_proposedexpert($case_id) {
     $job['competence_label']['#markup'] = '<br><strong>Competence used in this job</strong>';
     $job['competence']['#markup'] = '<br>'.$dao->$workhistoryCompetencesField.'<br>';
 
-    $page['workhistory']['job_'.$i] = $job;
+    $page['workhistory_fieldset']['workhistory']['job_'.$i] = $job;
     $i++;
   }
 
