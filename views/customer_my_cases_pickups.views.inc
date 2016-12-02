@@ -286,7 +286,7 @@ $handler->display->display_options['filters']['start_date']['table'] = $config->
 $handler->display->display_options['filters']['start_date']['field'] = $config->ma_start_date['column_name'];
 $handler->display->display_options['filters']['start_date']['relationship'] = 'case_id';
 $handler->display->display_options['filters']['start_date']['operator'] = '>=';
-$handler->display->display_options['filters']['start_date']['value']['value'] = '-7 days';
+$handler->display->display_options['filters']['start_date']['value']['value'] = 'now';
 $handler->display->display_options['filters']['start_date']['value']['type'] = 'offset';
 /* Filter criterion: CiviCRM Custom: (Main) Activity information: Activity Start Date */
 $handler->display->display_options['filters']['start_date_1']['id'] = 'start_date_1';
@@ -294,7 +294,7 @@ $handler->display->display_options['filters']['start_date_1']['table'] = $config
 $handler->display->display_options['filters']['start_date_1']['field'] = $config->ma_start_date['column_name'];
 $handler->display->display_options['filters']['start_date_1']['relationship'] = 'case_id';
 $handler->display->display_options['filters']['start_date_1']['operator'] = '<=';
-$handler->display->display_options['filters']['start_date_1']['value']['value'] = 'now';
+$handler->display->display_options['filters']['start_date_1']['value']['value'] = '+7 days';
 $handler->display->display_options['filters']['start_date_1']['value']['type'] = 'offset';
 /* Filter criterion: User: Current */
 $handler->display->display_options['filters']['uid_current']['id'] = 'uid_current';
