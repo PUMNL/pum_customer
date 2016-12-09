@@ -62,7 +62,7 @@ function pum_customer_business_programme_participant($form, &$form_state, $case_
   $data['passport_expiry_date'] = '';
   $data['gender'] = '';
   $data['birth_date'] = '';
-  $data['nationality_id'] = '';
+  $data['nationality'] = '';
   $data['email'] = '';
   $data['job_title'] = '';
   if ($relationship_id) {
