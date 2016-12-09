@@ -184,8 +184,7 @@ function pum_customer_business_programme_details($form, &$form_state, $case_id) 
     }
     if (count($participants) < $maxParticipants) {
       if (!isset($participants[$authorised['contact_id']])) {
-        $form['participants']['buttons']['add_authorised']['#type'] = 'button';
-        $form['participants']['buttons']['add_authorised']['#value'] = 'Add ' . $authorised['display_name'] . ' as participant';
+        $form['participants']['buttons']['add_authorised']['#markup'] = '<a href="/customer/business-programme-details/' . $case_id . '/participant/contact/'.$authorised['contact_id'].'" class="button">Add ' . $authorised['display_name'] . ' as participant</a>&nbsp;';
       }
       $form['participants']['buttons']['add_another']['#markup'] = '<a href="/customer/business-programme-details/' . $case_id . '/participant" class="button">Add a new participant</a>';
     }

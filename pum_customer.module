@@ -55,6 +55,14 @@ function pum_customer_menu() {
     'access callback' => 'pum_customer_user_has_role_and_is_on_case',
     'access arguments' => array(array('Customer (contact)'), 2),
   );
+  $items['customer/business-programme-details/%/participant/contact/%'] = array(
+    'title' => 'Business Programme participant',
+    'page callback' => 'drupal_get_form',
+    'file' => 'pages/business_programme_participant.inc',
+    'page arguments' => array('pum_customer_business_programme_participant', 2, false, 5),
+    'access callback' => 'pum_customer_user_has_role_and_is_on_case',
+    'access arguments' => array(array('Customer (contact)'), 2),
+  );
   $items['customer/business-programme-details/%/participant/%'] = array(
     'title' => 'Business Programme participant',
     'page callback' => 'drupal_get_form',
