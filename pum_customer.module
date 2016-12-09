@@ -1,5 +1,6 @@
 <?php
 
+require_once 'businessconfig.inc';
 require_once 'conditions.inc';
 
 function pum_customer_menu() {
@@ -30,8 +31,85 @@ function pum_customer_menu() {
     'access callback' => 'pum_customer_user_has_role',
     'access arguments' => array(array('Customer (contact)', 'Representative')),
   );
+  $items['customer/business-programme-details/%'] = array(
+    'title' => 'Business Programme details',
+    'page callback' => 'drupal_get_form',
+    'file' => 'pages/business_programme.inc',
+    'page arguments' => array('pum_customer_business_programme_details', 2),
+    'access callback' => 'pum_customer_user_has_role_and_is_on_case',
+    'access arguments' => array(array('Customer (contact)'), 2),
+  );
+  $items['customer/business-programme-details/%/removedocument/%'] = array(
+    'title' => 'Business Programme details',
+    'page callback' => 'pum_customer_business_programme_details_removedocument',
+    'file' => 'pages/business_programme.inc',
+    'page arguments' => array(2, 4),
+    'access callback' => 'pum_customer_user_has_role_and_is_on_case',
+    'access arguments' => array(array('Customer (contact)'), 2),
+  );
+  $items['customer/business-programme-details/%/participant'] = array(
+    'title' => 'Business Programme participant',
+    'page callback' => 'drupal_get_form',
+    'file' => 'pages/business_programme_participant.inc',
+    'page arguments' => array('pum_customer_business_programme_participant', 2),
+    'access callback' => 'pum_customer_user_has_role_and_is_on_case',
+    'access arguments' => array(array('Customer (contact)'), 2),
+  );
+  $items['customer/business-programme-details/%/participant/%'] = array(
+    'title' => 'Business Programme participant',
+    'page callback' => 'drupal_get_form',
+    'file' => 'pages/business_programme_participant.inc',
+    'page arguments' => array('pum_customer_business_programme_participant', 2,4),
+    'access callback' => 'pum_customer_user_has_role_and_is_on_case',
+    'access arguments' => array(array('Customer (contact)'), 2),
+  );
+  $items['customer/business-programme-details/%/participant/%/remove'] = array(
+    'title' => 'Business Programme participant',
+    'page callback' => 'pum_customer_business_programme_participant_remove',
+    'file' => 'pages/business_programme_participant.inc',
+    'page arguments' => array(2,4),
+    'access callback' => 'pum_customer_user_has_role_and_is_on_case',
+    'access arguments' => array(array('Customer (contact)'), 2),
+  );
 
   return $items;
+}
+
+/**
+ * Returns true when the user has a certain drupal role and is connected to the
+ * case.
+ *
+ * @param $roles
+ * @param $case_id
+ * @return bool
+ */
+function pum_customer_user_has_role_and_is_on_case($roles, $case_id) {
+  if (!pum_customer_user_has_role($roles)) {
+    return false;
+  }
+  if (!pum_customer_user_has_role_on_case($case_id)) {
+    return false;
+  }
+  return true;
+}
+
+/**
+ * Returns true when a user has a role on the case.
+ *
+ * @param $case_id
+ * @return bool
+ */
+function pum_customer_user_has_role_on_case($case_id) {
+  civicrm_initialize();
+  $session = CRM_Core_Session::singleton();
+  $contact_id = $session->get('userID');
+  $case = civicrm_api3('Case', 'getsingle', array('id' => $case_id));
+  foreach($case['contacts'] as $contact) {
+    if ($contact['contact_id'] == $contact_id) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function pum_customer_block_info() {
@@ -291,7 +369,8 @@ function _pum_customer_your_expert_will_arrive_block(&$block) {
 }
 
 function pum_customer_preprocess_html(&$vars) {
-  if (in_array('page-customer-proposedexpert', $vars['classes_array'])) {
+  if (in_array('page-customer-proposedexpert', $vars['classes_array'])
+  || in_array('page-customer-business-programme-details', $vars['classes_array'])) {
     $vars['classes_array'][] = 'section-portal';
   }
 }
