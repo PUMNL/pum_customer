@@ -11,7 +11,7 @@ dependencies[] = views
 dependencies[] = views_field_view
 dependencies[] = views_fieldsets
 dependencies[] = views_merge_rows
-dependencies[] = pum_civicrm_views
+dependencies[] = pum_civicrm_views (>=1.16)
 dependencies[] = pum_expert_mycv
 
 files[] = config.inc
