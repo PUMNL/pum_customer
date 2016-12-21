@@ -38,7 +38,7 @@ $handler->display->display_options['footer']['redirect_by_one']['id'] = 'redirec
 $handler->display->display_options['footer']['redirect_by_one']['table'] = 'views';
 $handler->display->display_options['footer']['redirect_by_one']['field'] = 'php';
 $handler->display->display_options['footer']['redirect_by_one']['php_output'] = '<?php
-if (!(isset($view->preview) && $view->preview) && count($results)==1) {
+if (!(isset($view->preview) && $view->preview) && count($results)==1 && pum_customer_user_has_role(array(\'Customer (contact)\'))) {
   drupal_goto(\'customer/proposedexpert/cv/\' . $results[0]->civicrm_case_civicrm_relationship_id);
 }
 ?>';
