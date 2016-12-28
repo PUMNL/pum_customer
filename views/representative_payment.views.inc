@@ -294,14 +294,20 @@ $handler->display->display_options['menu']['weight'] = '0';
 $handler->display->display_options['menu']['context'] = 0;
 $handler->display->display_options['menu']['context_only_inline'] = 0;
 
-
+/* Display: Representative Payment History */
 $handler = $view->new_display('page', 'Representative Payment History', 'page_history');
 $handler->display->display_options['defaults']['title'] = FALSE;
 $handler->display->display_options['defaults']['filter_groups'] = FALSE;
 $handler->display->display_options['defaults']['filters'] = FALSE;
 $handler->display->display_options['defaults']['footer'] = false;
 $handler->display->display_options['defaults']['header'] = false;
+$handler->display->display_options['defaults']['pager'] = FALSE;
 $handler->display->display_options['title'] = 'Representative payment history';
+$handler->display->display_options['pager']['type'] = 'full';
+$handler->display->display_options['pager']['options']['items_per_page'] = '25';
+$handler->display->display_options['pager']['options']['offset'] = '0';
+$handler->display->display_options['pager']['options']['id'] = '0';
+$handler->display->display_options['pager']['options']['quantity'] = '9';
 /* Header: Global: Text area */
 $handler->display->display_options['header']['area_1']['id'] = 'area_1';
 $handler->display->display_options['header']['area_1']['table'] = 'views';
