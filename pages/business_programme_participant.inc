@@ -84,7 +84,7 @@ function pum_customer_business_programme_participant($form, &$form_state, $case_
   $form['participant']['#type'] = 'fieldset';
 
   if ($relationship_id) {
-    $form['participant']['edit_help']['#markup'] = '<p><em>Use this form to update details of this registration. If you want to cancel the registration go back and press cancel and then add a new participant.</em></p>';
+    $form['participant']['edit_help']['#markup'] = '<p><em>Please use this form to update your details of this registration. If you want to cancel the registration, go back, then press cancel and add a new participant if needed.</em></p>';
   }
 
   $form['participant']['first_name']['#type'] = 'textfield';
