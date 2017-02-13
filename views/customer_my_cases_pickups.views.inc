@@ -480,6 +480,7 @@ $handler->display->display_options['filters']['status']['relationship'] = 'case_
 $handler->display->display_options['filters']['status']['value'] = array(
   $config->preperation_status => $config->preperation_status,
   $config->matching_status => $config->matching_status,
+  $config->execution_status => $config->execution_status,
 );
 /* Filter criterion: User: Current */
 $handler->display->display_options['filters']['uid_current']['id'] = 'uid_current';
