@@ -82,6 +82,49 @@ function pum_customer_business_programme_details($form, &$form_state, $case_id) 
     }
   }
 
+  // Retrieve the maximum number of allowed participants.
+  $maxParticipants = (int) CRM_Core_DAO::singleValueQuery("SELECT `".$businessconfig->custom_groups['business_data']['fields']['Number_of_Visitors']['column_name']."` FROM `".$businessconfig->custom_groups['business_data']['table_name']."` WHERE entity_id = %1", array(1=>array($case_id, 'Integer')));
+
+  // Build a list with participants. This list contains the name, an edit details link,
+  // and an cancel link. This list is later on used to display a table with participants.
+  $participants = array();
+  $participantRows = array();
+  $participantResult = civicrm_api3('Relationship', 'get', array('case_id' => $case_id, 'relationship_type_id' => $businessconfig->business_participant_relationship_type_id, 'status_id' => 4));
+  $travelCases = array();
+  foreach($participantResult['values'] as $participant) {
+    $participants[$participant['contact_id_b']] = array(
+      'relationship_id' => $participant['id'],
+      'display_name' => civicrm_api3('Contact', 'getvalue', array('return' => 'display_name', 'id' => $participant['contact_id_b'])),
+    );
+
+    $editLink = '<a href="/customer/business-programme-details/' . $case_id . '/participant/'.$participant['id'].'">Edit details</a>';
+    $removeLink = '<a href="/customer/business-programme-details/' . $case_id . '/participant/'.$participant['id'].'/remove">Cancel registration</a>';
+
+    $participantRows[] = array(
+      $participants[$participant['contact_id_b']]['display_name'],
+      array('data' => $editLink, 'style' => 'width: 120px; text-align: right'),
+      array('data' => $removeLink, 'style' => 'width: 180px; text-align: right')
+    );
+
+    // Find travel case for this participant
+    $travelCaseSql = "SELECT civicrm_case.id 
+                      FROM civicrm_case 
+                      INNER JOIN civicrm_case_contact ON civicrm_case_contact.case_id = civicrm_case.id
+                      INNER JOIN `{$businessconfig->custom_groups['TravelParent']['table_name']}` `travel_parent` ON `travel_parent`.entity_id = civicrm_case.id
+                      WHERE `travel_parent`.`{$businessconfig->custom_groups['TravelParent']['fields']['case_id']['column_name']}` = %1
+                      AND civicrm_case_contact.contact_id = %2
+                      AND civicrm_case.is_deleted = 0 
+                      AND civicrm_case.case_type_id LIKE %3
+    ";
+    $travelCaseParams[1] = array($case_id, 'Integer');
+    $travelCaseParams[2] = array($participant['contact_id_b'], 'Integer');
+    $travelCaseParams[3] = array('%'.CRM_Core_DAO::VALUE_SEPARATOR.$businessconfig->travel_case_type.CRM_Core_DAO::VALUE_SEPARATOR.'%', 'String');
+    $travelCaseDao = CRM_Core_DAO::executeQuery($travelCaseSql, $travelCaseParams);
+    if ($travelCaseDao->fetch()) {
+      $travelCases[$travelCaseDao->id] = $participants[$participant['contact_id_b']]['display_name'];
+    }
+  }
+
   // Retrieve the documents on the case and only show the documents which are added by the current user.
   // Build a list with the name of the file and a remove link. This list is later on used
   // for displaying it as a table.
@@ -97,34 +140,33 @@ function pum_customer_business_programme_details($form, &$form_state, $case_id) 
       $downloadLink = '<a href="'.$downloadUrl.'">'.$cleanName.'</a>';
 
       $documentRows[] = array(
+        '',
         $downloadLink,
         array('data' => $removeLink, 'style' => 'width: 180px; text-align: right')
       );
     }
   }
 
-  // Retrieve the maximum number of allowed participants.
-  $maxParticipants = (int) CRM_Core_DAO::singleValueQuery("SELECT `".$businessconfig->custom_groups['business_data']['fields']['Number_of_Visitors']['column_name']."` FROM `".$businessconfig->custom_groups['business_data']['table_name']."` WHERE entity_id = %1", array(1=>array($case_id, 'Integer')));
+  foreach($travelCases as $travel_case_id => $participant) {
+    $documents = $documentsRepo->getDocumentsByCaseId($travel_case_id);
+    foreach($documents as $document) {
+      if ($document->getAddedBy() == $currentUserContactId) {
+        $version = $document->getCurrentVersion();
+        $downloadUrl = $version->getAttachment()->url;
+        $cleanName = $version->getAttachment()->cleanname;
+        $removeLink = '<a href="/customer/business-programme-details/' . $case_id . '/removedocument/' . $document->getId() . '">Remove</a>';
+        $downloadLink = '<a href="' . $downloadUrl . '">' . $cleanName . '</a>';
 
-  // Build a list with participants. This list contains the name, an edit details link,
-  // and an cancel link. This list is later on used to display a table with participants.
-  $participants = array();
-  $participantRows = array();
-  $participantResult = civicrm_api3('Relationship', 'get', array('case_id' => $case_id, 'relationship_type_id' => $businessconfig->business_participant_relationship_type_id, 'status_id' => 4));
-  foreach($participantResult['values'] as $participant) {
-    $participants[$participant['contact_id_b']] = array(
-      'relationship_id' => $participant['id'],
-      'display_name' => civicrm_api3('Contact', 'getvalue', array('return' => 'display_name', 'id' => $participant['contact_id_b'])),
-    );
-
-    $editLink = '<a href="/customer/business-programme-details/' . $case_id . '/participant/'.$participant['id'].'">Edit details</a>';
-    $removeLink = '<a href="/customer/business-programme-details/' . $case_id . '/participant/'.$participant['id'].'/remove">Cancel registration</a>';
-
-    $participantRows[] = array(
-      $participants[$participant['contact_id_b']]['display_name'],
-      array('data' => $editLink, 'style' => 'width: 120px; text-align: right'),
-      array('data' => $removeLink, 'style' => 'width: 180px; text-align: right')
-    );
+        $documentRows[] = array(
+          $participant,
+          $downloadLink,
+          array(
+            'data' => $removeLink,
+            'style' => 'width: 180px; text-align: right'
+          )
+        );
+      }
+    }
   }
 
   // Retrieve whether we have a Different Data Registering activity on the case with the status scheduled.
@@ -194,16 +236,26 @@ function pum_customer_business_programme_details($form, &$form_state, $case_id) 
 
   $form['documents']['#type'] = 'fieldset';
   $form['documents']['#title'] = 'Documents';
+  $form['documents']['upload']['#prefix'] = '<div class="upload">';
+  $form['documents']['upload']['#suffix'] = '</div>';
+  $form['documents']['upload']['explanation']['#markup'] = '<p class="description">Please upload a tentative flight itinerary for each participant. You can upload more than one document</p>';
+  $form['documents']['upload']['file']['#title'] = t('File');
+  $form['documents']['upload']['file']['#type'] = 'file';
+  $form['documents']['upload']['document_travel_case_id']['#required'] = true;
+  $form['documents']['upload']['document_travel_case_id']['#title'] = t('Participant');
+  $form['documents']['upload']['document_travel_case_id']['#type'] = 'select';
+  $form['documents']['upload']['document_travel_case_id']['#options'] = $travelCases;
+  $form['documents']['upload']['button']['#type'] = 'submit';
+  $form['documents']['upload']['button']['#value'] = 'Upload';
+  $form['documents']['upload']['button']['#submit'] = array('pum_customer_business_programme_details_submit_document');
+
   if (count($documentRows)) {
     $form['documents']['table']['#theme'] = 'table';
     $form['documents']['table']['#rows'] = $documentRows;
     $form['documents']['table']['#attributes'] = array('width' => '100%');
   }
-  $form['documents']['explanation']['#markup'] = '<p>Please upload your tentative flight itinerary</p>';
-  $form['documents']['upload']['file']['#type'] = 'file';
-  $form['documents']['upload']['button']['#type'] = 'submit';
-  $form['documents']['upload']['button']['#value'] = 'Upload';
-  $form['documents']['upload']['button']['#submit'] = array('pum_customer_business_programme_details_submit_document');
+
+  drupal_add_css(drupal_get_path('module', 'pum_customer') . '/style.css', array('group' => CSS_DEFAULT, 'every_page' => TRUE));
 
   return $form;
 }
@@ -217,6 +269,9 @@ function pum_customer_business_programme_details($form, &$form_state, $case_id) 
 function pum_customer_business_programme_details_submit_document($form, &$form_state) {
   civicrm_initialize();
   $case_id = $form_state['values']['case_id'];
+  if (!empty($form_state['values']['document_travel_case_id'])) {
+    $case_id = $form_state['values']['document_travel_case_id'];
+  }
   $file = file_save_upload('file', array(
     'file_validate_extensions' => array('gif png jpg jpeg txt rtf odf pdf doc docx ppt pptx xls xlsx'),
     'file_validate_size' => array(10*1024*1024),

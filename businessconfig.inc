@@ -12,6 +12,8 @@ class pum_customer_businessconfig {
 
   public $business_case_type;
 
+  public $travel_case_type;
+
   public $completed_case_status;
 
   public $submitted_status;
@@ -30,8 +32,12 @@ class pum_customer_businessconfig {
     civicrm_initialize();
     $case_type_id = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_type'));
     $this->business_case_type = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Business', 'option_group_id' => $case_type_id, 'return' => 'value'));
+    $this->travel_case_type = civicrm_api3('OptionValue', 'getvalue', array('name' => 'TravelCase', 'option_group_id' => $case_type_id, 'return' => 'value'));
 
     $this->completed_case_status = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Completed', 'option_group_id' => 'case_status', 'return' => 'value'));
+
+    $this->custom_groups['TravelParent'] = civicrm_api3('CustomGroup', 'getsingle', array('name' => 'travel_parent'));
+    $this->custom_groups['TravelParent']['fields']['case_id'] = civicrm_api3('CustomField', 'getsingle', array('name' => 'case_id', 'custom_group_id' => $this->custom_groups['TravelParent']['id']));
 
     $this->custom_groups['business_data'] = civicrm_api3('CustomGroup', 'getsingle', array('name' => 'Business_Data'));
     $this->custom_groups['business_data']['fields']['Number_of_Visitors'] = civicrm_api3('CustomField', 'getsingle', array('name' => 'Number_of_Visitors', 'custom_group_id' => $this->custom_groups['business_data']['id']));

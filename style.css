@@ -32,3 +32,16 @@
 .pum_customer_token_current_project_request legend {
     background-color: transparent !important;
 }
+
+/* Participants on business programm */
+#pum-customer-business-programme-details .upload {
+    margin-bottom: 1.42857rem;
+}
+#pum-customer-business-programme-details .upload .form-item {
+    display: inline-block;
+}
+
+#pum-customer-business-programme-details .upload .description {
+    display: block;
+    margin: 0;
+}
