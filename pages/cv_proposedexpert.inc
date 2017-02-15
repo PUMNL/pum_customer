@@ -8,14 +8,10 @@ function pum_customer_cv_proposedexpert($case_id) {
   $case = civicrm_api3('Case', 'getsingle', array('id' => $case_id));
   $customer_id = $case['client_id'];
   $customer = civicrm_api3('Contact', 'getsingle', array('id' => $customer_id));
-  $expert = false;
-  foreach($case['contacts'] as $role) {
-    switch ($role['role']) {
-      case 'Expert':
-        $expert = $role;
-        break;
-    }
-  }
+
+  $expert_relationship_type = civicrm_api3('RelationshipType', 'getvalue', array('return' => 'id', 'name_a_b' => 'Expert'));
+  $expert_relationship = civicrm_api3('Relationship', 'getsingle', array('relationship_type_id' => $expert_relationship_type, 'case_id' => $case_id));
+  $expert = civicrm_api3('Contact', 'getsingle', array('return' => 'display_name,sort_name,email,phone,birth_date', 'id' => $expert_relationship['contact_id_b']));
 
   $caseTypeOptionGroupId = civicrm_api3('OptionGroup', 'getvalue', array('name' => 'case_type', 'return' => 'id'));
   $adviceCaseType = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Advice', 'option_group_id' => $caseTypeOptionGroupId, 'return' => 'value'));
@@ -57,7 +53,6 @@ function pum_customer_cv_proposedexpert($case_id) {
   $workhistoryCompetencesField = civicrm_api3('CustomField', 'getvalue', array('name' => 'Competences_used_in_this_job', 'return' => 'column_name', 'custom_group_id' => $workhistoryCustomGroup['id']));
   $workhistoryFromField = civicrm_api3('CustomField', 'getvalue', array('name' => 'Yeard_From', 'return' => 'column_name', 'custom_group_id' => $workhistoryCustomGroup['id']));
   $workhistoryToField = civicrm_api3('CustomField', 'getvalue', array('name' => 'To', 'return' => 'column_name', 'custom_group_id' => $workhistoryCustomGroup['id']));
-
 
   $startDate = '';
   $endDate = '';

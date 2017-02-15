@@ -26,19 +26,19 @@ function pum_customer_business_programme_details($form, &$form_state, $case_id) 
   // Retrieve the expert and authorised contact role fomr the case.
   $case = civicrm_api3('Case', 'getsingle', array('id' => $case_id));
   $authorised = '';
-  $expertName  = '';
-  $expertEmail = '';
   foreach($case['contacts'] as $contact) {
     switch ($contact['role']) {
-      case 'Expert':
-        $expertName = $contact['display_name'];
-        $expertEmail = $contact['email'];
-        break;
       case 'Authorised contact for':
         $authorised = $contact;
         break;
     }
   }
+
+  $expert_relationship_type = civicrm_api3('RelationshipType', 'getvalue', array('return' => 'id', 'name_a_b' => 'Expert'));
+  $expert_relationship = civicrm_api3('Relationship', 'getsingle', array('relationship_type_id' => $expert_relationship_type, 'case_id' => $case_id));
+  $expert = civicrm_api3('Contact', 'getsingle', array('return' => 'display_name,sort_name,email,phone,birth_date', 'id' => $expert_relationship['contact_id_b']));
+  $expertName = $expert['display_name'];
+  $expertEmail = $expert['email'];
 
   // Retrieve the start and end date from the business case.
   $mainActivityStartDateCustomFieldName = $businessconfig->custom_groups['main_activity_info']['fields']['start_date']['column_name'];
