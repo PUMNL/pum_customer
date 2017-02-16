@@ -18,6 +18,8 @@ class pum_customer_businessconfig {
 
   public $submitted_status;
 
+  public $in_progress_status;
+
   public $authorised_contact_relationship_type_id;
 
   public $expert_relationship_type_id;
@@ -75,6 +77,7 @@ class pum_customer_businessconfig {
     $this->custom_groups['Nationality']['fields']['Nationality'] = civicrm_api3('CustomField', 'getsingle', array('name' => 'Nationality', 'custom_group_id' => $this->custom_groups['Nationality']['id']));
 
     $this->submitted_status = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Submitted', 'return' => 'value', 'option_group_id' => 'activity_status'));
+    $this->in_progress_status = civicrm_api3('OptionValue', 'getvalue', array('name' => 'In Progress', 'return' => 'value', 'option_group_id' => 'activity_status'));
 
     $this->different_data_registering_activity_type = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Different Data Registering', 'option_group_id' => 'activity_type'));
     $this->scheduled_activity_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Scheduled', 'option_group_id' => 'activity_status'));

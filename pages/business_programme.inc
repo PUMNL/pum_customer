@@ -60,7 +60,7 @@ function pum_customer_business_programme_details($form, &$form_state, $case_id) 
   // used to display it as a table.
   $visitSqlParams = array();
   $visitSqlParams[1] = array($case_id, 'Integer');
-  $visitSqlParams[2] = array($businessconfig->submitted_status, 'Integer');
+  $visitSqlParams[2] = array($businessconfig->in_progress_status, 'Integer');
   $visitSql = "
     SELECT civicrm_activity.id as activity_id, 
     {$businessconfig->custom_groups['Business_Programme']['fields']['Naam_bedrijf']['column_name']} AS `Naam_bedrijf`,
