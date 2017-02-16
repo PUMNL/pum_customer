@@ -1,6 +1,8 @@
 <?php
 $case_type_option_group = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_type'));
 $project_intake_case_type_id = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Projectintake', 'option_group_id' => $case_type_option_group));
+$case_status_option_group = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_status'));
+$error_case_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Error', 'option_group_id' => $case_status_option_group));
 $activity_type_option_group = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'activity_type'));
 $open_case_act_id = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Open Case', 'option_group_id' => $activity_type_option_group));
 $local_rep_rel_type_id = civicrm_api3('RelationshipType', 'getvalue', array('name_a_b' => 'Representative is', 'return' => 'id'));
@@ -190,6 +192,19 @@ $handler->display->display_options['filters']['case_type_1']['table'] = 'civicrm
 $handler->display->display_options['filters']['case_type_1']['field'] = 'case_type';
 $handler->display->display_options['filters']['case_type_1']['value'] = array(
 	$project_intake_case_type_id => $project_intake_case_type_id,
+);
+/* Filter criterion: CiviCRM Cases: Is Deleted */
+$handler->display->display_options['filters']['is_deleted_1']['id'] = 'is_deleted_1';
+$handler->display->display_options['filters']['is_deleted_1']['table'] = 'civicrm_case';
+$handler->display->display_options['filters']['is_deleted_1']['field'] = 'is_deleted';
+$handler->display->display_options['filters']['is_deleted_1']['value'] = '0';
+/* Filter criterion: CiviCRM Cases: Case Status */
+$handler->display->display_options['filters']['status']['id'] = 'status';
+$handler->display->display_options['filters']['status']['table'] = 'civicrm_case';
+$handler->display->display_options['filters']['status']['field'] = 'status';
+$handler->display->display_options['filters']['status']['operator'] = 'not in';
+$handler->display->display_options['filters']['status']['value'] = array(
+  $error_case_status => $error_case_status,
 );
 /* Filter criterion: User: Current */
 $handler->display->display_options['filters']['uid_current']['id'] = 'uid_current';
