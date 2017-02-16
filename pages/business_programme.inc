@@ -61,6 +61,7 @@ function pum_customer_business_programme_details($form, &$form_state, $case_id) 
   $visitSqlParams = array();
   $visitSqlParams[1] = array($case_id, 'Integer');
   $visitSqlParams[2] = array($businessconfig->in_progress_status, 'Integer');
+  $visitSqlParams[3] = array($businessconfig->submitted_status, 'Integer');
   $visitSql = "
     SELECT civicrm_activity.id as activity_id, 
     {$businessconfig->custom_groups['Business_Programme']['fields']['Naam_bedrijf']['column_name']} AS `Naam_bedrijf`,
@@ -69,7 +70,8 @@ function pum_customer_business_programme_details($form, &$form_state, $case_id) 
     FROM civicrm_activity 
     INNER JOIN civicrm_case_activity ON civicrm_case_activity.activity_id = civicrm_activity.id
     INNER JOIN {$businessconfig->custom_groups['Business_Programme']['table_name']} ON {$businessconfig->custom_groups['Business_Programme']['table_name']}.entity_id = civicrm_activity.id  
-    WHERE civicrm_case_activity.case_id = %1 AND civicrm_activity.is_current_revision = '1' AND civicrm_activity.is_deleted != '1' AND civicrm_activity.status_id = %2";
+    WHERE civicrm_case_activity.case_id = %1 AND civicrm_activity.is_current_revision = '1' AND civicrm_activity.is_deleted != '1' 
+    AND (civicrm_activity.status_id = %2 OR civicrm_activity.status_id = %3)";
   $dao = CRM_Core_DAO::executeQuery($visitSql, $visitSqlParams);
   $programme = array();
   while($dao->fetch()) {
