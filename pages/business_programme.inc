@@ -63,14 +63,14 @@ function pum_customer_business_programme_details($form, &$form_state, $case_id) 
   $visitSqlParams[2] = array($businessconfig->in_progress_status, 'Integer');
   $visitSqlParams[3] = array($businessconfig->submitted_status, 'Integer');
   $visitSql = "
-    SELECT civicrm_activity.id as activity_id, 
+    SELECT civicrm_activity.id as activity_id,
     {$businessconfig->custom_groups['Business_Programme']['fields']['Naam_bedrijf']['column_name']} AS `Naam_bedrijf`,
     {$businessconfig->custom_groups['Business_Programme']['fields']['Location']['column_name']} AS `Location`,
     {$businessconfig->custom_groups['Business_Programme']['fields']['Aim_of_Visit']['column_name']} AS `Aim_of_Visit`
-    FROM civicrm_activity 
+    FROM civicrm_activity
     INNER JOIN civicrm_case_activity ON civicrm_case_activity.activity_id = civicrm_activity.id
-    INNER JOIN {$businessconfig->custom_groups['Business_Programme']['table_name']} ON {$businessconfig->custom_groups['Business_Programme']['table_name']}.entity_id = civicrm_activity.id  
-    WHERE civicrm_case_activity.case_id = %1 AND civicrm_activity.is_current_revision = '1' AND civicrm_activity.is_deleted != '1' 
+    INNER JOIN {$businessconfig->custom_groups['Business_Programme']['table_name']} ON {$businessconfig->custom_groups['Business_Programme']['table_name']}.entity_id = civicrm_activity.id
+    WHERE civicrm_case_activity.case_id = %1 AND civicrm_activity.is_current_revision = '1' AND civicrm_activity.is_deleted != '1'
     AND (civicrm_activity.status_id = %2 OR civicrm_activity.status_id = %3)";
   $dao = CRM_Core_DAO::executeQuery($visitSql, $visitSqlParams);
   $programme = array();
@@ -109,13 +109,13 @@ function pum_customer_business_programme_details($form, &$form_state, $case_id) 
     );
 
     // Find travel case for this participant
-    $travelCaseSql = "SELECT civicrm_case.id 
-                      FROM civicrm_case 
+    $travelCaseSql = "SELECT civicrm_case.id
+                      FROM civicrm_case
                       INNER JOIN civicrm_case_contact ON civicrm_case_contact.case_id = civicrm_case.id
                       INNER JOIN `{$businessconfig->custom_groups['TravelParent']['table_name']}` `travel_parent` ON `travel_parent`.entity_id = civicrm_case.id
                       WHERE `travel_parent`.`{$businessconfig->custom_groups['TravelParent']['fields']['case_id']['column_name']}` = %1
                       AND civicrm_case_contact.contact_id = %2
-                      AND civicrm_case.is_deleted = 0 
+                      AND civicrm_case.is_deleted = 0
                       AND civicrm_case.case_type_id LIKE %3
     ";
     $travelCaseParams[1] = array($case_id, 'Integer');
@@ -177,7 +177,7 @@ function pum_customer_business_programme_details($form, &$form_state, $case_id) 
   $dataDiscrepancyParams[2] = array($businessconfig->scheduled_activity_status, 'Integer');
   $dataDiscrepancyParams[3] = array($case_id, 'Integer');
   $dataDiscrepancySql = "
-    SELECT COUNT(*) 
+    SELECT COUNT(*)
     FROM civicrm_activity
     INNER JOIN civicrm_case_activity ON civicrm_case_activity.activity_id = civicrm_activity.id
     WHERE is_current_revision = 1 AND is_deleted != 1 AND activity_type_id = %1 AND status_id = %2 AND case_id = %3
@@ -216,7 +216,7 @@ function pum_customer_business_programme_details($form, &$form_state, $case_id) 
 
   $form['participants']['#type'] = 'fieldset';
   $form['participants']['#title'] = 'Participants';
-  $form['participants']['max_participants']['#markup'] = '<p><em>You can register a maximum of '.$maxParticipants.' participants</em></p>';
+  $form['participants']['max_participants']['#markup'] = '<p><em>You can register a maximum of '.$maxParticipants.' participants</em>. <br />Please make sure each participant has unique details.</p>';
   if (!$isDataDiscrepancy) {
     if (count($participants)) {
       $form['participants']['table']['#theme'] = 'table';
