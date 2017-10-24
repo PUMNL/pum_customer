@@ -35,6 +35,10 @@ class pum_customer_mycases_config {
     public $ma_start_date;
 
     public $ma_end_date;
+		
+		public $travel_data;
+		
+		public $inbound_arrival_time;
 
     protected function __construct() {
         civicrm_initialize();
@@ -68,6 +72,9 @@ class pum_customer_mycases_config {
         $this->main_activity_info = civicrm_api3('CustomGroup', 'getsingle', array('name' => 'main_activity_info'));
         $this->ma_start_date = civicrm_api3('CustomField', 'getsingle', array('name' => 'main_activity_start_date', 'custom_group_id' => $this->main_activity_info['id']));
         $this->ma_end_date = civicrm_api3('CustomField', 'getsingle', array('name' => 'main_activity_end_date', 'custom_group_id' => $this->main_activity_info['id']));
+				
+				$this->travel_data = civicrm_api3('CustomGroup', 'getsingle', array('name' => 'travel_data'));
+				$this->inbound_arrival_time = civicrm_api3('CustomField', 'getsingle', array('name' => 'arrival_time', 'custom_group_id' => $this->travel_data['id']));
     }
 
     public function getConditions() {
