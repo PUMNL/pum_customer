@@ -133,8 +133,12 @@ function pum_customer_token_info() {
     'description' => t('The details of the current project request'),
   );
   $node['current_project_request_title'] = array(
-    'name' => t('Currnt subject of project request'),
+    'name' => t('Current subject of project request'),
     'description' => t('The subject of the current project request case'),
+  );
+	$node['current_project_customer_profile_link'] = array(
+    'name' => t('Customer profile link of current project'),
+    'description' => t('Shows a link to the customer profile of the current project'),
   );
   return array(
     'tokens' => array('node' => $node),
@@ -172,6 +176,14 @@ function pum_customer_tokens($type, $tokens, array $data = array(), array $optio
             $request = _pum_customer_get_project_request_title($queryParameters['caseid']);
           }
           $replacements[$original] = $request;
+          break;
+				case 'current_project_customer_profile_link':
+          $profile_link = '';
+          $queryParameters = drupal_get_query_parameters();
+          if (!empty($queryParameters['caseid'])) {
+            $profile_link = _pum_customer_get_project_customer_name_and_link($queryParameters['caseid']);
+          }
+          $replacements[$original] = $profile_link;
           break;
       }
     }
@@ -289,6 +301,21 @@ function _pum_customer_get_project_request_title($case_id) {
   }
 
   return $project;
+}
+
+/**
+ * Returns a link to the customer profile
+ */
+function _pum_customer_get_project_customer_name_and_link($case_id) {
+	civicrm_initialize();
+	try {
+		$case = civicrm_api3('Case', 'getsingle', array('id' => $case_id));
+		$client_id = reset($case['client_id']);
+		$contact = civicrm_api3('Contact', 'getvalue', array('return' => 'display_name', 'id' => $client_id));
+		return '<a href="/customer-profile/'.$client_id.'">'.$contact.'</a>';
+	} catch (Exception $e) {
+		return '';
+	}
 }
 
 function _pum_customer_get_project_request_details($case_id) {
