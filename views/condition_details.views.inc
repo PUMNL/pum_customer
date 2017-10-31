@@ -18,8 +18,36 @@ $handler = $view->new_display('default', 'Master', 'default');
 $handler->display->display_options['title'] = 'Condition details';
 $handler->display->display_options['css_class'] = 'pum-list-view';
 $handler->display->display_options['use_more_always'] = FALSE;
-$handler->display->display_options['access']['type'] = 'role';
-$handler->display->display_options['access']['role'] = pum_customer_get_role_ids(array('Customer', 'Customer (contact)', 'Representative'));
+$handler->display->display_options['access']['type'] = 'php';
+$handler->display->display_options['access']['php_access'] = '$hasrole = FALSE;
+$url = $_SERVER["REQUEST_URI"];
+$url_path = parse_url($url, PHP_URL_PATH);
+$activity_id = explode("/",$_GET[\'q\']);
+civicrm_initialize();
+$session = CRM_Core_Session::singleton();
+$contact_id = $session->get(\'userID\');
+$civi_config = CRM_Core_Config::singleton();
+$civi_dsn = DB::parseDSN($civi_config->dsn);
+$civicrm_db = $civi_dsn[\'database\'];
+$project_relationships = "";
+
+if (!empty($civicrm_db) && !empty($activity_id[2])) {
+	$project_relationships = db_query("SELECT c.id AS \'case_id\', rel.contact_id_b AS \'contact_id\', rt.label_b_a AS \'rel_description\' FROM ".$civicrm_db.".civicrm_case_project cp
+LEFT JOIN ".$civicrm_db.".civicrm_case c ON cp.case_id = c.id
+LEFT JOIN ".$civicrm_db.".civicrm_relationship rel ON c.id = rel.case_id
+LEFT JOIN ".$civicrm_db.".civicrm_relationship_type rt ON rel.relationship_type_id = rt.id
+LEFT JOIN ".$civicrm_db.".civicrm_case_contact cc ON cc.case_id = c.id
+WHERE cp.case_id = (SELECT ca.case_id FROM ".$civicrm_db.".civicrm_case_activity ca WHERE ca.activity_id = :activity_id) AND cp.is_active = :is_active",
+array(\':activity_id\'=>check_plain($activity_id[2]),\':is_active\'=>\'1\'))->fetchAll();
+
+foreach($project_relationships as $rel) {
+	if ($rel->contact_id == $contact_id) {
+		$hasrole = TRUE;
+	}
+}
+}
+return $hasrole;';
+
 $handler->display->display_options['cache']['type'] = 'none';
 $handler->display->display_options['query']['type'] = 'views_query';
 $handler->display->display_options['exposed_form']['type'] = 'basic';
@@ -70,7 +98,7 @@ $handler->display->display_options['fields']['status']['table'] = 'civicrm_activ
 $handler->display->display_options['fields']['status']['field'] = 'status';
 $handler->display->display_options['fields']['status']['label'] = 'Status';
 $handler->display->display_options['fields']['status']['element_label_type'] = 'strong';
-/* Field: CiviCRM Activities: Details */
+/* Field: CiviCRM Custom: Condition: Remark Customer */
 $handler->display->display_options['fields']['remark']['id'] = 'remark';
 $handler->display->display_options['fields']['remark']['table'] = $config->cgConditions['table_name'];
 $handler->display->display_options['fields']['remark']['field'] = $config->cfConditionsCustomerRemark['column_name'];
@@ -141,8 +169,11 @@ $translatables['condition_details_for_customer_and_representative_'] = array(
   t('Asc'),
   t('Desc'),
   t('.'),
+  t('Date'),
+  t('Type'),
   t('Status'),
-  t('PHP'),
+  t('Remark customer'),
+  t('Attachments'),
   t('All'),
   t('Page'),
 );

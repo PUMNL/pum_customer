@@ -17,8 +17,34 @@ $handler = $view->new_display('default', 'Master', 'default');
 $handler->display->display_options['title'] = 'Expert';
 $handler->display->display_options['css_class'] = 'pum-list-view';
 $handler->display->display_options['use_more_always'] = FALSE;
-$handler->display->display_options['access']['type'] = 'role';
-$handler->display->display_options['access']['role'] = pum_customer_get_role_ids(array('Customer (contact)', 'Representative'));
+$handler->display->display_options['access']['type'] = 'php';
+$handler->display->display_options['access']['php_access'] = '$hasrole = FALSE;
+$url = $_SERVER["REQUEST_URI"];
+$url_path = parse_url($url, PHP_URL_PATH);
+$case_id = explode("/",$_GET[\'q\']);
+
+civicrm_initialize();
+$contact_id = CRM_Core_Session::singleton()->getLoggedInContactID(); //$session->get(\'userID\');
+$civi_config = CRM_Core_Config::singleton();
+$civi_dsn = DB::parseDSN($civi_config->dsn);
+$civicrm_db = $civi_dsn[\'database\'];
+
+if (!empty($civicrm_db) && !empty($case_id[3])) {
+	$relationships = db_query("SELECT c.id AS \'case_id\', rel.contact_id_b AS \'contact_id\', rt.label_b_a AS \'rel_description\' FROM ".$civicrm_db.".civicrm_case_project cp
+											LEFT JOIN ".$civicrm_db.".civicrm_case c ON cp.case_id = c.id
+											LEFT JOIN ".$civicrm_db.".civicrm_relationship rel ON c.id = rel.case_id
+											LEFT JOIN ".$civicrm_db.".civicrm_relationship_type rt ON rel.relationship_type_id = rt.id
+											LEFT JOIN ".$civicrm_db.".civicrm_case_contact cc ON cc.case_id = c.id
+											WHERE rel.case_id = :case_id AND rel.is_active = :is_active",
+											array(\':case_id\'=>check_plain($case_id[3]),\':is_active\'=>\'1\'))->fetchAll();
+
+foreach($relationships as $rel) {
+	if ($rel->contact_id == $contact_id) {
+		$hasrole = TRUE;
+	}
+}
+}
+return $hasrole;';
 $handler->display->display_options['cache']['type'] = 'none';
 $handler->display->display_options['query']['type'] = 'views_query';
 $handler->display->display_options['exposed_form']['type'] = 'basic';
@@ -147,6 +173,10 @@ $translatables['expert_info_for_customer'] = array(
   t('Asc'),
   t('Desc'),
   t('.'),
+	t('PHP'),
+  t('[php]'),
+  t('[prefix_id] [display_name]'),
+  t('Project qualifications'),
   t('Languages'),
   t('Education'),
   t('Work history'),

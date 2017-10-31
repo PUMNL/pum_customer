@@ -17,8 +17,35 @@ $handler = $view->new_display('default', 'Master', 'default');
 $handler->display->display_options['title'] = 'Customer';
 $handler->display->display_options['css_class'] = 'pum-grid-view';
 $handler->display->display_options['use_more_always'] = FALSE;
-$handler->display->display_options['access']['type'] = 'role';
-$handler->display->display_options['access']['role'] = pum_customer_get_role_ids(array('Customer', 'Customer (contact)', 'Representative'));
+$handler->display->display_options['access']['type'] = 'php';
+$handler->display->display_options['access']['php_access'] = '$hasrole = FALSE;
+$url = $_SERVER["REQUEST_URI"];
+$url_path = parse_url($url, PHP_URL_PATH);
+$customer_id = explode("/",$_GET[\'q\']);
+
+civicrm_initialize();
+$session = CRM_Core_Session::singleton();
+$contact_id = $session->get(\'userID\');
+$civi_config = CRM_Core_Config::singleton();
+$civi_dsn = DB::parseDSN($civi_config->dsn);
+$civicrm_db = $civi_dsn[\'database\'];
+
+if (!empty($civicrm_db) && !empty($customer_id[1])) {
+		$customer_relationships = db_query("SELECT c.id AS \'case_id\', rel.contact_id_b AS \'contact_id\', rt.label_b_a AS \'rel_description\' FROM ".$civicrm_db.".civicrm_case_project cp
+LEFT JOIN ".$civicrm_db.".civicrm_case c ON cp.case_id = c.id 
+LEFT JOIN ".$civicrm_db.".civicrm_relationship rel ON c.id = rel.case_id
+LEFT JOIN ".$civicrm_db.".civicrm_relationship_type rt ON rel.relationship_type_id = rt.id
+LEFT JOIN ".$civicrm_db.".civicrm_case_contact cc ON cc.case_id = c.id
+WHERE rel.contact_id_a = :customer_id AND rel.is_active = :is_active",
+array(\':customer_id\'=>check_plain($customer_id[1]),\':is_active\'=>\'1\'))->fetchAll();
+
+foreach($customer_relationships as $rel) {
+	if ($rel->contact_id == $contact_id) {
+		$hasrole = TRUE;
+	}
+}
+}
+return $hasrole;';
 $handler->display->display_options['cache']['type'] = 'none';
 $handler->display->display_options['query']['type'] = 'views_query';
 $handler->display->display_options['exposed_form']['type'] = 'basic';
@@ -333,24 +360,29 @@ $handler->display->display_options['filters']['contact_sub_type']['value'] = arr
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');
 $handler->display->display_options['path'] = 'customer-profile';
-$translatables['expert_customer_info'] = array(
-    t('Master'),
-    t('Customer'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('General info'),
-    t('.'),
-    t('Email Address'),
-    t('Phone 1'),
-    t('Phone 2 (Mobile)'),
-    t('Primary address'),
-    t('Postal address'),
-    t('Authorised contacts'),
-    t('Representative'),
-    t('All'),
-    t('Page'),
+$translatables['customer_info'] = array(
+  t('Master'),
+  t('Customer'),
+  t('more'),
+  t('Apply'),
+  t('Reset'),
+  t('Sort by'),
+  t('Asc'),
+  t('Desc'),
+  t('General info'),
+  t('.'),
+  t('Email Address'),
+  t('Phone 1'),
+  t('Phone 2 (Mobile)'),
+  t('Primary address'),
+  t('Postal address'),
+  t('Contact persons'),
+  t('Authorised contacts'),
+  t('Representative'),
+  t('Documents'),
+  t('Customer data'),
+  t('Yearly information'),
+  t('Projects'),
+  t('All'),
+  t('Page'),
 );
