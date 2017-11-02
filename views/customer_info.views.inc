@@ -280,6 +280,7 @@ $handler->display->display_options['fields']['documents']['field'] = 'view';
 $handler->display->display_options['fields']['documents']['label'] = 'Documents';
 $handler->display->display_options['fields']['documents']['element_label_type'] = 'h2';
 $handler->display->display_options['fields']['documents']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['documents']['hide_empty'] = TRUE;
 $handler->display->display_options['fields']['documents']['view'] = 'customer_documents_for_customer_';
 $handler->display->display_options['fields']['documents']['arguments'] = '!1';
 /* Field: Global: Fieldset */
