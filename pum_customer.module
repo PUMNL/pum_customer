@@ -140,6 +140,10 @@ function pum_customer_token_info() {
     'name' => t('Customer profile link of current project'),
     'description' => t('Shows a link to the customer profile of the current project'),
   );
+	$node['current_project_has_authorised'] = array(
+    'name' => t('Name and contactdetails of the contact person of the customer'),
+    'description' => t('Shows the name, address, email and phone of the contact person of the customer.'),
+  );
   return array(
     'tokens' => array('node' => $node),
   );
@@ -182,6 +186,14 @@ function pum_customer_tokens($type, $tokens, array $data = array(), array $optio
           $queryParameters = drupal_get_query_parameters();
           if (!empty($queryParameters['caseid'])) {
             $profile_link = _pum_customer_get_project_customer_name_and_link($queryParameters['caseid']);
+          }
+          $replacements[$original] = $profile_link;
+          break;
+				case 'current_project_has_authorised':
+          $profile_link = '';
+          $queryParameters = drupal_get_query_parameters();
+          if (!empty($queryParameters['caseid'])) {
+            $profile_link = _pum_customer_get_project_contactperson($queryParameters['caseid']);
           }
           $replacements[$original] = $profile_link;
           break;
@@ -339,6 +351,31 @@ function _pum_customer_get_project_request_title($case_id) {
   }
 
   return $project;
+}
+
+function _pum_customer_get_project_contactperson($case_id) {
+	civicrm_initialize();
+	try {
+		$authorised_contact_rel_type_id = civicrm_api3('RelationshipType', 'getvalue', array('name_a_b' => 'Has authorised', 'return' => 'id'));
+		$case = civicrm_api3('Case', 'getsingle', array('id' => $case_id));
+		$client_id = reset($case['client_id']);
+		$contact_persons = civicrm_api3('Relationship', 'get', array(
+			'contact_id_a' => $client_id,
+			'case_id' => $case_id,
+			'relationship_type_id' => $authorised_contact_rel_type_id,
+			'is_active' => '1',
+		));
+		$return = '<table><tr><th>Name</th><th>Job title</th><th>Phone number</th><th>Email address</th></tr>';
+		
+		foreach($contact_persons['values'] as $contact_person) {
+			$contact = civicrm_api3('Contact', 'getsingle', array('id' => $contact_person['contact_id_b']));
+			$return .= '<tr><td>'.$contact['display_name'].'</td><td>'.$contact['job_title'].'</td><td>'.$contact['phone'].'</td><td>'.$contact['email'].'</td></tr>';
+		}
+		$return .= '</table>';
+		return $return;
+	} catch (Exception $e) {
+		return '';
+	}
 }
 
 /**
