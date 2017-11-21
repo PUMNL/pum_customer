@@ -464,8 +464,8 @@ function _pum_customer_your_expert_will_arrive_block(&$block) {
   if ($dao->fetch()) {
     $link = url('customer/upcoming-pickups', array('absolute'=> true));
     $date = new DateTime($dao->start_date);
-    $days = $date->diff($now)->format('%a') + 1;
-    if ($days <= 1) {
+    $days = $date->diff($now)->format('%a');
+    if ($days < 1) {
       $days = 'today';
     } else {
       $days = 'in '.$days.' days';
