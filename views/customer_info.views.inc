@@ -31,11 +31,7 @@ $civi_dsn = DB::parseDSN($civi_config->dsn);
 $civicrm_db = $civi_dsn[\'database\'];
 
 if (!empty($civicrm_db) && !empty($customer_id[1])) {
-		$customer_relationships = db_query("SELECT c.id AS \'case_id\', rel.contact_id_b AS \'contact_id\', rt.label_b_a AS \'rel_description\' FROM $civicrm_db.civicrm_case_project cp
-LEFT JOIN $civicrm_db.civicrm_case c ON cp.case_id = c.id 
-LEFT JOIN $civicrm_db.civicrm_relationship rel ON c.id = rel.case_id
-LEFT JOIN $civicrm_db.civicrm_relationship_type rt ON rel.relationship_type_id = rt.id
-LEFT JOIN $civicrm_db.civicrm_case_contact cc ON cc.case_id = c.id
+		$customer_relationships = db_query("SELECT rel.contact_id_b AS \'contact_id\' FROM civicrm.civicrm_relationship rel
 WHERE rel.contact_id_a = :customer_id AND rel.is_active = :is_active",
 array(\':customer_id\'=>check_plain($customer_id[1]),\':is_active\'=>\'1\'))->fetchAll();
 
@@ -132,7 +128,6 @@ $handler->display->display_options['fields']['fieldset_1']['children'] = array(
   3 => 'state_province',
   4 => 'country',
 );
-$handler->display->display_options['fields']['fieldset_1']['fieldset']['type'] = 'fieldset';
 /* Field: CiviCRM Address: Full Street Address */
 $handler->display->display_options['fields']['street_address']['id'] = 'street_address';
 $handler->display->display_options['fields']['street_address']['table'] = 'civicrm_address';
@@ -186,7 +181,6 @@ $handler->display->display_options['fields']['fieldset_2']['children'] = array(
   3 => 'state_province_1',
   4 => 'country_1',
 );
-$handler->display->display_options['fields']['fieldset_2']['fieldset']['type'] = 'fieldset';
 /* Field: CiviCRM Address: Full Street Address */
 $handler->display->display_options['fields']['street_address_1']['id'] = 'street_address_1';
 $handler->display->display_options['fields']['street_address_1']['table'] = 'civicrm_address';
