@@ -144,6 +144,10 @@ function pum_customer_token_info() {
     'name' => t('Name and contactdetails of the contact person of the customer'),
     'description' => t('Shows the name, address, email and phone of the contact person of the customer.'),
   );
+	$node['current_project_customer_address'] = array(
+    'name' => t('Address of the customer'),
+    'description' => t('Shows the address of the customer.'),
+  );
   return array(
     'tokens' => array('node' => $node),
   );
@@ -197,6 +201,14 @@ function pum_customer_tokens($type, $tokens, array $data = array(), array $optio
           }
           $replacements[$original] = $profile_link;
           break;
+				case 'current_project_customer_address':
+					$address = '';
+          $queryParameters = drupal_get_query_parameters();
+          if (!empty($queryParameters['caseid'])) {
+            $address = _pum_customer_get_project_customer_address($queryParameters['caseid']);
+          }
+					$replacements[$original] = $address;
+					break; 
       }
     }
   }
@@ -351,6 +363,42 @@ function _pum_customer_get_project_request_title($case_id) {
   }
 
   return $project;
+}
+
+function _pum_customer_get_project_customer_address($case_id) {
+	civicrm_initialize();
+	try {
+		$postalLocationTypeId = civicrm_api3('LocationType', 'getvalue', array('name' => 'Postaladdress', 'return' => 'id'));
+		$case = civicrm_api3('Case', 'getsingle', array('id' => $case_id));
+		$client_id = reset($case['client_id']);
+		$addresses = civicrm_api3('Address', 'get', array('contact_id' => $client_id, 'options' => array('limit' => 0)));
+		$primary = '';
+		$postal = '';
+		foreach($addresses['values'] as $address) {
+			if ($address['is_primary']) {
+				$country;
+				try {
+					$country = civicrm_api3('Country', 'getvalue', array('id' => $address['country_id'], 'return' => 'name'));
+				} catch (exception $e) {
+					// Do nothing
+				}
+				$primary = '<fieldset><legend>Primary address</legend>'.$address['street_address'].'<br />'.$address['city'].'<br />'.$address['postal_code'].'<br />'.$country.'</fieldset>';
+			} 
+			if ($address['location_type_id'] == $postalLocationTypeId ) {
+				$country;
+				try {
+					$country = civicrm_api3('Country', 'getvalue', array('id' => $address['country_id'], 'return' => 'name'));
+				} catch (exception $e) {
+					// Do nothing
+				}
+				$postal = '<fieldset><legend>Postal address</legend>'.$address['street_address'].'<br />'.$address['city'].'<br />'.$address['postal_code'].'<br />'.$country.'</fieldset>';
+			}
+		}
+		return  $primary . $postal;
+	} catch (Exception $e) {
+		return '';
+	}
+	
 }
 
 function _pum_customer_get_project_contactperson($case_id) {
