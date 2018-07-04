@@ -31,7 +31,7 @@ $civi_dsn = DB::parseDSN($civi_config->dsn);
 $civicrm_db = $civi_dsn[\'database\'];
 
 if (!empty($civicrm_db) && !empty($customer_id[1])) {
-		$customer_relationships = db_query("SELECT rel.contact_id_b AS \'contact_id\' FROM civicrm.civicrm_relationship rel
+		$customer_relationships = db_query("SELECT rel.contact_id_b AS \'contact_id\' FROM {civicrm_relationship} rel
 WHERE rel.contact_id_a = :customer_id AND rel.is_active = :is_active",
 array(\':customer_id\'=>check_plain($customer_id[1]),\':is_active\'=>\'1\'))->fetchAll();
 
