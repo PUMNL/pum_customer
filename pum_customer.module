@@ -487,6 +487,7 @@ function _pum_customer_your_expert_will_arrive_block(&$block) {
   $config = pum_customer_mycases_config::singleton();
   $session = CRM_Core_Session::singleton();
   $now = new DateTime();
+  $now->setTime(0,0);
   $nowSevenDays = new DateTime();
   $nowSevenDays->modify('+7 days');
 
@@ -512,6 +513,7 @@ function _pum_customer_your_expert_will_arrive_block(&$block) {
   if ($dao->fetch()) {
     $link = url('customer/upcoming-pickups', array('absolute'=> true));
     $date = new DateTime($dao->start_date);
+    $date->setTime(0,0);
     $days = $date->diff($now)->format('%a');
     if ($days < 1) {
       $days = 'today';
