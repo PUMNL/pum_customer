@@ -610,6 +610,8 @@ function _pum_customer_link_to_case_details($case_id, $case_type) {
   $case_types = explode(",", $case_type);
   if (in_array($config->project_intake_case_type, $case_types)) {
     return '';
+  } elseif (in_array($config->fact_finding_case_type, $case_types)) {
+    return '';
   } else {
     return 'customer/case-details/'.$case_id;
   }

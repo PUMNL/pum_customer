@@ -30,6 +30,8 @@ class pum_customer_mycases_config {
 
     public $project_intake_case_type;
 
+    public $fact_finding_case_type;
+
     public $main_activity_info;
 
     public $ma_start_date;
@@ -45,6 +47,7 @@ class pum_customer_mycases_config {
 
         $case_type_option_group = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_type'));
         $this->project_intake_case_type = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Projectintake', 'option_group_id' => $case_type_option_group));
+        $this->fact_finding_case_type = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'FactFinding', 'option_group_id' => $case_type_option_group));
 
         $case_status_id = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_status'));
         $this->matching_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Matching', 'option_group_id' => $case_status_id));
