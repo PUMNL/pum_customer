@@ -208,7 +208,7 @@ function pum_customer_tokens($type, $tokens, array $data = array(), array $optio
             $address = _pum_customer_get_project_customer_address($queryParameters['caseid']);
           }
 					$replacements[$original] = $address;
-					break; 
+					break;
       }
     }
   }
@@ -383,7 +383,7 @@ function _pum_customer_get_project_customer_address($case_id) {
 					// Do nothing
 				}
 				$primary = '<fieldset><legend>Primary address</legend>'.$address['street_address'].'<br />'.$address['city'].'<br />'.$address['postal_code'].'<br />'.$country.'</fieldset>';
-			} 
+			}
 			if ($address['location_type_id'] == $postalLocationTypeId ) {
 				$country;
 				try {
@@ -398,7 +398,7 @@ function _pum_customer_get_project_customer_address($case_id) {
 	} catch (Exception $e) {
 		return '';
 	}
-	
+
 }
 
 function _pum_customer_get_project_contactperson($case_id) {
@@ -414,7 +414,7 @@ function _pum_customer_get_project_contactperson($case_id) {
 			'is_active' => '1',
 		));
 		$return = '<table><tr><th>Name</th><th>Job title</th><th>Phone number</th><th>Email address</th></tr>';
-		
+
 		foreach($contact_persons['values'] as $contact_person) {
 			$contact = civicrm_api3('Contact', 'getsingle', array('id' => $contact_person['contact_id_b']));
 			$return .= '<tr><td>'.$contact['display_name'].'</td><td>'.$contact['job_title'].'</td><td>'.$contact['phone'].'</td><td>'.$contact['email'].'</td></tr>';
@@ -492,7 +492,7 @@ function _pum_customer_your_expert_will_arrive_block(&$block) {
   $nowSevenDays->modify('+7 days');
 
   $sql = "SELECT travel_data.`".$config->inbound_arrival_time['column_name']."` AS start_date, c.id as case_id
-          FROM `".$config->travel_data['table_name']."` `travel_data` 
+          FROM `".$config->travel_data['table_name']."` `travel_data`
           INNER JOIN civicrm_value_travel_parent ON civicrm_value_travel_parent.entity_id = travel_data.entity_id
           INNER JOIN civicrm_case c ON civicrm_value_travel_parent.case_id = c.id
           LEFT JOIN civicrm_case_contact cc ON c.id = cc.case_id
@@ -500,6 +500,7 @@ function _pum_customer_your_expert_will_arrive_block(&$block) {
           WHERE travel_data.`".$config->inbound_arrival_time['column_name']."` BETWEEN DATE(%1) AND DATE(%2)
           AND (c.case_type_id LIKE %3 OR c.case_type_id LIKE %4)
           AND (cc.contact_id = %5 OR r.contact_id_b = %5 OR r.contact_id_a = %5)
+          AND c.status_id NOT IN (SELECT value FROM civicrm_option_value WHERE option_group_id IN (SELECT id FROM civicrm_option_group WHERE name = 'case_status') AND label IN ('Rejected','Declined','Postponed','Error','Cancelled'))
           ORDER BY travel_data.`".$config->inbound_arrival_time['column_name']."` ASC
           LIMIT 0, 1";
 
@@ -586,7 +587,7 @@ function pum_customer_get_role_ids($roles) {
       $rids[$rid] = $rid;
     }
   }
-  
+
   return $rids;
 }
 
