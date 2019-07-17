@@ -164,18 +164,6 @@ $handler->display->display_options['fields']['display_name']['field'] = 'display
 $handler->display->display_options['fields']['display_name']['relationship'] = 'added_by';
 $handler->display->display_options['fields']['display_name']['label'] = 'Added by';
 $handler->display->display_options['fields']['display_name']['link_to_civicrm_contact'] = 0;
-/* Field: CiviCRM Document: Date updated */
-$handler->display->display_options['fields']['date_updated']['id'] = 'date_updated';
-$handler->display->display_options['fields']['date_updated']['table'] = 'civicrm_document';
-$handler->display->display_options['fields']['date_updated']['field'] = 'date_updated';
-$handler->display->display_options['fields']['date_updated']['date_format'] = 'short';
-/* Field: CiviCRM Contacts: Display Name */
-$handler->display->display_options['fields']['display_name_1']['id'] = 'display_name_1';
-$handler->display->display_options['fields']['display_name_1']['table'] = 'civicrm_contact';
-$handler->display->display_options['fields']['display_name_1']['field'] = 'display_name';
-$handler->display->display_options['fields']['display_name_1']['relationship'] = 'updated_by';
-$handler->display->display_options['fields']['display_name_1']['label'] = 'Updated by';
-$handler->display->display_options['fields']['display_name_1']['link_to_civicrm_contact'] = 0;
 /* Field: CiviCRM Document: Document Download link */
 $handler->display->display_options['fields']['download_link']['id'] = 'download_link';
 $handler->display->display_options['fields']['download_link']['table'] = 'civicrm_document';
