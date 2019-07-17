@@ -52,6 +52,14 @@ $handler->display->display_options['fields']['view']['element_label_type'] = 'h2
 $handler->display->display_options['fields']['view']['view'] = 'customer_my_cases_conditions';
 $handler->display->display_options['fields']['view']['arguments'] = '[!id]';
 /* Field: Global: View */
+$handler->display->display_options['fields']['view_4']['id'] = 'view_4';
+$handler->display->display_options['fields']['view_4']['table'] = 'views';
+$handler->display->display_options['fields']['view_4']['field'] = 'view';
+$handler->display->display_options['fields']['view_4']['label'] = 'Documents';
+$handler->display->display_options['fields']['view_4']['element_label_type'] = 'h2';
+$handler->display->display_options['fields']['view_4']['view'] = 'rep_my_case_documents';
+$handler->display->display_options['fields']['view_4']['arguments'] = '[!id]';
+/* Field: Global: View */
 $handler->display->display_options['fields']['view_1']['id'] = 'view_1';
 $handler->display->display_options['fields']['view_1']['table'] = 'views';
 $handler->display->display_options['fields']['view_1']['field'] = 'view';
