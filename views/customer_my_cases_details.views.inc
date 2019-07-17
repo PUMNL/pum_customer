@@ -15,11 +15,7 @@ $handler->display->display_options['title'] = 'Case details';
 $handler->display->display_options['css_class'] = 'pum-grid-view';
 $handler->display->display_options['use_more_always'] = FALSE;
 $handler->display->display_options['access']['type'] = 'role';
-$handler->display->display_options['access']['role'] = array(
-4 => '4',
-7 => '7',
-8 => '8',
-);
+$handler->display->display_options['access']['role'] = pum_expert_mycases_get_role_ids(array('Expert','Representative','Customer (contact)'));
 $handler->display->display_options['cache']['type'] = 'none';
 $handler->display->display_options['query']['type'] = 'views_query';
 $handler->display->display_options['exposed_form']['type'] = 'basic';
