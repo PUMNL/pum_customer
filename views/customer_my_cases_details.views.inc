@@ -95,6 +95,14 @@ $handler->display->display_options['fields']['php_1']['use_php_setup'] = 0;
 $handler->display->display_options['fields']['php_1']['php_value'] = 'return pum_customer_get_mainactivity_follow_up($row->id)';
 $handler->display->display_options['fields']['php_1']['use_php_click_sortable'] = '0';
 $handler->display->display_options['fields']['php_1']['php_click_sortable'] = '';
+/* Field: Global: View */
+$handler->display->display_options['fields']['view_3']['id'] = 'view_3';
+$handler->display->display_options['fields']['view_3']['table'] = 'views';
+$handler->display->display_options['fields']['view_3']['field'] = 'view';
+$handler->display->display_options['fields']['view_3']['label'] = 'Activities';
+$handler->display->display_options['fields']['view_3']['element_label_type'] = 'h2';
+$handler->display->display_options['fields']['view_3']['view'] = 'rep_my_case_activities';
+$handler->display->display_options['fields']['view_3']['arguments'] = '[!id]';
 /* Contextual filter: CiviCRM Cases: Case ID */
 $handler->display->display_options['arguments']['id']['id'] = 'id';
 $handler->display->display_options['arguments']['id']['table'] = 'civicrm_case';

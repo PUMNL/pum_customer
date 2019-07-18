@@ -80,6 +80,20 @@ function pum_customer_menu() {
     'access arguments' => array(array('Customer (contact)'), 2),
   );
 
+  $items['customer/rep/new-contact-with-customer/%'] = array( //this creates a URL that will call this form at "examples/form-example"
+    'title' => 'Contact with customer by Representative',
+    //page title
+    'description' => '',
+    'page callback' => 'drupal_get_form',
+    'file' => 'pages/customer_contact_by_rep.inc',
+    //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
+    'page arguments' => array('pum_customer_contact_rep', 3),
+    //put the name of the form here
+    'access callback' => '_pum_expert_mycases_user_has_role_and_is_on_case',
+    'access arguments' => array(array('Representative'), 3),
+    // arg 1 loads the user, arg 2 is the role name
+  );
+
   return $items;
 }
 

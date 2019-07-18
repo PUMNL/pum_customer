@@ -42,6 +42,8 @@ class pum_customer_mycases_config {
 		
 		public $inbound_arrival_time;
 
+		public $contact_with_customer_by_rep;
+
     protected function __construct() {
         civicrm_initialize();
 
@@ -78,6 +80,8 @@ class pum_customer_mycases_config {
 				
 				$this->travel_data = civicrm_api3('CustomGroup', 'getsingle', array('name' => 'travel_data'));
 				$this->inbound_arrival_time = civicrm_api3('CustomField', 'getsingle', array('name' => 'arrival_time', 'custom_group_id' => $this->travel_data['id']));
+				$this->contact_with_customer_by_rep = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Contact with Customer by Rep', 'option_group_id' => $activity_type_option_group));
+
     }
 
     public function getConditions() {
@@ -94,6 +98,10 @@ class pum_customer_mycases_config {
       $return[$cond['value']] = $cond['value'];
     }
     return $return;
+  }
+
+  public function getContactWithCustomerByRepActivityId(){
+      return $this->contact_with_customer_by_rep['value'];
   }
 
 
