@@ -791,3 +791,30 @@ function _pum_customer_user_has_role($roles = array()) {
   }
   return FALSE;
 }
+
+/**
+ * May a representative see this activity
+ * 1) the activity have type that is is in the list with activities that are allowed to be shown to reps.
+ * 2) the activity must be connected to a case.
+ * 3) the logged in user must have a role on this case (ANY role is allowed, not only Rep
+ *
+ * @param $activity_id
+ *
+ * @return bool
+ */
+function pum_customer_rep_may_see_activity($activity_id){
+  civicrm_initialize();
+  $config = pum_expert_mycases_config::singleton();
+  $inClause = ' ('.implode(',',$config->getRepActivityList()) .')';
+  $sql='select ca.case_id from civicrm_case_activity ca
+        join   civicrm_activity act on (act.id = ca.activity_id and act.is_current_revision = 1 and act.is_deleted=0)
+        where act.id=%1 and act.activity_type_id in '.$inClause;
+  $case_id = CRM_Core_DAO::singleValueQuery($sql,
+      [ 1 => [$activity_id,'Integer']]
+    );
+  if($case_id) {
+    return pum_customer_user_has_role_on_case($case_id);
+  } else {
+    return false;
+  }
+}
