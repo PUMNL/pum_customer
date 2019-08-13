@@ -95,6 +95,7 @@ $handler->display->display_options['header']['php']['table'] = 'views';
 $handler->display->display_options['header']['php']['field'] = 'php';
 $handler->display->display_options['header']['php']['empty'] = TRUE;
 $handler->display->display_options['header']['php']['php_output'] = '
+   <h2>Activities:</h2>
    <?php $case_id = reset($view->args); ?>
    <a href="/customer/rep/new-contact-with-customer/<?php echo $case_id ?>?destination=/customer/case-details/<?php echo $case_id ?>" class="button">Add summary of contact with customer</a>
 ';
