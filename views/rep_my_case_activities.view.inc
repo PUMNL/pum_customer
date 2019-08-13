@@ -1,30 +1,5 @@
 <?php
-
-
-$activity_names = [
-  'Assessment Project Request by Rep',
-  'Condition',
-  'Advice Debriefing Representative',
-  'Representative payment',
-  'Seminar Debriefing Representative',
-  'Remote Coaching Debriefing Representative',
-  'Condition: Customer Contribution',
-  'Contact with Customer by Rep'
-];
-
-$activities = civicrm_api3('OptionValue', 'get', [
-  'sequential' => 1,
-  'option_group_id' => "activity_type",
-  'options' => ['limit' => 0]
-])['values'];
-
-$activity_ids = [];
-foreach($activities as $activity){
-  if(in_array($activity['label'],$activity_names)){
-    $activity_ids[$activity['value']] = $activity['value'];
-  }
-}
-
+$config = pum_expert_mycases_config::singleton();
 $view = new view();
 $view->name = 'rep_my_case_activities';
 $view->description = '';
@@ -190,4 +165,4 @@ $handler->display->display_options['filters']['activity_type']['id'] = 'activity
 $handler->display->display_options['filters']['activity_type']['table'] = 'civicrm_activity';
 $handler->display->display_options['filters']['activity_type']['field'] = 'activity_type';
 $handler->display->display_options['filters']['activity_type']['relationship'] = 'activity_id';
-$handler->display->display_options['filters']['activity_type']['value'] = $activity_ids;
+$handler->display->display_options['filters']['activity_type']['value'] = $config->getRepActivityList();
