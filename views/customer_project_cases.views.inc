@@ -171,13 +171,7 @@ $handler->display->display_options['fields']['end_date']['relationship'] = 'case
 $handler->display->display_options['fields']['end_date']['date_format'] = 'custom';
 $handler->display->display_options['fields']['end_date']['custom_date_format'] = 'j F Y';
 $handler->display->display_options['fields']['end_date']['second_date_format'] = 'long';
-/* Field: CiviCRM Cases: Case ID */
-$handler->display->display_options['fields']['id']['id'] = 'id';
-$handler->display->display_options['fields']['id']['table'] = 'civicrm_case';
-$handler->display->display_options['fields']['id']['field'] = 'id';
-$handler->display->display_options['fields']['id']['exclude'] = FALSE;
-$handler->display->display_options['fields']['id']['relationship'] = 'case_id';
-$handler->display->display_options['fields']['id']['separator'] = '';
+
 /* Field: Global: PHP */
 $handler->display->display_options['fields']['php_2']['id'] = 'php_2';
 $handler->display->display_options['fields']['php_2']['table'] = 'views';
@@ -246,6 +240,13 @@ $handler->display->display_options['fields']['php']['php_value'] = 'if (pum_cust
 return $row->display_name_1;';
 $handler->display->display_options['fields']['php']['use_php_click_sortable'] = '0';
 $handler->display->display_options['fields']['php']['php_click_sortable'] = '';
+/* Field: CiviCRM Cases: Case ID */
+$handler->display->display_options['fields']['id']['id'] = 'id';
+$handler->display->display_options['fields']['id']['table'] = 'civicrm_case';
+$handler->display->display_options['fields']['id']['field'] = 'id';
+$handler->display->display_options['fields']['id']['exclude'] = FALSE;
+$handler->display->display_options['fields']['id']['relationship'] = 'case_id';
+$handler->display->display_options['fields']['id']['separator'] = '';
 /* Field: Global: PHP */
 $handler->display->display_options['fields']['php_1']['id'] = 'php_1';
 $handler->display->display_options['fields']['php_1']['table'] = 'views';
