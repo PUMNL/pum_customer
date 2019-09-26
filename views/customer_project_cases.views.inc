@@ -112,13 +112,6 @@ $handler->display->display_options['relationships']['contact_id_b_']['table'] = 
 $handler->display->display_options['relationships']['contact_id_b_']['field'] = 'contact_id_b_';
 $handler->display->display_options['relationships']['contact_id_b_']['relationship'] = 'relationship_id';
 $handler->display->display_options['relationships']['contact_id_b_']['label'] = 'Expert';
-/* Field: CiviCRM Cases: Case ID */
-$handler->display->display_options['fields']['id']['id'] = 'id';
-$handler->display->display_options['fields']['id']['table'] = 'civicrm_case';
-$handler->display->display_options['fields']['id']['field'] = 'id';
-$handler->display->display_options['fields']['id']['exclude'] = TRUE;
-$handler->display->display_options['fields']['id']['relationship'] = 'case_id';
-$handler->display->display_options['fields']['id']['separator'] = '';
 /* Field: CiviCRM Contacts: Contact ID */
 $handler->display->display_options['fields']['id_1']['id'] = 'id_1';
 $handler->display->display_options['fields']['id_1']['table'] = 'civicrm_contact';
@@ -178,6 +171,13 @@ $handler->display->display_options['fields']['end_date']['relationship'] = 'case
 $handler->display->display_options['fields']['end_date']['date_format'] = 'custom';
 $handler->display->display_options['fields']['end_date']['custom_date_format'] = 'j F Y';
 $handler->display->display_options['fields']['end_date']['second_date_format'] = 'long';
+/* Field: CiviCRM Cases: Case ID */
+$handler->display->display_options['fields']['id']['id'] = 'id';
+$handler->display->display_options['fields']['id']['table'] = 'civicrm_case';
+$handler->display->display_options['fields']['id']['field'] = 'id';
+$handler->display->display_options['fields']['id']['exclude'] = FALSE;
+$handler->display->display_options['fields']['id']['relationship'] = 'case_id';
+$handler->display->display_options['fields']['id']['separator'] = '';
 /* Field: Global: PHP */
 $handler->display->display_options['fields']['php_2']['id'] = 'php_2';
 $handler->display->display_options['fields']['php_2']['table'] = 'views';
