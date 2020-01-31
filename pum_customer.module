@@ -499,7 +499,6 @@ function _pum_customer_get_project_request_details($case_id) {
 function _pum_customer_your_expert_will_arrive_block(&$block) {
   civicrm_initialize();
   $config = pum_customer_mycases_config::singleton();
-  $session = CRM_Core_Session::singleton();
   $now = new DateTime();
   $now->setTime(0,0);
   $nowSevenDays = new DateTime();
@@ -522,21 +521,26 @@ function _pum_customer_your_expert_will_arrive_block(&$block) {
   $params[2] = array($nowSevenDays->format('Y-m-d'), 'String');
   $params[3] = array('%'.CRM_Core_DAO::VALUE_SEPARATOR.$config->advice_case_type.CRM_Core_DAO::VALUE_SEPARATOR.'%', 'String');
   $params[4] = array('%'.CRM_Core_DAO::VALUE_SEPARATOR.$config->seminar_case_type.CRM_Core_DAO::VALUE_SEPARATOR.'%', 'String');
-  $params[5] = array($session->get('userID'), 'Integer');
+  $params[5] = array($config->current_user['user']->uid, 'Integer');
 
-  $dao = CRM_Core_DAO::executeQuery($sql, $params);
-  if ($dao->fetch()) {
-    $link = url('customer/upcoming-pickups', array('absolute'=> true));
-    $date = new DateTime($dao->start_date);
-    $date->setTime(0,0);
-    $days = $date->diff($now)->format('%a');
-    if ($days < 1) {
-      $days = 'today';
-    } else {
-      $days = 'in '.$days.' days';
+  try{
+    $dao = CRM_Core_DAO::executeQuery($sql, $params);
+    if ($dao->fetch()) {
+      $link = url('customer/upcoming-pickups', array('absolute'=> true));
+      $date = new DateTime($dao->start_date);
+      $date->setTime(0,0);
+      $days = $date->diff($now)->format('%a');
+      if ($days < 1) {
+        $days = 'today';
+      } else {
+        $days = 'in '.$days.' days';
+      }
+      $block['content'] = '<p class="your_expert_will_arrive_in_x_days">Your expert will arrive '.$days.'<br /><a href="'.$link.'">click for Pickup Details.</a></p>';
+      drupal_add_css(drupal_get_path('module', 'pum_customer') . '/style.css', array('group' => CSS_DEFAULT, 'every_page' => TRUE));
     }
-    $block['content'] = '<p class="your_expert_will_arrive_in_x_days">Your expert will arrive '.$days.'<br /><a href="'.$link.'">click for Pickup Details.</a></p>';
-    drupal_add_css(drupal_get_path('module', 'pum_customer') . '/style.css', array('group' => CSS_DEFAULT, 'every_page' => TRUE));
+  } catch (Exception $e){
+    CRM_Core_Error::debug_log_message($e->getCode().' - '.$e->getMessage(), FALSE);
+    return '';
   }
 }
 
