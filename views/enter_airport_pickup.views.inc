@@ -12,6 +12,8 @@ $return_flight_number = civicrm_api3('CustomField', 'getvalue', array('name' => 
 $return_travel_from = civicrm_api3('CustomField', 'getvalue', array('name' => 'return_from', 'return' => 'column_name', 'custom_group_id' => $travel_data['id']));
 $notes = civicrm_api3('CustomField', 'getvalue', array('name' => 'notes', 'return' => 'column_name', 'custom_group_id' => $travel_data['id']));
 
+$config = pum_customer_mycases_config::singleton();
+
 $view = new view();
 $view->name = 'enter_airport_pickup_info';
 $view->description = '';
@@ -194,7 +196,7 @@ $handler->display->display_options['fields']['nothing_2']['field'] = 'nothing';
 $handler->display->display_options['fields']['nothing_2']['label'] = 'Arrival';
 $handler->display->display_options['fields']['nothing_2']['alter']['text'] = '[destination]<br>[arrival_time]<br>[flight_number]';
 $handler->display->display_options['fields']['nothing_2']['element_label_colon'] = FALSE;
-/* Field: CiviCRM Custom: Travel Data: Flight number */
+/* Field: CiviCRM Custom: Travel Data: (Return) Flight number */
 $handler->display->display_options['fields']['return_flight_number']['id'] = 'return_flight_number';
 $handler->display->display_options['fields']['return_flight_number']['table'] = $travel_data['table_name'];
 $handler->display->display_options['fields']['return_flight_number']['field'] = $return_flight_number;
@@ -204,7 +206,7 @@ $handler->display->display_options['fields']['return_flight_number']['alter']['s
 $handler->display->display_options['fields']['return_flight_number']['alter']['alter_text'] = TRUE;
 $handler->display->display_options['fields']['return_flight_number']['exclude'] = TRUE;
 $handler->display->display_options['fields']['return_flight_number']['alter']['text'] = 'with flight nr. [return_flight_number]';
-/* Field: CiviCRM Custom: Travel Data: Departure date/time */
+/* Field: CiviCRM Custom: Travel Data: (Return) Departure date/time */
 $handler->display->display_options['fields']['departure_time']['id'] = 'departure_time';
 $handler->display->display_options['fields']['departure_time']['table'] = $travel_data['table_name'];
 $handler->display->display_options['fields']['departure_time']['field'] = $departure_time;
@@ -215,7 +217,7 @@ $handler->display->display_options['fields']['departure_time']['alter']['strip_t
 $handler->display->display_options['fields']['departure_time']['alter']['alter_text'] = TRUE;
 $handler->display->display_options['fields']['departure_time']['alter']['text'] = 'on [departure_time]';
 $handler->display->display_options['fields']['departure_time']['exclude'] = TRUE;
-/* Field: CiviCRM Custom: Travel Data: Return from */
+/* Field: CiviCRM Custom: Travel Data: (Return) From */
 $handler->display->display_options['fields']['return_travel_from']['id'] = 'return_travel_from';
 $handler->display->display_options['fields']['return_travel_from']['table'] = $travel_data['table_name'];
 $handler->display->display_options['fields']['return_travel_from']['field'] = $return_travel_from;
@@ -231,7 +233,7 @@ $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
 $handler->display->display_options['fields']['nothing_1']['label'] = 'Return';
 $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '[return_travel_from]<br>[departure_time]<br>[return_flight_number]';
 $handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;
-/* Field: CiviCRM Custom: Pickup Data: Notes */
+/* Field: CiviCRM Custom: Travel Data: Notes */
 $handler->display->display_options['fields']['notes_1']['id'] = 'notes_1';
 $handler->display->display_options['fields']['notes_1']['table'] = $travel_data['table_name'];
 $handler->display->display_options['fields']['notes_1']['label'] = 'Travel remarks';
@@ -277,6 +279,23 @@ $handler->display->display_options['filters']['uid_current']['table'] = 'users';
 $handler->display->display_options['filters']['uid_current']['field'] = 'uid_current';
 $handler->display->display_options['filters']['uid_current']['relationship'] = 'drupal_id';
 $handler->display->display_options['filters']['uid_current']['value'] = '1';
+/* Filter criterion: CiviCRM Cases: Case Status */
+$handler->display->display_options['filters']['status_1']['id'] = 'status_1';
+$handler->display->display_options['filters']['status_1']['table'] = 'civicrm_case';
+$handler->display->display_options['filters']['status_1']['field'] = 'status';
+$handler->display->display_options['filters']['status_1']['operator'] = 'not in';
+$handler->display->display_options['filters']['status_1']['value'] = array(
+  $config->rejected_status => $config->rejected_status,
+  $config->declined_status => $config->declined_status,
+  $config->postponed_status => $config->postponed_status,
+  $config->error_status => $config->error_status,
+  $config->cancelled_status => $config->cancelled_status
+);
+/* Filter criterion: CiviCRM Cases: Is Deleted */
+$handler->display->display_options['filters']['is_deleted']['id'] = 'is_deleted';
+$handler->display->display_options['filters']['is_deleted']['table'] = 'civicrm_case';
+$handler->display->display_options['filters']['is_deleted']['field'] = 'is_deleted';
+$handler->display->display_options['filters']['is_deleted']['value'] = '0';
 
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');

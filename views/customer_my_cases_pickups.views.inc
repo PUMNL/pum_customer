@@ -112,9 +112,9 @@ $handler->display->display_options['fields']['display_name_1']['link_to_civicrm_
 /* Field: CiviCRM Contacts: Display Name */
 $handler->display->display_options['fields']['display_name']['id'] = 'display_name';
 $handler->display->display_options['fields']['display_name']['table'] = 'civicrm_contact';
-$handler->display->display_options['fields']['display_name']['label'] = 'Traveler';
 $handler->display->display_options['fields']['display_name']['field'] = 'display_name';
 $handler->display->display_options['fields']['display_name']['relationship'] = 'contact_id';
+$handler->display->display_options['fields']['display_name']['label'] = 'Traveler';
 /* Field: CiviCRM Custom: Travel Data: Arrival date/time */
 $handler->display->display_options['fields']['arrival_time']['id'] = 'arrival_time';
 $handler->display->display_options['fields']['arrival_time']['table'] = $travel_data['table_name'];
@@ -130,18 +130,18 @@ $handler->display->display_options['fields']['flight_number']['id'] = 'flight_nu
 $handler->display->display_options['fields']['flight_number']['table'] = $travel_data['table_name'];
 $handler->display->display_options['fields']['flight_number']['field'] = $flight_nr;
 $handler->display->display_options['fields']['flight_number']['alter']['strip_tags'] = TRUE;
-/* Field: CiviCRM Custom: Travel Data: Departure date/time */
+/* Field: CiviCRM Custom: Travel Data: (Return) Departure date/time */
 $handler->display->display_options['fields']['departure_time']['id'] = 'departure_time';
 $handler->display->display_options['fields']['departure_time']['table'] = $travel_data['table_name'];
 $handler->display->display_options['fields']['departure_time']['field'] = $departure_time;
 $handler->display->display_options['fields']['departure_time']['label'] = '(Return) Departure date/time';
 $handler->display->display_options['fields']['departure_time']['date_format'] = 'short';
-/* Field: CiviCRM Custom: Travel Data: Destination */
+/* Field: CiviCRM Custom: Travel Data: (Return) From */
 $handler->display->display_options['fields']['return_from']['id'] = 'return_from';
 $handler->display->display_options['fields']['return_from']['table'] = $travel_data['table_name'];
 $handler->display->display_options['fields']['return_from']['field'] = $return_from;
 $handler->display->display_options['fields']['return_from']['alter']['strip_tags'] = TRUE;
-/* Field: CiviCRM Custom: Travel Data: Flight number */
+/* Field: CiviCRM Custom: Travel Data: (Return) Flight number */
 $handler->display->display_options['fields']['return_flight_number']['id'] = 'return_flight_number';
 $handler->display->display_options['fields']['return_flight_number']['table'] = $travel_data['table_name'];
 $handler->display->display_options['fields']['return_flight_number']['field'] = $return_flight_nr;
@@ -197,6 +197,23 @@ $handler->display->display_options['filters']['is_deleted']['table'] = 'civicrm_
 $handler->display->display_options['filters']['is_deleted']['field'] = 'is_deleted';
 $handler->display->display_options['filters']['is_deleted']['relationship'] = 'activity_id';
 $handler->display->display_options['filters']['is_deleted']['value'] = '0';
+/* Filter criterion: CiviCRM Cases: Case Status */
+$handler->display->display_options['filters']['status']['id'] = 'status';
+$handler->display->display_options['filters']['status']['table'] = 'civicrm_case';
+$handler->display->display_options['filters']['status']['field'] = 'status';
+$handler->display->display_options['filters']['status']['operator'] = 'not in';
+$handler->display->display_options['filters']['status']['value'] = array(
+  $config->rejected_status => $config->rejected_status,
+  $config->declined_status => $config->declined_status,
+  $config->postponed_status => $config->postponed_status,
+  $config->error_status => $config->error_status,
+  $config->cancelled_status => $config->cancelled_status
+);
+/* Filter criterion: CiviCRM Cases: Is Deleted */
+$handler->display->display_options['filters']['is_deleted_1']['id'] = 'is_deleted_1';
+$handler->display->display_options['filters']['is_deleted_1']['table'] = 'civicrm_case';
+$handler->display->display_options['filters']['is_deleted_1']['field'] = 'is_deleted';
+$handler->display->display_options['filters']['is_deleted_1']['value'] = '0';
 
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');
@@ -304,7 +321,7 @@ $handler->display->display_options['filters']['uid_current']['relationship'] = '
 $handler->display->display_options['filters']['uid_current']['value'] = '1';
 $handler->display->display_options['path'] = 'customer/upcoming-pickups';
 
-/* Display: Upcoming Pickups */
+/* Display: All Upcoming Pickups */
 $handler = $view->new_display('page', 'All Upcoming Pickups', 'all-upcoming-pickups');
 $handler->display->display_options['defaults']['access'] = FALSE;
 $handler->display->display_options['defaults']['title'] = FALSE;
@@ -415,18 +432,18 @@ $handler->display->display_options['fields']['flight_number']['id'] = 'flight_nu
 $handler->display->display_options['fields']['flight_number']['table'] = $travel_data['table_name'];
 $handler->display->display_options['fields']['flight_number']['field'] = $flight_nr;
 $handler->display->display_options['fields']['flight_number']['alter']['strip_tags'] = TRUE;
-/* Field: CiviCRM Custom: Travel Data: Departure date/time */
+/* Field: CiviCRM Custom: Travel Data: (Return) Departure date/time */
 $handler->display->display_options['fields']['departure_time']['id'] = 'departure_time';
 $handler->display->display_options['fields']['departure_time']['table'] = $travel_data['table_name'];
 $handler->display->display_options['fields']['departure_time']['field'] = $departure_time;
 $handler->display->display_options['fields']['departure_time']['label'] = '(Return) Departure date/time';
 $handler->display->display_options['fields']['departure_time']['date_format'] = 'short';
-/* Field: CiviCRM Custom: Travel Data: Destination */
+/* Field: CiviCRM Custom: Travel Data: (Return) From */
 $handler->display->display_options['fields']['return_from']['id'] = 'return_from';
 $handler->display->display_options['fields']['return_from']['table'] = $travel_data['table_name'];
 $handler->display->display_options['fields']['return_from']['field'] = $return_from;
 $handler->display->display_options['fields']['return_from']['alter']['strip_tags'] = TRUE;
-/* Field: CiviCRM Custom: Travel Data: Flight number */
+/* Field: CiviCRM Custom: Travel Data: (Return) Flight number */
 $handler->display->display_options['fields']['return_flight_number']['id'] = 'return_flight_number';
 $handler->display->display_options['fields']['return_flight_number']['table'] = $travel_data['table_name'];
 $handler->display->display_options['fields']['return_flight_number']['field'] = $return_flight_nr;

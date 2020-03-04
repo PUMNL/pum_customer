@@ -26,6 +26,16 @@ class pum_customer_mycases_config {
 
     public $execution_status;
 
+    public $rejected_status;
+
+    public $declined_status;
+
+    public $postponed_status;
+
+    public $error_status;
+
+    public $cancelled_status;
+
     public $expert_relationship_type;
 
     public $project_intake_case_type;
@@ -57,6 +67,11 @@ class pum_customer_mycases_config {
         $this->matching_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Matching', 'option_group_id' => $case_status_id));
         $this->preperation_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Preparation', 'option_group_id' => $case_status_id));
         $this->execution_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Execution', 'option_group_id' => $case_status_id));
+        $this->rejected_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Rejected', 'option_group_id' => $case_status_id));
+        $this->declined_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Declined', 'option_group_id' => $case_status_id));
+        $this->postponed_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Postponed', 'option_group_id' => $case_status_id));
+        $this->error_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Error', 'option_group_id' => $case_status_id));
+        $this->cancelled_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Cancelled', 'option_group_id' => $case_status_id));
 
         $case_type_id = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_type'));
         $this->advice_case_type = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Advice', 'option_group_id' => $case_type_id, 'return' => 'value'));
