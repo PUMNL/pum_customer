@@ -100,8 +100,12 @@ class pum_customer_mycases_config {
         $this->contact_with_customer_by_rep = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Contact with Customer by Rep', 'option_group_id' => $activity_type_option_group));
 
         global $user;
-        $this->current_user = civicrm_api3('UFMatch', 'get', array('uf_id' => $user->uid));
-        $this->current_user['user'] = $user;
+        try {
+          $this->current_user = civicrm_api3('UFMatch', 'getsingle', array('uf_id' => $user->uid));
+          $this->current_user['user'] = $user;
+        } catch (Exception $e){
+          CRM_Core_Error::debug_log_message('Unable to retrieve CiviCRM Contact for Drupal ID: '.$user->uid);
+        }
     }
 
     public function getConditions() {
