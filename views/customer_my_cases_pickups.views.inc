@@ -295,7 +295,7 @@ $handler->display->display_options['filters']['status']['table'] = 'civicrm_case
 $handler->display->display_options['filters']['status']['field'] = 'status';
 $handler->display->display_options['filters']['status']['relationship'] = 'case_id';
 $handler->display->display_options['filters']['status']['value'] = array(
-  $config->preperation_status => $config->preperation_status,
+  $config->preparation_status => $config->preparation_status,
 );
 /* Filter criterion: User: Current */
 $handler->display->display_options['filters']['uid_current']['id'] = 'uid_current';
@@ -303,6 +303,16 @@ $handler->display->display_options['filters']['uid_current']['table'] = 'users';
 $handler->display->display_options['filters']['uid_current']['field'] = 'uid_current';
 $handler->display->display_options['filters']['uid_current']['relationship'] = 'drupal_id';
 $handler->display->display_options['filters']['uid_current']['value'] = '1';
+/* Filter criterion: CiviCRM Cases: Case Status */
+$handler->display->display_options['filters']['status_1']['id'] = 'status_1';
+$handler->display->display_options['filters']['status_1']['table'] = 'civicrm_case';
+$handler->display->display_options['filters']['status_1']['field'] = 'status';
+$handler->display->display_options['filters']['status_1']['operator'] = 'not in';
+$handler->display->display_options['filters']['status_1']['value'] = array(
+  $config->postponed_status => $config->postponed_status,
+  $config->error_status => $config->error_status,
+  $config->cancelled_status => $config->cancelled_status,
+);
 $handler->display->display_options['path'] = 'customer/upcoming-pickups';
 
 /* Display: All Upcoming Pickups */
@@ -479,7 +489,7 @@ $handler->display->display_options['filters']['status']['table'] = 'civicrm_case
 $handler->display->display_options['filters']['status']['field'] = 'status';
 $handler->display->display_options['filters']['status']['relationship'] = 'case_id';
 $handler->display->display_options['filters']['status']['value'] = array(
-  $config->preperation_status => $config->preperation_status,
+  $config->preparation_status => $config->preparation_status,
   $config->matching_status => $config->matching_status,
   $config->execution_status => $config->execution_status,
 );
@@ -489,6 +499,16 @@ $handler->display->display_options['filters']['uid_current']['table'] = 'users';
 $handler->display->display_options['filters']['uid_current']['field'] = 'uid_current';
 $handler->display->display_options['filters']['uid_current']['relationship'] = 'drupal_id';
 $handler->display->display_options['filters']['uid_current']['value'] = '1';
+/* Filter criterion: CiviCRM Cases: Case Status */
+$handler->display->display_options['filters']['status_1']['id'] = 'status_1';
+$handler->display->display_options['filters']['status_1']['table'] = 'civicrm_case';
+$handler->display->display_options['filters']['status_1']['field'] = 'status';
+$handler->display->display_options['filters']['status_1']['operator'] = 'not in';
+$handler->display->display_options['filters']['status_1']['value'] = array(
+  $config->postponed_status => $config->postponed_status,
+  $config->error_status => $config->error_status,
+  $config->cancelled_status => $config->cancelled_status,
+);
 $handler->display->display_options['path'] = 'customer/all-upcoming-pickups';
 $handler->display->display_options['menu']['type'] = 'normal';
 $handler->display->display_options['menu']['title'] = 'My expert flight details';

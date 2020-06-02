@@ -5,7 +5,7 @@ $case_type = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'na
 
 $submit_case_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Submitted', 'option_group_id' => $case_status));
 $matching_case_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Matching', 'option_group_id' => $case_status));
-$preperation_case_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Preparation', 'option_group_id' => $case_status));
+$preparation_case_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Preparation', 'option_group_id' => $case_status));
 $execution_case_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Execution', 'option_group_id' => $case_status));
 $debriefing_case_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Debriefing', 'option_group_id' => $case_status));
 
@@ -317,7 +317,7 @@ $handler->display->display_options['filters']['status']['operator'] = 'in';
 $handler->display->display_options['filters']['status']['value'] = array(
   $submit_case_status => $submit_case_status,
   $matching_case_status => $matching_case_status,
-  $preperation_case_status => $preperation_case_status,
+  $preparation_case_status => $preparation_case_status,
   $execution_case_status => $execution_case_status,
   $debriefing_case_status => $debriefing_case_status,
 );

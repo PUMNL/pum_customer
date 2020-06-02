@@ -508,12 +508,14 @@ function _pum_customer_your_expert_will_arrive_block(&$block) {
           FROM `".$config->travel_data['table_name']."` `travel_data`
           INNER JOIN civicrm_value_travel_parent ON civicrm_value_travel_parent.entity_id = travel_data.entity_id
           INNER JOIN civicrm_case c ON civicrm_value_travel_parent.case_id = c.id
+          INNER JOIN civicrm_case tc ON civicrm_value_travel_parent.entity_id = tc.id
           LEFT JOIN civicrm_case_contact cc ON c.id = cc.case_id
           LEFT JOIN civicrm_relationship r ON c.id = r.case_id
           WHERE travel_data.`".$config->inbound_arrival_time['column_name']."` BETWEEN DATE(%1) AND DATE(%2)
           AND (c.case_type_id LIKE %3 OR c.case_type_id LIKE %4)
           AND (cc.contact_id = %5 OR r.contact_id_b = %5 OR r.contact_id_a = %5)
-          AND c.status_id NOT IN (SELECT value FROM civicrm_option_value WHERE option_group_id IN (SELECT id FROM civicrm_option_group WHERE name = 'case_status') AND label IN ('Rejected','Declined','Postponed','Error','Cancelled'))
+          AND c.status_id = %6
+          AND (tc.status_id = %6 OR tc.status_id = %7) /* added to prevent cancelled travel cases to be listed */
           ORDER BY travel_data.`".$config->inbound_arrival_time['column_name']."` ASC
           LIMIT 0, 1";
 
@@ -522,6 +524,8 @@ function _pum_customer_your_expert_will_arrive_block(&$block) {
   $params[3] = array('%'.CRM_Core_DAO::VALUE_SEPARATOR.$config->advice_case_type.CRM_Core_DAO::VALUE_SEPARATOR.'%', 'String');
   $params[4] = array('%'.CRM_Core_DAO::VALUE_SEPARATOR.$config->seminar_case_type.CRM_Core_DAO::VALUE_SEPARATOR.'%', 'String');
   $params[5] = array($config->current_user['contact_id'], 'Integer');
+  $params[6] = array($config->preparation_status, 'Integer');
+  $params[7] = array($config->ongoing_status, 'Integer');
 
   try{
     $dao = CRM_Core_DAO::executeQuery($sql, $params);
