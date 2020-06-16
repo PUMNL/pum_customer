@@ -277,18 +277,21 @@ $handler->display->display_options['filters']['activity_type']['relationship'] =
 $handler->display->display_options['filters']['activity_type']['value'] = array(
   $pick_info_activity => $pick_info_activity,
 );
+$handler->display->display_options['filters']['activity_type']['group'] = 1;
 /* Filter criterion: CiviCRM Activities: Current Revision */
 $handler->display->display_options['filters']['is_current_revision']['id'] = 'is_current_revision';
 $handler->display->display_options['filters']['is_current_revision']['table'] = 'civicrm_activity';
 $handler->display->display_options['filters']['is_current_revision']['field'] = 'is_current_revision';
 $handler->display->display_options['filters']['is_current_revision']['relationship'] = 'activity_id';
 $handler->display->display_options['filters']['is_current_revision']['value'] = '1';
+$handler->display->display_options['filters']['is_current_revision']['group'] = 1;
 /* Filter criterion: CiviCRM Activities: Is Deleted */
 $handler->display->display_options['filters']['is_deleted']['id'] = 'is_deleted';
 $handler->display->display_options['filters']['is_deleted']['table'] = 'civicrm_activity';
 $handler->display->display_options['filters']['is_deleted']['field'] = 'is_deleted';
 $handler->display->display_options['filters']['is_deleted']['relationship'] = 'activity_id';
 $handler->display->display_options['filters']['is_deleted']['value'] = '0';
+$handler->display->display_options['filters']['is_deleted']['group'] = 1;
 /* Filter criterion: CiviCRM Cases: Case Status */
 $handler->display->display_options['filters']['status']['id'] = 'status';
 $handler->display->display_options['filters']['status']['table'] = 'civicrm_case';
@@ -296,23 +299,25 @@ $handler->display->display_options['filters']['status']['field'] = 'status';
 $handler->display->display_options['filters']['status']['relationship'] = 'case_id';
 $handler->display->display_options['filters']['status']['value'] = array(
   $config->preparation_status => $config->preparation_status,
+  $config->execution_status => $config->execution_status
 );
+$handler->display->display_options['filters']['status']['group'] = 1;
+/* Filter criterion: CiviCRM Cases: Case Status */
+$handler->display->display_options['filters']['status_1']['id'] = 'status_1';
+$handler->display->display_options['filters']['status_1']['table'] = 'civicrm_case';
+$handler->display->display_options['filters']['status_1']['field'] = 'status';
+$handler->display->display_options['filters']['status_1']['value'] = array(
+  $config->preparation_status => $config->preparation_status,
+  $config->ongoing_status => $config->ongoing_status,
+);
+$handler->display->display_options['filters']['status_1']['group'] = 1;
 /* Filter criterion: User: Current */
 $handler->display->display_options['filters']['uid_current']['id'] = 'uid_current';
 $handler->display->display_options['filters']['uid_current']['table'] = 'users';
 $handler->display->display_options['filters']['uid_current']['field'] = 'uid_current';
 $handler->display->display_options['filters']['uid_current']['relationship'] = 'drupal_id';
 $handler->display->display_options['filters']['uid_current']['value'] = '1';
-/* Filter criterion: CiviCRM Cases: Case Status */
-$handler->display->display_options['filters']['status_1']['id'] = 'status_1';
-$handler->display->display_options['filters']['status_1']['table'] = 'civicrm_case';
-$handler->display->display_options['filters']['status_1']['field'] = 'status';
-$handler->display->display_options['filters']['status_1']['operator'] = 'not in';
-$handler->display->display_options['filters']['status_1']['value'] = array(
-  $config->postponed_status => $config->postponed_status,
-  $config->error_status => $config->error_status,
-  $config->cancelled_status => $config->cancelled_status,
-);
+$handler->display->display_options['filters']['uid_current']['group'] = 1;
 $handler->display->display_options['path'] = 'customer/upcoming-pickups';
 
 /* Display: All Upcoming Pickups */
