@@ -103,8 +103,10 @@ class pum_customer_mycases_config {
 
         global $user;
         try {
-          $this->current_user = civicrm_api3('UFMatch', 'getsingle', array('uf_id' => $user->uid));
-          $this->current_user['user'] = $user;
+          if($user->uid > 0) {
+            $this->current_user = civicrm_api3('UFMatch', 'getsingle', array('uf_id' => $user->uid));
+            $this->current_user['user'] = $user;
+          }
         } catch (Exception $e){
           CRM_Core_Error::debug_log_message('Unable to retrieve CiviCRM Contact for Drupal ID: '.$user->uid);
         }
