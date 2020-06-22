@@ -307,6 +307,7 @@ $handler->display->display_options['filters']['status_1']['id'] = 'status_1';
 $handler->display->display_options['filters']['status_1']['table'] = 'civicrm_case';
 $handler->display->display_options['filters']['status_1']['field'] = 'status';
 $handler->display->display_options['filters']['status_1']['value'] = array(
+  $config->completed_status => $config->completed_status,
   $config->preparation_status => $config->preparation_status,
   $config->ongoing_status => $config->ongoing_status,
 );
@@ -318,6 +319,22 @@ $handler->display->display_options['filters']['uid_current']['field'] = 'uid_cur
 $handler->display->display_options['filters']['uid_current']['relationship'] = 'drupal_id';
 $handler->display->display_options['filters']['uid_current']['value'] = '1';
 $handler->display->display_options['filters']['uid_current']['group'] = 1;
+/* Filter criterion: CiviCRM Custom: Travel Data: Arrival date/time */
+$handler->display->display_options['filters']['arrival_time']['id'] = 'arrival_time';
+$handler->display->display_options['filters']['arrival_time']['table'] = 'civicrm_value_travel_data';
+$handler->display->display_options['filters']['arrival_time']['field'] = 'arrival_time';
+$handler->display->display_options['filters']['arrival_time']['operator'] = '>=';
+$handler->display->display_options['filters']['arrival_time']['value']['min'] = 'now';
+$handler->display->display_options['filters']['arrival_time']['value']['max'] = '+7 days';
+$handler->display->display_options['filters']['arrival_time']['value']['value'] = 'now';
+$handler->display->display_options['filters']['arrival_time']['value']['type'] = 'offset';
+/* Filter criterion: CiviCRM Custom: Travel Data: Arrival date/time */
+$handler->display->display_options['filters']['arrival_time_1']['id'] = 'arrival_time_1';
+$handler->display->display_options['filters']['arrival_time_1']['table'] = 'civicrm_value_travel_data';
+$handler->display->display_options['filters']['arrival_time_1']['field'] = 'arrival_time';
+$handler->display->display_options['filters']['arrival_time_1']['operator'] = '<=';
+$handler->display->display_options['filters']['arrival_time_1']['value']['value'] = '+7 days';
+$handler->display->display_options['filters']['arrival_time_1']['value']['type'] = 'offset';
 $handler->display->display_options['path'] = 'customer/upcoming-pickups';
 
 /* Display: All Upcoming Pickups */
@@ -332,7 +349,7 @@ $handler->display->display_options['defaults']['filters'] = FALSE;
 
 $handler->display->display_options['title'] = 'My expert flight details';
 $handler->display->display_options['access']['type'] = 'role';
-$handler->display->display_options['access']['role'] = pum_customer_get_role_ids(array('Customer', 'Customer (contact)'));
+$handler->display->display_options['access']['role'] = pum_customer_get_role_ids(array('Customer (contact)'));
 /* Relationship: CiviCRM Parent case: Parent case */
 $handler->display->display_options['relationships']['case_id']['id'] = 'case_id';
 $handler->display->display_options['relationships']['case_id']['table'] = 'civicrm_value_travel_parent';

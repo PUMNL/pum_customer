@@ -515,7 +515,7 @@ function _pum_customer_your_expert_will_arrive_block(&$block) {
           AND (c.case_type_id LIKE %3 OR c.case_type_id LIKE %4)
           AND (cc.contact_id = %5 OR r.contact_id_b = %5 OR r.contact_id_a = %5)
           AND c.status_id IN (SELECT value FROM civicrm_option_value WHERE option_group_id IN (SELECT id FROM civicrm_option_group WHERE name = 'case_status') AND label IN ('Preparation', 'Execution'))
-          AND (tc.status_id IN (SELECT value FROM civicrm_option_value WHERE option_group_id IN (SELECT id FROM civicrm_option_group WHERE name = 'case_status') AND label IN ('Ongoing', 'Preparation'))) /* added to prevent cancelled travel cases to be listed */
+          AND (tc.status_id IN (SELECT value FROM civicrm_option_value WHERE option_group_id IN (SELECT id FROM civicrm_option_group WHERE name = 'case_status') AND label IN ('Ongoing', 'Preparation', 'Completed'))) /* added to prevent cancelled travel cases to be listed */
           ORDER BY travel_data.`".$config->inbound_arrival_time['column_name']."` ASC
           LIMIT 0, 1";
 

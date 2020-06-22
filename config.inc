@@ -38,6 +38,8 @@ class pum_customer_mycases_config {
 
     public $ongoing_status;
 
+    public $completed_status;
+
     public $expert_relationship_type;
 
     public $project_intake_case_type;
@@ -75,6 +77,7 @@ class pum_customer_mycases_config {
         $this->error_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Error', 'option_group_id' => $case_status_id));
         $this->cancelled_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Cancelled', 'option_group_id' => $case_status_id));
         $this->ongoing_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'label' => 'Ongoing', 'option_group_id' => $case_status_id));
+        $this->completed_status = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Completed', 'option_group_id' => $case_status_id));
         $case_type_id = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_type'));
         $this->advice_case_type = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Advice', 'option_group_id' => $case_type_id, 'return' => 'value'));
         $this->seminar_case_type = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Seminar', 'option_group_id' => $case_type_id, 'return' => 'value'));
