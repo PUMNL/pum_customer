@@ -89,6 +89,6 @@ $handler->display->display_options['path'] = 'customer/my-organisations';
 $handler->display->display_options['menu']['type'] = 'normal';
 $handler->display->display_options['menu']['title'] = 'My organisations';
 $handler->display->display_options['menu']['weight'] = '0';
-$handler->display->display_options['menu']['name'] = 'navigation';
+$handler->display->display_options['menu']['name'] = 'menu-my-profile';
 $handler->display->display_options['menu']['context'] = 0;
 $handler->display->display_options['menu']['context_only_inline'] = 0;
