@@ -114,7 +114,7 @@ $handler->display->display_options['arguments']['id']['summary']['format'] = 'de
 $handler->display->display_options['arguments']['id']['summary_options']['items_per_page'] = '25';
 $handler->display->display_options['arguments']['id']['specify_validation'] = TRUE;
 $handler->display->display_options['arguments']['id']['validate']['type'] = 'php';
-$handler->display->display_options['arguments']['id']['validate_options']['code'] = 'return pum_customer_user_has_role_on_case($handler->argument);';
+$handler->display->display_options['arguments']['id']['validate_options']['code'] = 'return pum_customer_user_has_role_on_project_by_caseid($handler->argument);';
 $handler->display->display_options['arguments']['id']['validate']['fail'] = 'access denied';
 
 /* Display: Page */

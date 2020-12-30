@@ -126,6 +126,7 @@ function pum_customer_user_has_role_on_case($case_id) {
   $session = CRM_Core_Session::singleton();
   $contact_id = $session->get('userID');
   $case = civicrm_api3('Case', 'getsingle', array('id' => $case_id));
+
   foreach($case['contacts'] as $contact) {
     if ($contact['contact_id'] == $contact_id) {
       return true;
@@ -665,6 +666,7 @@ function pum_customer_get_mainactivity_summary($case_id) {
 
 /**
  * Return TRUE when the user has a certain drupal role and is has a role on at least one of the cases connected to the project
+ * Argument by project_id
  *
  * @param $roles
  * @params $project_id
@@ -698,6 +700,45 @@ function pum_customer_user_has_role_on_project($project_id) {
 
   return $hasrole;
 }
+
+/**
+ * Return TRUE when the user has a certain drupal role and is has a role on at least one of the cases connected to the project
+ * Argument by case_id
+ *
+ * @param $roles
+ * @params $case_id
+ * @return bool
+ */
+function pum_customer_user_has_role_on_project_by_caseid($case_id) {
+  $hasrole = FALSE;
+
+  civicrm_initialize();
+  $session = CRM_Core_Session::singleton();
+  $contact_id = $session->get('userID');
+  $civi_config = CRM_Core_Config::singleton();
+  $civi_dsn = DB::parseDSN($civi_config->dsn);
+  $civicrm_db = $civi_dsn['database'];
+
+  if (!empty($civicrm_db) && !empty($case_id)) {
+    $project_relationships = db_query("SELECT c.id AS 'case_id', rel.contact_id_b AS 'contact_id', rt.label_b_a AS 'rel_description' FROM ".$civicrm_db.".civicrm_case c
+                                       LEFT JOIN ".$civicrm_db.".civicrm_case_project cp ON cp.case_id = c.id
+                                       LEFT JOIN ".$civicrm_db.".civicrm_case_project cp2 ON cp2.project_id = cp.project_id
+                                       LEFT JOIN ".$civicrm_db.".civicrm_relationship rel ON c.id = rel.case_id
+                                       LEFT JOIN ".$civicrm_db.".civicrm_relationship_type rt ON rel.relationship_type_id = rt.id
+                                       LEFT JOIN ".$civicrm_db.".civicrm_case_contact cc ON cc.case_id = c.id
+                                       WHERE cp2.case_id = :case_id AND cp.is_active = :is_active",
+                                       array(':case_id'=>check_plain($case_id),':is_active'=>'1'))->fetchAll();
+  }
+
+  foreach($project_relationships as $rel) {
+    if ($rel->contact_id == $contact_id) {
+      $hasrole = TRUE;
+    }
+  }
+
+  return $hasrole;
+}
+
 
 /**
  * Return TRUE when the user has a relationship with the specified contact
@@ -744,7 +785,7 @@ function pum_customer_user_has_relationship_with_contact($company_id) {
  * @return bool
  */
 function _pum_customer_user_has_role_and_is_on_project($roles = array(), $project_id){
-  if (!_pum_customer_user_has_role($roles)) {
+  if (!pum_customer_user_has_role($roles)) {
     return false;
   } elseif (!pum_customer_user_has_role_on_project($project_id)) {
     return false;
@@ -762,43 +803,13 @@ function _pum_customer_user_has_role_and_is_on_project($roles = array(), $projec
  * @return bool
  */
 function _pum_customer_user_has_role_and_is_on_case($roles = array(), $case_id) {
-  if (!_pum_customer_user_has_role($roles)) {
+  if (!pum_customer_user_has_role($roles)) {
     return false;
   }
-  if (!_pum_customer_user_has_role_on_case($case_id)) {
+  if (!pum_customer_user_has_role_on_case($case_id)) {
     return false;
   }
   return true;
-}
-
-/**
- * Returns true when a user has a role on the case.
- *
- * @param $case_id
- * @return bool
- */
-function _pum_customer_user_has_role_on_case($case_id) {
-  civicrm_initialize();
-  $session = CRM_Core_Session::singleton();
-  $contact_id = $session->get('userID');
-  $case = civicrm_api3('Case', 'getsingle', array('id' => $case_id));
-
-  foreach($case['contacts'] as $contact) {
-    if ($contact['contact_id'] == $contact_id) {
-      return true;
-    }
-  }
-  return false;
-}
-
-function _pum_customer_user_has_role($roles = array()) {
-  global $user;
-  foreach ($roles as $role) {
-    if (in_array($role, $user->roles)) {
-      return TRUE;
-    }
-  }
-  return FALSE;
 }
 
 /**
@@ -813,6 +824,7 @@ function _pum_customer_user_has_role($roles = array()) {
  */
 function pum_customer_rep_may_see_activity($activity_id){
   civicrm_initialize();
+
   $config = pum_expert_mycases_config::singleton();
   $inClause = ' ('.implode(',',$config->getRepActivityList()) .')';
   $sql='select ca.case_id from civicrm_case_activity ca
@@ -821,8 +833,9 @@ function pum_customer_rep_may_see_activity($activity_id){
   $case_id = CRM_Core_DAO::singleValueQuery($sql,
       [ 1 => [$activity_id,'Integer']]
     );
-  if($case_id) {
-    return pum_customer_user_has_role_on_case($case_id);
+
+  if(!empty($case_id)) {
+    return pum_customer_user_has_role_on_project_by_caseid($case_id);
   } else {
     return false;
   }
