@@ -151,15 +151,15 @@ function pum_customer_token_info() {
     'name' => t('Current subject of project request'),
     'description' => t('The subject of the current project request case'),
   );
-	$node['current_project_customer_profile_link'] = array(
+  $node['current_project_customer_profile_link'] = array(
     'name' => t('Customer profile link of current project'),
     'description' => t('Shows a link to the customer profile of the current project'),
   );
-	$node['current_project_has_authorised'] = array(
+  $node['current_project_has_authorised'] = array(
     'name' => t('Name and contactdetails of the contact person of the customer'),
     'description' => t('Shows the name, address, email and phone of the contact person of the customer.'),
   );
-	$node['current_project_customer_address'] = array(
+  $node['current_project_customer_address'] = array(
     'name' => t('Address of the customer'),
     'description' => t('Shows the address of the customer.'),
   );
@@ -200,7 +200,7 @@ function pum_customer_tokens($type, $tokens, array $data = array(), array $optio
           }
           $replacements[$original] = $request;
           break;
-				case 'current_project_customer_profile_link':
+        case 'current_project_customer_profile_link':
           $profile_link = '';
           $queryParameters = drupal_get_query_parameters();
           if (!empty($queryParameters['caseid'])) {
@@ -208,7 +208,7 @@ function pum_customer_tokens($type, $tokens, array $data = array(), array $optio
           }
           $replacements[$original] = $profile_link;
           break;
-				case 'current_project_has_authorised':
+        case 'current_project_has_authorised':
           $profile_link = '';
           $queryParameters = drupal_get_query_parameters();
           if (!empty($queryParameters['caseid'])) {
@@ -216,14 +216,14 @@ function pum_customer_tokens($type, $tokens, array $data = array(), array $optio
           }
           $replacements[$original] = $profile_link;
           break;
-				case 'current_project_customer_address':
-					$address = '';
+        case 'current_project_customer_address':
+          $address = '';
           $queryParameters = drupal_get_query_parameters();
           if (!empty($queryParameters['caseid'])) {
             $address = _pum_customer_get_project_customer_address($queryParameters['caseid']);
           }
-					$replacements[$original] = $address;
-					break;
+          $replacements[$original] = $address;
+          break;
       }
     }
   }
@@ -381,79 +381,91 @@ function _pum_customer_get_project_request_title($case_id) {
 }
 
 function _pum_customer_get_project_customer_address($case_id) {
-	civicrm_initialize();
-	try {
-		$postalLocationTypeId = civicrm_api3('LocationType', 'getvalue', array('name' => 'Postaladdress', 'return' => 'id'));
-		$case = civicrm_api3('Case', 'getsingle', array('id' => $case_id));
-		$client_id = reset($case['client_id']);
-		$addresses = civicrm_api3('Address', 'get', array('contact_id' => $client_id, 'options' => array('limit' => 0)));
-		$primary = '';
-		$postal = '';
-		foreach($addresses['values'] as $address) {
-			if ($address['is_primary']) {
-				$country;
-				try {
-					$country = civicrm_api3('Country', 'getvalue', array('id' => $address['country_id'], 'return' => 'name'));
-				} catch (exception $e) {
-					// Do nothing
-				}
-				$primary = '<fieldset><legend>Primary address</legend>'.$address['street_address'].'<br />'.$address['city'].'<br />'.$address['postal_code'].'<br />'.$country.'</fieldset>';
-			}
-			if ($address['location_type_id'] == $postalLocationTypeId ) {
-				$country;
-				try {
-					$country = civicrm_api3('Country', 'getvalue', array('id' => $address['country_id'], 'return' => 'name'));
-				} catch (exception $e) {
-					// Do nothing
-				}
-				$postal = '<fieldset><legend>Postal address</legend>'.$address['street_address'].'<br />'.$address['city'].'<br />'.$address['postal_code'].'<br />'.$country.'</fieldset>';
-			}
-		}
-		return  $primary . $postal;
-	} catch (Exception $e) {
-		return '';
-	}
+  civicrm_initialize();
+  try {
+    $postalLocationTypeId = civicrm_api3('LocationType', 'getvalue', array('name' => 'Postaladdress', 'return' => 'id'));
+    $case = civicrm_api3('Case', 'getsingle', array('id' => $case_id));
+    $client_id = reset($case['client_id']);
+    $addresses = civicrm_api3('Address', 'get', array('contact_id' => $client_id, 'options' => array('limit' => 0)));
+    $primary = '';
+    $postal = '';
+    if(is_array($addresses['values'])){
+      foreach($addresses['values'] as $address) {
+        if(!isset($address['street_address'])) {
+          $address['street_address'] = '';
+        }
+        if(!isset($address['postal_code'])) {
+          $address['postal_code'] = '';
+        }
+        if(!isset($address['city'])) {
+          $address['city'] = '';
+        }
+        if(!isset($country)) {
+          $country = '';
+        }
+        if ($address['is_primary']) {
+          try {
+            $country = civicrm_api3('Country', 'getvalue', array('id' => $address['country_id'], 'return' => 'name'));
+          } catch (exception $e) {
+            // Do nothing
+          }
 
+          $primary = '<fieldset><legend>Primary address</legend>'.$address['street_address'].'<br />'.$address['city'].'<br />'.$address['postal_code'].'<br />'.$country.'</fieldset>';
+        }
+        if ($address['location_type_id'] == $postalLocationTypeId ) {
+          try {
+            $country = civicrm_api3('Country', 'getvalue', array('id' => $address['country_id'], 'return' => 'name'));
+          } catch (exception $e) {
+            // Do nothing
+          }
+          $postal = '<fieldset><legend>Postal address</legend>'.$address['street_address'].'<br />'.$address['city'].'<br />'.$address['postal_code'].'<br />'.$country.'</fieldset>';
+        }
+      }
+    }
+    return  $primary . $postal;
+  } catch (Exception $e) {
+    return '';
+  }
 }
 
 function _pum_customer_get_project_contactperson($case_id) {
-	civicrm_initialize();
-	try {
-		$authorised_contact_rel_type_id = civicrm_api3('RelationshipType', 'getvalue', array('name_a_b' => 'Has authorised', 'return' => 'id'));
-		$case = civicrm_api3('Case', 'getsingle', array('id' => $case_id));
-		$client_id = reset($case['client_id']);
-		$contact_persons = civicrm_api3('Relationship', 'get', array(
-			'contact_id_a' => $client_id,
-			'case_id' => $case_id,
-			'relationship_type_id' => $authorised_contact_rel_type_id,
-			'is_active' => '1',
-		));
-		$return = '<table><tr><th>Name</th><th>Job title</th><th>Phone number</th><th>Email address</th></tr>';
+  civicrm_initialize();
+  try {
+    $authorised_contact_rel_type_id = civicrm_api3('RelationshipType', 'getvalue', array('name_a_b' => 'Has authorised', 'return' => 'id'));
+    $case = civicrm_api3('Case', 'getsingle', array('id' => $case_id));
+    $client_id = reset($case['client_id']);
+    $contact_persons = civicrm_api3('Relationship', 'get', array(
+      'contact_id_a' => $client_id,
+      'case_id' => $case_id,
+      'relationship_type_id' => $authorised_contact_rel_type_id,
+      'is_active' => '1',
+    ));
+    $return = '<table><tr><th>Name</th><th>Job title</th><th>Phone number</th><th>Email address</th></tr>';
 
-		foreach($contact_persons['values'] as $contact_person) {
-			$contact = civicrm_api3('Contact', 'getsingle', array('id' => $contact_person['contact_id_b']));
-			$return .= '<tr><td>'.$contact['display_name'].'</td><td>'.$contact['job_title'].'</td><td>'.$contact['phone'].'</td><td>'.$contact['email'].'</td></tr>';
-		}
-		$return .= '</table>';
-		return $return;
-	} catch (Exception $e) {
-		return '';
-	}
+    foreach($contact_persons['values'] as $contact_person) {
+      $contact = civicrm_api3('Contact', 'getsingle', array('id' => $contact_person['contact_id_b']));
+      $return .= '<tr><td>'.$contact['display_name'].'</td><td>'.$contact['job_title'].'</td><td>'.$contact['phone'].'</td><td>'.$contact['email'].'</td></tr>';
+    }
+    $return .= '</table>';
+    return $return;
+  } catch (Exception $e) {
+    return '';
+  }
 }
 
 /**
  * Returns a link to the customer profile
  */
 function _pum_customer_get_project_customer_name_and_link($case_id) {
-	civicrm_initialize();
-	try {
-		$case = civicrm_api3('Case', 'getsingle', array('id' => $case_id));
-		$client_id = reset($case['client_id']);
-		$contact = civicrm_api3('Contact', 'getvalue', array('return' => 'display_name', 'id' => $client_id));
-		return '<a href="/customer-profile/'.$client_id.'">'.$contact.'</a>';
-	} catch (Exception $e) {
-		return '';
-	}
+  civicrm_initialize();
+  try {
+    $case = civicrm_api3('Case', 'getsingle', array('id' => $case_id));
+    $client_id = reset($case['client_id']);
+    $contact = civicrm_api3('Contact', 'getvalue', array('return' => 'display_name', 'id' => $client_id));
+    return '<a href="/customer-profile/'.$client_id.'">'.$contact.'</a>';
+  } catch (Exception $e) {
+    return '';
+  }
 }
 
 function _pum_customer_get_project_request_details($case_id) {
